@@ -1,0 +1,339 @@
+{
+ "summary": {
+  "graded_at": "2026-10-19T14:17:20Z",
+  "grader": "src/validate/qa_j1_grade.py",
+  "index_built_at": "2026-10-19T14:09:41Z",
+  "score": 8,
+  "total": 10,
+  "by_type": {
+   "single": {
+    "correct": 5,
+    "total": 6
+   },
+   "multi": {
+    "correct": 1,
+    "total": 2
+   },
+   "unanswerable": {
+    "correct": 2,
+    "total": 2
+   }
+  },
+  "fabricated_numbers_total": 0,
+  "unsupported_numbers_reported_total": 1,
+  "removed_numbers_total": 1,
+  "council_disagree": [],
+  "council_disagree_but_compatible": [],
+  "answers_with_fallbacks": [],
+  "council_rule": "'Brains disagree.' counts as correct only if EACH side (a and b) contains every expected fact (and an expected source is cited); a side missing a fact = contradicting itself on the asked fact = not correct; for an unanswerable question it is not a refusal = not correct",
+  "secret_counts": {
+   "sb_secret_": 0,
+   "service_role": 0,
+   "eyJ": 0,
+   "BEGIN PRIVATE KEY": 0
+  },
+  "secrets_total": 0,
+  "not_run": [],
+  "testset": "docs/office/jarvis/j1_testset_holdout.json",
+  "brain": "codex",
+  "seconds_total": 49.6,
+  "seconds_mean": 5.0,
+  "pass_rule": ">= 9/10 correct, 0 fabricated numbers, 0 secrets",
+  "verdict": "FAIL"
+ },
+ "results": [
+  {
+   "id": "H01",
+   "type": "single",
+   "question": "How many F9, UA and WN departures were there in 2024 in the Endeavor Air impact study?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The Endeavor Air impact study counted 2,388,494 departures across F9/UA/WN in 2024. [7]",
+   "citations": [
+    {
+     "n": 7,
+     "path": "docs/office/issues/B3_9E_2025.md",
+     "section": "B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (b) Measured impact (verified: our own data, script output 2026-10-15)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.8,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.8
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H02",
+   "type": "single",
+   "question": "How many rows are in the FAA aircraft registry MASTER file we downloaded?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The FAA aircraft registry MASTER file downloaded in the [number removed]-10-14 snapshot contains 317,600 rows [2]. (unverified)",
+   "citations": [
+    {
+     "n": 2,
+     "path": "artifacts/progress.json",
+     "section": "milestones › M4 › tasks › M4.2"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [
+    "2026"
+   ],
+   "seconds": 4.6,
+   "error": null,
+   "removed_numbers": 1,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.6
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H03",
+   "type": "single",
+   "question": "How many rows did the January 2023 pilot BTS download have?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The January 2023 pilot BTS download had 538,837 rows [6].",
+   "citations": [
+    {
+     "n": 6,
+     "path": "artifacts/progress.json",
+     "section": "activity › 2026-10-14T22:58:53+00:00"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.0
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H04",
+   "type": "single",
+   "question": "What is United's fleet mean age in the G5 maintenance feature?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "United (UA) has a fleet mean age of ≈ 16.1 years in the G5 maintenance feature, covering the tails it flew in the last 90 days (to D−3) [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "artifacts/progress.json",
+     "section": "factors › G5"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 5.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 5.1
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H05",
+   "type": "single",
+   "question": "What memory cap does each DuckDB connection get?",
+   "correct": false,
+   "reason": "no expected source cited (cited: docs/platform/README.md)",
+   "answer": "Each DuckDB connection opened by `duck.connect()` gets a default memory cap of 4 GB, which DuckDB shows as `3.7 GiB`; it can be changed with `memory_gb=`. [3]",
+   "citations": [
+    {
+     "n": 3,
+     "path": "docs/platform/README.md",
+     "section": "FlightOps AI Data Center: phase DC-1 > DC-2 DuckDB > Connect"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.6,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.5
+   },
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "H06",
+   "type": "single",
+   "question": "How many negative same-tail turn buffers did the feature QA find?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The BTS-derived ground feature QA found 57,845 negative same-tail turn buffers in the full dataset [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "reports/m3_feature_qa.md",
+     "section": "M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.5,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.5
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H07",
+   "type": "multi",
+   "question": "Which BTS table could add Endeavor Air back for 2025, and what is the source id of the BTS on-time monthly prezipped files?",
+   "correct": false,
+   "reason": "refused an answerable question",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 5.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 5.0
+   }
+  },
+  {
+   "id": "H08",
+   "type": "multi",
+   "question": "How many T-100 rows were downloaded for 2025, and how far back do the G3 demand features look?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "For 2025, the downloaded BTS T-100 Domestic Segment data for F9/UA/WN, covering all 12 months, contained 455,857 rows [6]. G3 demand features use route seats, departures and load factor plus carrier load factor from T-100, looking 4 months back [1].",
+   "citations": [
+    {
+     "n": 6,
+     "path": "docs/registry/source_registry.csv",
+     "section": "S13"
+    },
+    {
+     "n": 1,
+     "path": "artifacts/progress.json",
+     "section": "factors › G3"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 9.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 9.1
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H09",
+   "type": "unanswerable",
+   "question": "What was the average fuel burn per United flight in 2024?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 3.4,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 3.3
+   }
+  },
+  {
+   "id": "H10",
+   "type": "unanswerable",
+   "question": "What hourly wage do Southwest ramp agents earn?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.3,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.2
+   }
+  }
+ ]
+}

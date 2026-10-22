@@ -1,0 +1,359 @@
+{
+ "summary": {
+  "graded_at": "2026-10-19T14:18:06Z",
+  "grader": "src/validate/qa_j1_grade.py",
+  "index_built_at": "2026-10-19T14:09:41Z",
+  "score": 6,
+  "total": 10,
+  "by_type": {
+   "single": {
+    "correct": 2,
+    "total": 5
+   },
+   "multi": {
+    "correct": 2,
+    "total": 3
+   },
+   "unanswerable": {
+    "correct": 2,
+    "total": 2
+   }
+  },
+  "fabricated_numbers_total": 0,
+  "unsupported_numbers_reported_total": 2,
+  "removed_numbers_total": 2,
+  "council_disagree": [],
+  "council_disagree_but_compatible": [],
+  "answers_with_fallbacks": [],
+  "council_rule": "'Brains disagree.' counts as correct only if EACH side (a and b) contains every expected fact (and an expected source is cited); a side missing a fact = contradicting itself on the asked fact = not correct; for an unanswerable question it is not a refusal = not correct",
+  "secret_counts": {
+   "sb_secret_": 0,
+   "service_role": 0,
+   "eyJ": 0,
+   "BEGIN PRIVATE KEY": 0
+  },
+  "secrets_total": 0,
+  "not_run": [],
+  "testset": "docs/office/jarvis/j1_testset_holdout2.json",
+  "brain": "codex",
+  "seconds_total": 45.8,
+  "seconds_mean": 4.6,
+  "pass_rule": ">= 9/10 correct, 0 fabricated numbers, 0 secrets",
+  "verdict": "FAIL"
+ },
+ "results": [
+  {
+   "id": "K01",
+   "type": "single",
+   "question": "How many United flights in July 2024 does the DuckDB example query return?",
+   "correct": false,
+   "reason": "no expected source cited (cited: reports/dc2_qa.json)",
+   "answer": "The DuckDB example query returns 65,463 United Airlines (UA) flights for July 2024 [3].",
+   "citations": [
+    {
+     "n": 3,
+     "path": "reports/dc2_qa.json",
+     "section": "checks › 6.example"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.0,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.0
+   },
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "K02",
+   "type": "single",
+   "question": "How many flights in the master table have no tail number?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "In the [number removed]–[number removed] master table covering F9, UA, and WN, 40,181 flights have no tail number; all are cancelled flights [7]. (unverified)",
+   "citations": [
+    {
+     "n": 7,
+     "path": "reports/m2_master_qa.md",
+     "section": "M2 — Flight master QA (flights_master_2023_2025.parquet)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [
+    "2023",
+    "2025"
+   ],
+   "seconds": 6.0,
+   "error": null,
+   "removed_numbers": 2,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 5.9
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "K03",
+   "type": "single",
+   "question": "How many flights failed the arrival-time cross-check in the master table?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "In the flights_master_2023_2025.parquet master table, 529 flights failed the arrival-time cross-check (0.007%); 472 were diverted flights, and all mismatches were flagged rather than dropped [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "reports/m2_master_qa.md",
+     "section": "M2 — Flight master QA (flights_master_2023_2025.parquet)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 4.4,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 4.3
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "K04",
+   "type": "single",
+   "question": "How many checks passed in the DC-1 QA?",
+   "correct": false,
+   "reason": "no expected source cited (cited: artifacts/progress.json)",
+   "answer": "The DC-1 QA had 58 checks pass [5].",
+   "citations": [
+    {
+     "n": 5,
+     "path": "artifacts/progress.json",
+     "section": "agent › office › workers › qa › outputs › ACCEPT WITH NOTES: DC-1 58 PASS / 0 FAIL / 2 ti..."
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 3.9,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 3.9
+   },
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "K05",
+   "type": "single",
+   "question": "How many Endeavor Air tail numbers were flying in December 2024?",
+   "correct": false,
+   "reason": "refused an answerable question",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 3.4,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 3.3
+   }
+  },
+  {
+   "id": "K06",
+   "type": "multi",
+   "question": "How many BTS airports did OpenFlights map to a time zone, and how many airports are mapped in the master table in total?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "OpenFlights mapped 358 BTS airports to a time zone, with 3 manual overrides documented separately [1]. The flights_master_2023_2025.parquet master table has 362 airports mapped to an IANA time zone in total, including the 3 documented overrides [4].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "docs/registry/source_registry.csv",
+     "section": "S21"
+    },
+    {
+     "n": 4,
+     "path": "reports/m2_master_qa.md",
+     "section": "M2 — Flight master QA (flights_master_2023_2025.parquet)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 5.3,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 5.2
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "K07",
+   "type": "multi",
+   "question": "How many Endeavor Air flights per month were there in 2023, and which counts does the 9E gap lower according to the coverage matrix?",
+   "correct": false,
+   "reason": "missing facts [[\"14,633\", \"14633\"], [\"18,121\", \"18121\"]]",
+   "answer": "Endeavor Air was reported at ~17K flights/month during 2023–2024, including 2023 [1]. According to the coverage matrix’s G11 entry, the 9E gap lowers all-carrier counts in 2025 [6].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "artifacts/progress.json",
+     "section": "blockers › B3"
+    },
+    {
+     "n": 6,
+     "path": "docs/registry/g_factor_coverage.csv",
+     "section": "G11"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 6.0,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 6.0
+   },
+   "missing_facts": [
+    [
+     "14,633",
+     "14633"
+    ],
+    [
+     "18,121",
+     "18121"
+    ]
+   ],
+   "source_cited": true
+  },
+  {
+   "id": "K08",
+   "type": "multi",
+   "question": "Which source id is the TSA checkpoint data and which factors use it, and what is G3's planned status in the coverage matrix?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The TSA checkpoint data is source S12, used by factors G3,G11 in the source registry.[2] G3's planned status in the coverage matrix is Validated Proxy (demand only).[1]",
+   "citations": [
+    {
+     "n": 2,
+     "path": "docs/registry/source_registry.csv",
+     "section": "S12"
+    },
+    {
+     "n": 1,
+     "path": "docs/registry/g_factor_coverage.csv",
+     "section": "G3"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 5.7,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 5.6
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "K09",
+   "type": "unanswerable",
+   "question": "How many passenger complaints did the DOT receive about Frontier in 2024?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 3.9,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 3.9
+   }
+  },
+  {
+   "id": "K10",
+   "type": "unanswerable",
+   "question": "How many pilots does United employ?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 3.2,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "codex",
+   "brains_tried": [
+    "codex"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "codex": 3.1
+   }
+  }
+ ]
+}

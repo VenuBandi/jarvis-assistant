@@ -1,0 +1,328 @@
+{
+ "summary": {
+  "graded_at": "2026-10-19T14:42:46Z",
+  "grader": "src/validate/qa_j1_grade.py",
+  "index_built_at": "2026-10-19T14:09:41Z",
+  "score": 6,
+  "total": 10,
+  "by_type": {
+   "single": {
+    "correct": 4,
+    "total": 6
+   },
+   "multi": {
+    "correct": 0,
+    "total": 2
+   },
+   "unanswerable": {
+    "correct": 2,
+    "total": 2
+   }
+  },
+  "fabricated_numbers_total": 0,
+  "unsupported_numbers_reported_total": 0,
+  "removed_numbers_total": 0,
+  "council_disagree": [],
+  "council_disagree_but_compatible": [],
+  "answers_with_fallbacks": [],
+  "council_rule": "'Brains disagree.' counts as correct only if EACH side (a and b) contains every expected fact (and an expected source is cited); a side missing a fact = contradicting itself on the asked fact = not correct; for an unanswerable question it is not a refusal = not correct",
+  "secret_counts": {
+   "sb_secret_": 0,
+   "service_role": 0,
+   "eyJ": 0,
+   "BEGIN PRIVATE KEY": 0
+  },
+  "secrets_total": 0,
+  "not_run": [],
+  "testset": "docs/office/jarvis/j1_testset_holdout.json",
+  "brain": "local",
+  "seconds_total": 174.7,
+  "seconds_mean": 17.5,
+  "pass_rule": ">= 9/10 correct, 0 fabricated numbers, 0 secrets",
+  "verdict": "FAIL"
+ },
+ "results": [
+  {
+   "id": "H01",
+   "type": "single",
+   "question": "How many F9, UA and WN departures were there in 2024 in the Endeavor Air impact study?",
+   "correct": false,
+   "reason": "refused an answerable question",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 26.5,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 26.4
+   }
+  },
+  {
+   "id": "H02",
+   "type": "single",
+   "question": "How many rows are in the FAA aircraft registry MASTER file we downloaded?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The FAA aircraft registry MASTER file we downloaded contains 317,600 rows [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "artifacts/progress.json",
+     "section": "milestones › M4 › tasks › M4.2"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 13.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 12.9
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H03",
+   "type": "single",
+   "question": "How many rows did the January 2023 pilot BTS download have?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The January 2023 pilot BTS download had 538,837 rows [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "artifacts/progress.json",
+     "section": "milestones › M1 › tasks › M1.1"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 13.7,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 13.6
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H04",
+   "type": "single",
+   "question": "What is United's fleet mean age in the G5 maintenance feature?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "United's fleet mean age in the G5 maintenance feature is 15.2; 16.11; 16.87 [4]. The validation test shows UA 15.2-16.9 years [6]. The summary states UA ≈ 16.1 years [2].",
+   "citations": [
+    {
+     "n": 4,
+     "path": "reports/m4_g2_g5_qa.json",
+     "section": "ranges › G5_fleet_mean_age_by_carrier"
+    },
+    {
+     "n": 6,
+     "path": "docs/registry/data_dictionary.csv",
+     "section": "G5_fleet_mean_age_yrs"
+    },
+    {
+     "n": 2,
+     "path": "artifacts/progress.json",
+     "section": "factors › G5"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 22.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 22.0
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H05",
+   "type": "single",
+   "question": "What memory cap does each DuckDB connection get?",
+   "correct": false,
+   "reason": "refused an answerable question",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 14.3,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 14.1
+   }
+  },
+  {
+   "id": "H06",
+   "type": "single",
+   "question": "How many negative same-tail turn buffers did the feature QA find?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "57,845 negative same-tail turn buffers [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "reports/m3_feature_qa.md",
+     "section": "M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 10.3,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 10.2
+   },
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "H07",
+   "type": "multi",
+   "question": "Which BTS table could add Endeavor Air back for 2025, and what is the source id of the BTS on-time monthly prezipped files?",
+   "correct": false,
+   "reason": "missing facts [\"Marketing Carrier On-Time Performance\"]",
+   "answer": "The BTS table that could add Endeavor Air back for 2025 is the On-Time Performance monthly prezipped files [2]. The source id of the BTS on-time monthly prezipped files is S02 [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "docs/registry/source_registry.csv",
+     "section": "S02"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 31.9,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 31.8
+   },
+   "missing_facts": [
+    "Marketing Carrier On-Time Performance"
+   ],
+   "source_cited": true
+  },
+  {
+   "id": "H08",
+   "type": "multi",
+   "question": "How many T-100 rows were downloaded for 2025, and how far back do the G3 demand features look?",
+   "correct": false,
+   "reason": "refused an answerable question",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 16.1,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 15.9
+   }
+  },
+  {
+   "id": "H09",
+   "type": "unanswerable",
+   "question": "What was the average fuel burn per United flight in 2024?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 17.8,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 17.7
+   }
+  },
+  {
+   "id": "H10",
+   "type": "unanswerable",
+   "question": "What hourly wage do Southwest ramp agents earn?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 8.9,
+   "error": null,
+   "removed_numbers": 0,
+   "brain_used": "local",
+   "brains_tried": [
+    "local"
+   ],
+   "fallbacks": [],
+   "seconds_per_brain": {
+    "local": 8.8
+   }
+  }
+ ]
+}

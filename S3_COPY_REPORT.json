@@ -1,0 +1,19 @@
+{
+ "utc": "2026-10-22T03:53:28+00:00",
+ "target": "/Users/venubandi/jarvis-assistant",
+ "dry_run": false,
+ "manifest_files": 589,
+ "copied": 589,
+ "identical_skipped": 0,
+ "changed_since_manifest": [
+  "docs/office/jarvis/S3_HANDOVER.md"
+ ],
+ "sqlite_backups": [
+  {
+   "path": "data/jarvis_app/jarvis.sqlite",
+   "integrity": "ok"
+  }
+ ],
+ "secrets_copied": 1,
+ "errors": []
+}

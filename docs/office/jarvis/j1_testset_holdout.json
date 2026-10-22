@@ -1,0 +1,167 @@
+{
+ "written_at": "2026-10-19T13:35:09Z",
+ "author": "qa",
+ "notes": "J1 fix round 1 hidden holdout (docs/office/jarvis/j1_fix_round.md §2.2). Written before seeing any round-1 output and without reading src/jarvis/ code; never to be shown to the Engineer. Topics differ from the 30 questions in j1_testset.json. Every expected fact was copied from the cited file after opening it. A nested list means any one variant counts. Unanswerables checked absent by grep over the allowlist (fuel burn / gallons / wage / salary / ramp agent: 0 files).",
+ "questions": [
+  {
+   "id": "H01",
+   "type": "single",
+   "question": "How many F9, UA and WN departures were there in 2024 in the Endeavor Air impact study?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "2,388,494",
+     "2388494"
+    ]
+   ],
+   "sources": [
+    "docs/office/issues/B3_9E_2025.md"
+   ]
+  },
+  {
+   "id": "H02",
+   "type": "single",
+   "question": "How many rows are in the FAA aircraft registry MASTER file we downloaded?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "317,600",
+     "317600"
+    ]
+   ],
+   "sources": [
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "H03",
+   "type": "single",
+   "question": "How many rows did the January 2023 pilot BTS download have?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "538,837",
+     "538837"
+    ]
+   ],
+   "sources": [
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "H04",
+   "type": "single",
+   "question": "What is United's fleet mean age in the G5 maintenance feature?",
+   "answerable": true,
+   "expected_facts": [
+    "16.1"
+   ],
+   "sources": [
+    "artifacts/progress.json",
+    "artifacts/decisions/D-step6-integration.json"
+   ]
+  },
+  {
+   "id": "H05",
+   "type": "single",
+   "question": "What memory cap does each DuckDB connection get?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "4 GB",
+     "4GB"
+    ]
+   ],
+   "sources": [
+    "artifacts/decisions/D-dc2-signoff.json",
+    "artifacts/progress.json",
+    "artifacts/decisions/D-dc1-signoff-dc2.json",
+    "docs/office/dc2_work_order.md",
+    "docs/office/roles/rec_data.md",
+    "docs/platform/README.md",
+    "reports/dc2_qa.json",
+    "reports/dc2_qa.md"
+   ]
+  },
+  {
+   "id": "H06",
+   "type": "single",
+   "question": "How many negative same-tail turn buffers did the feature QA find?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "57,845",
+     "57845"
+    ]
+   ],
+   "sources": [
+    "reports/m3_feature_qa.md",
+    "docs/registry/data_dictionary.csv"
+   ]
+  },
+  {
+   "id": "H07",
+   "type": "multi",
+   "question": "Which BTS table could add Endeavor Air back for 2025, and what is the source id of the BTS on-time monthly prezipped files?",
+   "answerable": true,
+   "expected_facts": [
+    "Marketing Carrier On-Time Performance",
+    "S02"
+   ],
+   "sources": [
+    "docs/office/issues/B3_9E_2025.md",
+    "docs/registry/source_registry.csv",
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "H08",
+   "type": "multi",
+   "question": "How many T-100 rows were downloaded for 2025, and how far back do the G3 demand features look?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "455,857",
+     "455857"
+    ],
+    [
+     "4 months",
+     "M-4",
+     "M−4"
+    ]
+   ],
+   "sources": [
+    "docs/registry/source_registry.csv",
+    "artifacts/progress.json",
+    "docs/registry/data_dictionary.csv",
+    "artifacts/decisions/D-step6-integration.json",
+    "reports/m5_leakage_audit.md"
+   ]
+  },
+  {
+   "id": "H09",
+   "type": "unanswerable",
+   "question": "What was the average fuel burn per United flight in 2024?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  },
+  {
+   "id": "H10",
+   "type": "unanswerable",
+   "question": "What hourly wage do Southwest ramp agents earn?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  }
+ ],
+ "change_log": [
+  {
+   "date": "2026-10-19T14:52:09Z",
+   "by": "qa",
+   "round": "J1 round 3 (docs/office/jarvis/j1_round3_agentic.md §2.2)",
+   "change": "sources widened only (questions and expected_facts unchanged): H04 +['artifacts/decisions/D-step6-integration.json']; H05 +['artifacts/decisions/D-dc1-signoff-dc2.json', 'docs/office/dc2_work_order.md', 'docs/office/roles/rec_data.md', 'docs/platform/README.md', 'reports/dc2_qa.json', 'reports/dc2_qa.md']; H06 +['docs/registry/data_dictionary.csv']; H07 +['artifacts/progress.json']; H08 +['artifacts/decisions/D-step6-integration.json', 'reports/m5_leakage_audit.md']",
+   "reason": "every allowed file (j1_work_order.md §2 allowlist minus eval material) grepped for each expected fact with a question-specific context term (src/validate/qa_j1_recall.py CONTEXT); every file that really holds the fact added. Single questions: file must hold all facts; multi: any fact."
+  }
+ ]
+}

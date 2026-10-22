@@ -1,0 +1,162 @@
+{
+ "written_at": "2026-10-19T14:20:00Z",
+ "author": "qa",
+ "notes": "J1 round 2 (multi-brain) hidden holdout 2 (docs/office/jarvis/j1_multibrain.md §4). Written before any round-2 output and without reading src/jarvis/ code; never to be shown to the Engineer. Topics not used in j1_testset.json or j1_testset_holdout.json; weighted to multi-file (3 of 10). Every expected fact was copied from the cited file after opening it. A nested list means any one variant counts. Unanswerables checked absent by grep over the allowlist (complaint / pilots employed / number of pilots: 0 files; 'pilots' appears only as a labour-category word in source notes, with no head count).",
+ "questions": [
+  {
+   "id": "K01",
+   "type": "single",
+   "question": "How many United flights in July 2024 does the DuckDB example query return?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "65,463",
+     "65463"
+    ]
+   ],
+   "sources": [
+    "artifacts/decisions/D-dc2-signoff.json",
+    "docs/platform/README.md",
+    "reports/dc2_qa.json",
+    "reports/dc2_qa.md"
+   ]
+  },
+  {
+   "id": "K02",
+   "type": "single",
+   "question": "How many flights in the master table have no tail number?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "40,181",
+     "40181"
+    ]
+   ],
+   "sources": [
+    "reports/m2_master_qa.md",
+    "reports/m2_master_qa.json"
+   ]
+  },
+  {
+   "id": "K03",
+   "type": "single",
+   "question": "How many flights failed the arrival-time cross-check in the master table?",
+   "answerable": true,
+   "expected_facts": [
+    "529"
+   ],
+   "sources": [
+    "reports/m2_master_qa.md"
+   ]
+  },
+  {
+   "id": "K04",
+   "type": "single",
+   "question": "How many checks passed in the DC-1 QA?",
+   "answerable": true,
+   "expected_facts": [
+    "58"
+   ],
+   "sources": [
+    "reports/dc1_qa.md",
+    "artifacts/decisions/D-dc1-signoff-dc2.json",
+    "artifacts/progress.json",
+    "reports/dc1_qa.json"
+   ]
+  },
+  {
+   "id": "K05",
+   "type": "single",
+   "question": "How many Endeavor Air tail numbers were flying in December 2024?",
+   "answerable": true,
+   "expected_facts": [
+    "129"
+   ],
+   "sources": [
+    "docs/office/issues/B3_9E_2025.md"
+   ]
+  },
+  {
+   "id": "K06",
+   "type": "multi",
+   "question": "How many BTS airports did OpenFlights map to a time zone, and how many airports are mapped in the master table in total?",
+   "answerable": true,
+   "expected_facts": [
+    "358",
+    "362"
+   ],
+   "sources": [
+    "docs/registry/source_registry.csv",
+    "reports/m2_master_qa.md",
+    "artifacts/progress.json",
+    "reports/m2_master_qa.json"
+   ]
+  },
+  {
+   "id": "K07",
+   "type": "multi",
+   "question": "How many Endeavor Air flights per month were there in 2023, and which counts does the 9E gap lower according to the coverage matrix?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "14,633",
+     "14633"
+    ],
+    [
+     "18,121",
+     "18121"
+    ],
+    "all-carrier counts"
+   ],
+   "sources": [
+    "docs/office/issues/B3_9E_2025.md",
+    "docs/registry/g_factor_coverage.csv",
+    "artifacts/decisions/D-next-after-floor2.json",
+    "artifacts/decisions/D-step6-signoff.json",
+    "artifacts/progress.json",
+    "reports/m3_feature_qa.md"
+   ]
+  },
+  {
+   "id": "K08",
+   "type": "multi",
+   "question": "Which source id is the TSA checkpoint data and which factors use it, and what is G3's planned status in the coverage matrix?",
+   "answerable": true,
+   "expected_facts": [
+    "S12",
+    "G11",
+    "Validated Proxy"
+   ],
+   "sources": [
+    "docs/registry/source_registry.csv",
+    "docs/registry/g_factor_coverage.csv",
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "K09",
+   "type": "unanswerable",
+   "question": "How many passenger complaints did the DOT receive about Frontier in 2024?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  },
+  {
+   "id": "K10",
+   "type": "unanswerable",
+   "question": "How many pilots does United employ?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  }
+ ],
+ "change_log": [
+  {
+   "date": "2026-10-19T14:52:09Z",
+   "by": "qa",
+   "round": "J1 round 3 (docs/office/jarvis/j1_round3_agentic.md §2.2)",
+   "change": "sources widened only (questions and expected_facts unchanged): K01 +['docs/platform/README.md', 'reports/dc2_qa.json', 'reports/dc2_qa.md']; K02 +['reports/m2_master_qa.json']; K04 +['artifacts/decisions/D-dc1-signoff-dc2.json', 'artifacts/progress.json', 'reports/dc1_qa.json']; K06 +['artifacts/progress.json', 'reports/m2_master_qa.json']; K07 +['artifacts/decisions/D-next-after-floor2.json', 'artifacts/decisions/D-step6-signoff.json', 'artifacts/progress.json', 'reports/m3_feature_qa.md']; K08 +['artifacts/progress.json']",
+   "reason": "every allowed file (j1_work_order.md §2 allowlist minus eval material) grepped for each expected fact with a question-specific context term (src/validate/qa_j1_recall.py CONTEXT); every file that really holds the fact added. Single questions: file must hold all facts; multi: any fact."
+  }
+ ]
+}

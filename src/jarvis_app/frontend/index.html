@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="jarvis-token" content="__JARVIS_TOKEN__">
+<title>Jarvis</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="bar">
+  <div class="brand"><span class="orb" id="orb" data-st="idle" aria-hidden="true"></span><b>JARVIS</b></div>
+  <span class="chip" id="stateChip" role="status" aria-live="polite">idle</span>
+  <div class="spacer"></div>
+  <label class="model">Brain
+    <select id="modelSel" aria-label="Active model"></select>
+  </label>
+  <button class="btn ghost" id="stopBtn" type="button" title="Stop the current task">Stop</button>
+</header>
+
+<main class="grid">
+  <section class="panel convo" aria-label="Conversation">
+    <div class="msgs" id="msgs" aria-live="polite"></div>
+    <div class="pending" id="pending"></div>
+    <form class="composer" id="form">
+      <button class="btn mic" type="button" id="micBtn" aria-label="Start microphone" aria-pressed="false" title="Start microphone">🎤</button>
+      <input id="input" type="text" autocomplete="off" maxlength="4000" placeholder="Ask Jarvis… (try: what time is it? / switch your brain to Gemini)" aria-label="Message">
+      <button class="btn" type="submit" id="sendBtn">Send</button>
+    </form>
+    <div class="voice-controls">
+      <button class="btn ghost small" type="button" id="muteBtn" aria-pressed="false">Mute</button>
+      <button class="btn ghost small" type="button" id="stopSpeakingBtn" disabled>Stop Speaking</button>
+      <span id="voiceStatus" role="status" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <aside class="side">
+    <section class="panel"><h2>Models</h2><div id="models"></div></section>
+    <section class="panel"><h2>Tools &amp; permissions</h2><div id="perms"></div><div id="tools"></div></section>
+    <section class="panel"><h2>Tool history</h2><div id="audit"></div></section>
+    <section class="panel"><h2>Memory</h2><div id="memory"></div></section>
+    <section class="panel"><h2>Integrations</h2><div id="integrations"></div></section>
+  </aside>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/static/voice.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

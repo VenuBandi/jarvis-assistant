@@ -1,0 +1,1673 @@
+{
+ "summary": {
+  "checked_at": "2026-10-19T14:51:10Z",
+  "checker": "src/validate/qa_j1_recall.py --recall",
+  "mode": "ask.py --search (current BM25, no model)",
+  "answerable": 41,
+  "all_facts_in_top8": 36,
+  "fact_recall": "54/59",
+  "r2_codex_failures": 16,
+  "failures_fact_missing_from_top8": [
+   "Q06",
+   "Q12",
+   "Q20",
+   "Q21",
+   "Q25"
+  ],
+  "failures_fact_present_in_top8": [
+   "Q03",
+   "Q13",
+   "Q18",
+   "Q22",
+   "Q24",
+   "H05",
+   "H07",
+   "K01",
+   "K04",
+   "K05",
+   "K07"
+  ],
+  "correct_although_fact_not_in_top8": [],
+  "facts_not_in_index_at_all": [],
+  "unresolved_sections": 0
+ },
+ "questions": [
+  {
+   "set": "j1_testset.json",
+   "id": "Q01",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > Final Instruction",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 7. Final Dataset Deliver",
+    "docs/research_plan.md § 8. Executable milestone plan and acceptance gates",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Re-check 2 (fix round 2: N1,",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Re-check 2 (fix round 2: N1,",
+    "docs/office/direction_2026-10-19.md § Direction review: 2026-10-19 (Lead, for the Director) > Recommended order (revised)",
+    "docs/registry/dataset_columns.csv § flight_key",
+    "artifacts/progress.json § project"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "7,121,934",
+      "7121934"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q02",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Verdict: **ACCEPT WITH NOTES**",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent)",
+    "artifacts/progress.json § agent › office › workers › lead › outputs › Step 6 proposal: join G1–G12 + T−24h leakage a",
+    "docs/office/step6_work_order.md § Work order — Step 6 · Integration + T−24h leakage audit (M5)",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff › evidence › 0",
+    "reports/m5_leakage_audit.json § checks › 6",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration",
+    "reports/dc1_qa.md § DC-1 QA report (Data Center phase 1) > Verdict: **ACCEPT WITH NOTES**"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "ACCEPT WITH NOTES",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q03",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > Final Instruction",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 7. Final Dataset Deliver",
+    "docs/research_plan.md § 8. Executable milestone plan and acceptance gates",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Re-check 2 (fix round 2: N1,",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Re-check 2 (fix round 2: N1,",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff › evidence › 4",
+    "docs/registry/dataset_columns.csv § is_territory_route",
+    "docs/office/direction_2026-10-19.md § Direction review: 2026-10-19 (Lead, for the Director) > Diagnosis"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "59",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "no expected source cited (cited: docs/office/direction_2026-10-19.md)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q04",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/dataset_columns.csv § post_Cancelled",
+    "docs/registry/master_columns.csv § post_Cancelled",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "docs/office/step6_work_order.md § Work order — Step 6 · Integration + T−24h leakage audit (M5) > Acceptance checks (QA, inde",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 5. Build the Master Flig",
+    "artifacts/progress.json § agent › plan › 3",
+    "reports/m5_leakage_audit.json § checks › 6 › evidence",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "79,288",
+      "79288"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q05",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/master_columns.csv § post_Diverted",
+    "docs/registry/dataset_columns.csv § post_Diverted",
+    "docs/research_plan.md § 2. Research objective, hypothesis and fixed scope",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "reports/m5_leakage_audit.json § checks › 6 › evidence",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results",
+    "artifacts/progress.json § milestones › M2 › tasks › M2.3",
+    "docs/office/roles/rec_data.md § Role brief · Recovery Data Analyst (`rec_data`) > Methods"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "16,614",
+      "16614"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q06",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § activity › 2026-10-14T23:58:50+00:00",
+    "docs/office/roles/README.md § Floor 2 · Flight Ops & Delay Recovery — charter > The core question each card must answer",
+    "docs/office/roles/atc_flow.md § Role brief · Traffic Flow Manager (`atc_flow`) > Domain knowledge",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 1. Our Research Hypothes",
+    "docs/research_plan.md § 2. Research objective, hypothesis and fixed scope",
+    "docs/office/roles/rec_strat.md § Role brief · Recovery Strategist (`rec_strat`) > Purpose",
+    "docs/office/direction_2026-10-19.md § Direction review: 2026-10-19 (Lead, for the Director) > Missed in the first draft: Delay R",
+    "docs/office/roles/rec_data.md § Role brief · Recovery Data Analyst (`rec_data`) > Core definitions"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "1,526,473",
+      "1526473"
+     ],
+     "in_top8": false,
+     "in_top8_without_context_rule": false,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": false,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "refused an answerable question",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q07",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/office/roles/atc_wx.md § Role brief · Aviation Weather Forecaster (`atc_wx`) > Purpose",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Point-in-time rules (",
+    "CLAUDE.md § FlightOps AI - Day 1 rules",
+    "docs/office/issues/B1_G7_ground_stops.md § B1 · G7: no historical ground-stop / GDP archive > T−24h availability (important for every",
+    "docs/registry/data_dictionary.csv § G3_lag_route_departures",
+    "artifacts/decisions/D-atc-team.json § D-atc-team",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Notes (no fix needed for Step 6)",
+    "docs/research_plan.md § 9. Repository and artifact contract"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "24 hours",
+      "24 h",
+      "24h",
+      "T−24h",
+      "T-24h"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "scheduled departure",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q08",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/office/roles/rec_data.md § Role brief · Recovery Data Analyst (`rec_data`) > Rules",
+    "docs/office/roles/atc_wx.md § Role brief · Aviation Weather Forecaster (`atc_wx`) > Never",
+    "docs/office/roles/rec_data.md § Role brief · Recovery Data Analyst (`rec_data`) > Never",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Past-flight-only check (Lead's item)",
+    "docs/office/roles/atc_tlo.md § Role brief · Takeoff & Landing Ops Analyst (`atc_tlo`) > Never",
+    "CLAUDE.md § FlightOps AI - Day 1 rules",
+    "docs/office/step6_work_order.md § Work order — Step 6 · Integration + T−24h leakage audit (M5)",
+    "artifacts/decisions/D-app-a2-fixes.json § D-app-a2-fixes"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "actual delay",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "taxi times",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "delay causes",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q09",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § blockers › B1",
+    "docs/registry/source_registry.csv § S07",
+    "docs/office/roles/atc_flow.md § Role brief · Traffic Flow Manager (`atc_flow`) > Domain knowledge",
+    "docs/office/issues/B1_G7_ground_stops.md § B1 · G7: no historical ground-stop / GDP archive > Findings: candidate sources",
+    "docs/office/issues/B1_G7_ground_stops.md § B1 · G7: no historical ground-stop / GDP archive > What the Director needs to do",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > Rule: heavy jobs go through `run_job.py`",
+    "artifacts/progress.json § milestones › M4 › tasks › M4.5",
+    "docs/research_plan.md § 11. Official source references (verified 14 Oct 2026)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "15 days",
+      "15"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q10",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § factors › G7",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 3. The 12 Ground-Factor",
+    "docs/registry/g_factor_coverage.csv § G7",
+    "reports/dc2_qa.json § per_view › 7",
+    "docs/research_plan.md § 4. G1--G12 factor registry (research hypothesis and expected observability)",
+    "docs/tracker_spec.md § 4. Detailed tracker taxonomy: G1--G12",
+    "docs/registry/dataset_columns.csv § G7_bts_nas_delay_rate_origin_3m",
+    "artifacts/decisions/D-atc-team.json § D-atc-team › evidence › 2"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "PARTIAL",
+      "Partial",
+      "partial"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q11",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/g_factor_coverage.csv § G2",
+    "artifacts/progress.json § factors › G2",
+    "reports/dc2_qa.json § per_view › 2",
+    "docs/office/roles/rec_data.md § Role brief · Recovery Data Analyst (`rec_data`) > Purpose",
+    "docs/registry/dataset_columns.csv § G2_data_month",
+    "docs/tracker_spec.md § 4. Detailed tracker taxonomy: G1--G12",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration › evidence › 1",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 4. Your Data Engineering"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "Mishandled bags",
+      "mishandled bags"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q12",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/g_factor_coverage.csv § G8",
+    "artifacts/progress.json § factors › G8",
+    "artifacts/progress.json § milestones › M4 › tasks › M4.3",
+    "artifacts/progress.json § jobs",
+    "artifacts/progress.json § agent › plan › 6",
+    "docs/registry/dataset_columns.csv § G8_origin_fcst_temp_f",
+    "docs/registry/dataset_columns.csv § G8_dest_fcst_temp_f",
+    "docs/registry/dataset_columns.csv § G8_origin_fcst_lead_h"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "MOS",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "Iowa Environmental Mesonet",
+      "IEM"
+     ],
+     "in_top8": false,
+     "in_top8_without_context_rule": false,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": false,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "missing facts [[\"Iowa Environmental Mesonet\", \"IEM\"]]; no expected source cited (cited: artifacts/progress.json)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q13",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/data_dictionary.csv § G1_{origin|dest}_nasr_cycle",
+    "docs/registry/dataset_columns.csv § G1_origin_nasr_cycle",
+    "docs/registry/dataset_columns.csv § G1_dest_nasr_cycle",
+    "artifacts/progress.json § milestones › M3 › tasks › M3.1",
+    "artifacts/progress.json § factors › G1",
+    "docs/registry/g_factor_coverage.csv § G1",
+    "docs/registry/source_registry.csv § S04",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > Zones (`data/`)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "43",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "no expected source cited (cited: artifacts/progress.json)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q14",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/data_dictionary.csv § G9_bts_security_delay_rate_origin_3m",
+    "docs/registry/data_dictionary.csv § G7_bts_nas_delay_rate_origin_3m",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m3_feature_qa.json § files › G7_ground_ATC",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m3_feature_qa.json § files › G9_security",
+    "docs/registry/dataset_columns.csv § G7_bts_nas_delay_min_per_flight_origin_3m",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Checks"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "0.2173",
+      "21.73%"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q15",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "reports/m5_leakage_audit.json § checks › 7",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff › checks › Leak screen",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Notes (no fix needed for Step 6)",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Checks",
+    "docs/office/step6_work_order.md § Work order — Step 6 · Integration + T−24h leakage audit (M5) > Acceptance checks (QA, inde",
+    "artifacts/progress.json § agent › office › workers › qa › outputs › J1 test set: 30 questions (20 single, 5 multi, .",
+    "docs/office/research/ai_tools_comparison.md § Outside AI tools for the FlightOps app — research (2026-10-16) > 2. Screen design (optiona",
+    "docs/research_plan.md § 10. AI execution protocol (copy into future sessions)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "G10_sched_dep_hour_local",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "0.6478",
+      "0.65"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q16",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § milestones › M2 › tasks › M2.4",
+    "docs/registry/master_columns.csv § is_territory_route",
+    "docs/office/roles/atc_routes.md § Role brief · Airspace & Routes Analyst (`atc_routes`) > Purpose",
+    "docs/registry/dataset_columns.csv § is_territory_route",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "reports/m2_master_qa.json § (root)",
+    "docs/registry/source_registry.csv § S14"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "89,074",
+      "89074"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q17",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § activity › 2026-10-14T23:57:37+00:00",
+    "docs/registry/source_registry.csv § S21",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > Zones (`data/`)",
+    "reports/dc2_qa.json § checks › 2.timestamps › evidence",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 6. Data Integration Rule",
+    "docs/tracker_spec.md § 4. Detailed tracker taxonomy: G1--G12",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "docs/research_plan.md § 6. Data integration design"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "362",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q18",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/decisions/D-dc-duckdb.json § D-dc-duckdb",
+    "docs/office/roles/README.md § Floor 2 · Flight Ops & Delay Recovery — charter > The core question each card must answer",
+    "reports/dc2_qa.json § checks › 6.stale › evidence › stale_lines › 1",
+    "docs/office/jarvis/jarvis_plan.md § FlightOps Jarvis: plan (draft for the Director's approval) > 2. Rules (same as the rest of",
+    "artifacts/progress.json § agent › office › workers › ios_data",
+    "docs/office/app/app_work_order.md § Work order APP-1 — FlightOps native iPhone app (replaces Tailscale) > Goal",
+    "docs/office/jarvis/j1_work_order.md § Work order J1 — Jarvis project brain (answers with sources) > 3. How (Engineer)",
+    "artifacts/decisions/D-app-a0.json § D-app-a0"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "I installed it",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "refused an answerable question",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q19",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/decisions/D-dc1-signoff-dc2.json § D-dc1-signoff-dc2 › checks › DC-2 changes no data files",
+    "artifacts/decisions/D-app-a2-part2.json § D-app-a2-part2 › checks › Independent security verdict",
+    "reports/dc2_qa.md § DC-2 QA - DuckDB query layer",
+    "reports/dc2_qa.json § checks › 6.stale",
+    "reports/dc1_qa.md § DC-1 QA report (Data Center phase 1) > Verdict: **ACCEPT WITH NOTES**",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Re-check 2 verdict: **ACCEPT",
+    "artifacts/decisions/D-dc-duckdb.json § D-dc-duckdb › checks › Reversible",
+    "artifacts/progress.json § agent › office › workers › dba › outputs › DC-2 DuckDB views built (16 views, self-check P"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "ACCEPT WITH NOTES",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "19",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q20",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "reports/m5_leakage_audit.json § checks › P › evidence",
+    "docs/research_plan.md § 5. Source acquisition and provenance plan",
+    "artifacts/progress.json § milestones › M1 › tasks › M1.4",
+    "docs/registry/source_registry.csv § S02",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "docs/office/issues/B2_directive39.md § B2 · BTS Technical Directive No. 39 (registry source S03) cannot be read by script > What",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Past-flight-only check (Lead's item)",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "4,249,769",
+      "4249769"
+     ],
+     "in_top8": false,
+     "in_top8_without_context_rule": false,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": false,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "refused an answerable question",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q21",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration › checks › Raw downloads",
+    "docs/registry/source_registry.csv § S15",
+    "artifacts/progress.json § milestones › M1 › tasks › M1.1",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 202",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Options (none applied)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "7,121,934",
+      "7121934"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "4,249,769",
+      "4249769"
+     ],
+     "in_top8": false,
+     "in_top8_without_context_rule": false,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": false,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "missing facts [[\"4,249,769\", \"4249769\"]]",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q22",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files",
+    "artifacts/decisions/D-next-after-floor2.json § D-next-after-floor2",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff › choices › approve_fix_9e",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 202",
+    "artifacts/progress.json § blockers › B3",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Caveats",
+    "reports/m1_validation.json § (root)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "voluntary",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "NOT applied",
+      "not applied"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "missing facts [\"voluntary\"]",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q23",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § jobs",
+    "artifacts/progress.json § factors › G8",
+    "docs/registry/g_factor_coverage.csv § G8",
+    "docs/office/roles/atc_wx.md § Role brief · Aviation Weather Forecaster (`atc_wx`) > What I give the Recovery team",
+    "docs/research_plan.md § 5. Source acquisition and provenance plan",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 6. Data Integration Rule",
+    "reports/dc1_qa.md § DC-1 QA report (Data Center phase 1) > Checks",
+    "docs/registry/source_registry.csv § S09"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "6 h",
+      "6 hours"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "14,580,247",
+      "14580247"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q24",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff › checks › History features use past flights only",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Notes (no fix needed for Step 6)",
+    "artifacts/progress.json § checkpoint",
+    "artifacts/decisions/D-app-a2-part2.json § D-app-a2-part2",
+    "docs/registry/data_dictionary.csv § G7_bts_nas_delay_min_per_flight_origin_3m",
+    "artifacts/decisions/D-office-v3.json § D-office-v3",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Findings (ranked) > LOW"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "Sign off Step 6",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "126/126",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "missing facts [\"Sign off Step 6\"]",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q25",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § factors › G3",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m4_g2_g5_qa.json § ranges",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration › evidence › 2",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/registry/data_dictionary.csv § G3_lag_route_load_factor",
+    "docs/registry/dataset_columns.csv § G3_lag_route_seats",
+    "docs/office/step6_work_order.md § Work order — Step 6 · Integration + T−24h leakage audit (M5) > Acceptance checks (QA, inde"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "T-100",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "13.0%",
+     "in_top8": false,
+     "in_top8_without_context_rule": false,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": false,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "missing facts [\"13.0%\"]; no expected source cited (cited: docs/registry/data_dictionary.csv, reports/m5_leakage_audit.json)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q26",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "docs/research_plan.md § 7. Feature engineering and statistical methodology",
+    "artifacts/progress.json § milestones › M6",
+    "docs/tracker_spec.md § 9. Seed data: actionable roadmap tasks",
+    "docs/office/direction_2026-10-19.md § Direction review: 2026-10-19 (Lead, for the Director) > Recommended order (revised)",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Impact on features",
+    "docs/office/jarvis/j1_work_order.md § Work order J1 — Jarvis project brain (answers with sources)",
+    "docs/office/app/a2_security_review.md § A2 Part 1 — Independent security review (Security Engineer) > Re-check 1 (fix round 1): 20",
+    "src/jarvis/README.md § Jarvis J1 — project brain (answers with sources) > Usage (from the project root)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q27",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "reports/m2_master_qa.json § (root)",
+    "artifacts/decisions/D-app-a2.json § D-app-a2 › checks › Supabase project reachable",
+    "src/jarvis/README.md § Jarvis J1 — project brain (answers with sources)",
+    "artifacts/progress.json § agent › office › workers › ios_app › outputs › C1 Xcode project scaffold (build pending)",
+    "reports/dc2_qa.json § checks › 1.views › evidence › catalog_meta › rows › 0",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 8. Project Progress Trac",
+    "docs/office/jarvis/jarvis_plan.md § FlightOps Jarvis: plan (draft for the Director's approval) > 2. Rules (same as the rest of",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q28",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 8. Project Progress Trac",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (b) Measured impac",
+    "docs/research_plan.md § 2. Research objective, hypothesis and fixed scope"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q29",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "artifacts/progress.json § blockers › B3",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (a) Official cause",
+    "docs/research_plan.md § 11. Official source references (verified 14 Oct 2026)",
+    "reports/m5_leakage_audit.json § nine_e_observation › feature_means › G6_sched_dep_origin_hour",
+    "reports/m5_leakage_audit.json § nine_e_observation › feature_means › G6_sched_arr_origin_hour",
+    "reports/m5_leakage_audit.json § nine_e_observation › feature_means › G6_sched_arr_dest_hour",
+    "reports/m1_bts_coverage.csv § 2024-01",
+    "reports/m1_bts_coverage.csv § 2024-03"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset.json",
+   "id": "Q30",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > Final Instruction",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "docs/research_plan.md § 2. Research objective, hypothesis and fixed scope",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration",
+    "reports/dc2_qa.json § checks › 3.flightdate › evidence",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "docs/registry/dataset_columns.csv § flight_key"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H01",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Impact on features",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files",
+    "reports/m1_validation.json § (root)",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (b) Measured impac",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 202",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m5_leakage_audit.json § checks › P › evidence › results › G7_bts_nas_delay_rate_dest_3m › departures at dest airpo"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "2,388,494",
+      "2388494"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H02",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/source_registry.csv § S18",
+    "artifacts/progress.json § milestones › M4 › tasks › M4.2",
+    "docs/office/roles/atc_routes.md § Role brief · Airspace & Routes Analyst (`atc_routes`) > Rules & references (cite by id + s",
+    "docs/registry/g_factor_coverage.csv § G5",
+    "docs/tracker_spec.md § 5. Task and dataset record schema > Dataset record",
+    "reports/m3_feature_qa.json § files › G12_delay_propagation",
+    "docs/office/roles/atc_wx.md § Role brief · Aviation Weather Forecaster (`atc_wx`) > Rules & references",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration › evidence › 4"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "317,600",
+      "317600"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H03",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § milestones › M1 › tasks › M1.1",
+    "artifacts/progress.json § activity › 2026-10-14T22:58:53+00:00",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "docs/tracker_spec.md § 12. Operating instructions for the AI implementing this tracker",
+    "docs/tracker_spec.md § 9. Seed data: actionable roadmap tasks",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Missingness (expected",
+    "docs/registry/source_registry.csv § S17",
+    "reports/m1_bts_coverage.csv § 2023-02"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "538,837",
+      "538837"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H04",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/dataset_columns.csv § G5_fleet_mean_age_yrs",
+    "artifacts/progress.json § factors › G5",
+    "docs/registry/g_factor_coverage.csv § G5",
+    "reports/m4_g2_g5_qa.json § ranges › G5_fleet_mean_age_by_carrier",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/registry/data_dictionary.csv § G5_fleet_mean_age_yrs",
+    "reports/dc1_qa.json § checks › N1 › evidence",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration › checks › Independent recompute"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "16.1",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H05",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/decisions/D-dc2-signoff.json § D-dc2-signoff › checks › Memory",
+    "artifacts/decisions/D-dc1-signoff-dc2.json § D-dc1-signoff-dc2",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > DC-2 DuckDB > Connect",
+    "reports/dc2_qa.json § checks › 6.stale › evidence › stale_lines › 1",
+    "artifacts/decisions/D-dc-duckdb.json § D-dc-duckdb",
+    "docs/office/dc2_work_order.md § Work order — DC-2 · DuckDB query layer over the Parquet files > Deliverables (DBA)",
+    "reports/dc2_qa.md § DC-2 QA - DuckDB query layer > Checks",
+    "reports/dc1_qa.json § checks › R7 › evidence"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "4 GB",
+      "4GB"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "no expected source cited (cited: docs/platform/README.md)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H06",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/data_dictionary.csv § DESC_G12_sched_turn_buffer_min",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results",
+    "docs/registry/g_factor_coverage.csv § G12",
+    "reports/m3_feature_qa.json § files › G12_delay_propagation",
+    "docs/registry/dataset_columns.csv § DESC_G12_sched_turn_buffer_min",
+    "artifacts/progress.json § factors › G12",
+    "docs/office/roles/atc_tlo.md § Role brief · Takeoff & Landing Ops Analyst (`atc_tlo`) > Methods",
+    "docs/office/roles/rec_data.md § Role brief · Recovery Data Analyst (`rec_data`) > Methods"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "57,845",
+      "57845"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H07",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files",
+    "docs/registry/source_registry.csv § S02",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Caveats",
+    "docs/office/issues/B2_directive39.md § B2 · BTS Technical Directive No. 39 (registry source S03) cannot be read by script > What",
+    "artifacts/progress.json § blockers › B3",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 202",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff",
+    "reports/m1_validation.json § (root)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "Marketing Carrier On-Time Performance",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "S02",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "refused an answerable question",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H08",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § factors › G3",
+    "docs/registry/g_factor_coverage.csv § G3",
+    "reports/dc2_qa.json § per_view › 3",
+    "artifacts/decisions/D-step6-integration.json § D-step6-integration › evidence › 2",
+    "docs/registry/dataset_columns.csv § G3_data_month",
+    "docs/registry/source_registry.csv § S13",
+    "reports/m5_build_report.json § factor_table_key_checks",
+    "reports/dc1_qa.json § checks › P4 › evidence"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "455,857",
+      "455857"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "4 months",
+      "M-4",
+      "M−4"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H09",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "docs/office/roles/rec_strat.md § Role brief · Recovery Strategist (`rec_strat`) > Rules & references",
+    "docs/office/roles/atc_wx.md § Role brief · Aviation Weather Forecaster (`atc_wx`) > Rules & references",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "reports/m5_leakage_audit.json § checks › 8 › evidence › null_rate_by_predictor",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 8. Project Progress Trac",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (b) Measured impac"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout.json",
+   "id": "H10",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "artifacts/progress.json § factors › G6",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > Final Instruction",
+    "docs/office/research/ai_tools_comparison.md § Outside AI tools for the FlightOps app — research (2026-10-16) > 1. iPhone app — building",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration",
+    "src/jarvis/README.md § Jarvis J5 — FlightOps Galaxy (3D project map) > Usage (from the project root) > compact-1",
+    "docs/office/app/a3_team_plan.md § A3 team plan — who builds the iPhone app > Sources (2026-10-16)",
+    "docs/research_plan.md § 2. Research objective, hypothesis and fixed scope",
+    "docs/office/app/a3_work_order.md § Work order A3 — FlightOps iPhone app (build) > 5. Rules for all agents"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K01",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > DC-2 DuckDB > Example: a few columns for one airlin",
+    "artifacts/decisions/D-dc2-signoff.json § D-dc2-signoff",
+    "reports/dc2_qa.json § checks › 6.example",
+    "reports/dc2_qa.md § DC-2 QA - DuckDB query layer > Checks",
+    "docs/office/dc2_work_order.md § Work order — DC-2 · DuckDB query layer over the Parquet files",
+    "artifacts/decisions/D-dc-duckdb.json § D-dc-duckdb",
+    "artifacts/progress.json § agent › office › pipeline",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "65,463",
+      "65463"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "no expected source cited (cited: reports/dc2_qa.json)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K02",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/registry/dataset_columns.csv § Tail_Number",
+    "docs/registry/master_columns.csv § Tail_Number",
+    "docs/registry/data_dictionary.csv § DESC_G5_tail_age_yrs",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 5. Build the Master Flig",
+    "docs/registry/dataset_columns.csv § Flight_Number_Reporting_Airline",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Results",
+    "docs/office/step6_work_order.md § Work order — Step 6 · Integration + T−24h leakage audit (M5) > Column roles (exact)",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "40,181",
+      "40181"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K03",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § milestones › M2 › tasks › M2.1",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 5. Build the Master Flig",
+    "docs/registry/dataset_columns.csv § arr_time_check_ok",
+    "docs/registry/master_columns.csv § arr_time_check_ok",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Notes (no fix needed for Step 6)",
+    "reports/dc2_qa.json § checks › 2.timestamps › evidence",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > Zones (`data/`)"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "529",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K04",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "artifacts/decisions/D-dc1-signoff-dc2.json § D-dc1-signoff-dc2 › checks › DC-1 independent review",
+    "reports/dc2_qa.json § checks › 6.stale",
+    "artifacts/decisions/D-dc-duckdb.json § D-dc-duckdb › checks › Reversible",
+    "reports/dc1_qa.md § DC-1 QA report (Data Center phase 1)",
+    "artifacts/progress.json § agent › office › workers › qa › outputs › ACCEPT WITH NOTES: DC-1 58 PASS / 0 FAIL / 2 ti.",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1",
+    "reports/dc2_qa.md § DC-2 QA - DuckDB query layer > Checks",
+    "artifacts/decisions/D-office-expansion.json § D-office-expansion › checks › Step 1 changes no data"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "58",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "no expected source cited (cited: artifacts/progress.json)",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K05",
+   "type": "single",
+   "answerable": true,
+   "selected": [
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (a) Official cause",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files",
+    "artifacts/progress.json § blockers › B3",
+    "docs/registry/data_dictionary.csv § DESC_G5_tail_age_yrs",
+    "reports/m1_validation.json § (root)",
+    "docs/office/issues/B2_directive39.md § B2 · BTS Technical Directive No. 39 (registry source S03) cannot be read by script > What",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 202",
+    "docs/registry/master_columns.csv § Tail_Number"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "129",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "refused an answerable question",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K06",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "docs/registry/source_registry.csv § S21",
+    "artifacts/progress.json § activity › 2026-10-14T23:57:37+00:00",
+    "docs/platform/README.md § FlightOps AI Data Center: phase DC-1 > Zones (`data/`)",
+    "reports/m2_master_qa.md § M2 — Flight master QA (flights_master_2023_2025.parquet)",
+    "reports/m2_master_qa.json § (root)",
+    "reports/dc2_qa.md § DC-2 QA - DuckDB query layer > Checks",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 5. Build the Master Flig",
+    "reports/dc2_qa.json § checks › 2.timestamps › evidence"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "358",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "362",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K07",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "artifacts/progress.json § blockers › B3",
+    "reports/m3_feature_qa.md § M3/M4 — BTS-derived ground features QA (G6, G7, G9, G10, G11, G12) > Caveats",
+    "reports/m5_leakage_audit.md § M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 202",
+    "artifacts/decisions/D-step6-signoff.json § D-step6-signoff",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files",
+    "docs/registry/g_factor_coverage.csv § G11",
+    "reports/m1_validation.json § (root)",
+    "artifacts/decisions/D-next-after-floor2.json § D-next-after-floor2"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": [
+      "14,633",
+      "14633"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": [
+      "18,121",
+      "18121"
+     ],
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "all-carrier counts",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": false,
+   "r2_codex_reason": "missing facts [[\"14,633\", \"14633\"], [\"18,121\", \"18121\"]]",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K08",
+   "type": "multi",
+   "answerable": true,
+   "selected": [
+    "docs/registry/g_factor_coverage.csv § G3",
+    "docs/registry/source_registry.csv § S12",
+    "artifacts/progress.json § milestones › M0 › tasks › M0.4",
+    "artifacts/progress.json § factors › G3",
+    "docs/research_plan.md § 5. Source acquisition and provenance plan",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 7. Final Dataset Deliver",
+    "docs/registry/dataset_columns.csv § G3_lag_route_load_factor",
+    "docs/registry/data_dictionary.csv § G3_lag_carrier_load_factor"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [
+    {
+     "fact": "S12",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "G11",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    },
+    {
+     "fact": "Validated Proxy",
+     "in_top8": true,
+     "in_top8_without_context_rule": true,
+     "in_index": true
+    }
+   ],
+   "all_facts_in_top8": true,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "all facts present; expected source cited",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K09",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "docs/office/issues/B2_directive39.md § B2 · BTS Technical Directive No. 39 (registry source S03) cannot be read by script > Findi",
+    "docs/office/issues/B3_9E_2025.md § B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (a) Official cause",
+    "docs/registry/master_columns.csv § DOT_ID_Reporting_Airline",
+    "docs/registry/dataset_columns.csv § DOT_ID_Reporting_Airline",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 8. Project Progress Trac",
+    "docs/office/app/a1_setup_steps.md § A1 — account setup steps (Director)",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration",
+    "reports/m1_bts_coverage.csv § 2024-01"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  },
+  {
+   "set": "j1_testset_holdout2.json",
+   "id": "K10",
+   "type": "unanswerable",
+   "answerable": false,
+   "selected": [
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > 2. Today's Primary Objec",
+    "artifacts/progress.json § milestones › M1 › tasks › M1.1",
+    "docs/day1_prompt.md § FlightOps AI — Day 1: G1–G12 Ground-Factor Dataset Construction > Final Instruction",
+    "docs/tracker_spec.md § 2. Product purpose and fixed project configuration",
+    "docs/office/research/ai_tools_comparison.md § Outside AI tools for the FlightOps app — research (2026-10-16) > 2. Screen design (optiona",
+    "docs/research_plan.md § 2. Research objective, hypothesis and fixed scope",
+    "docs/registry/g_factor_coverage.csv § G4",
+    "docs/registry/source_registry.csv § S17"
+   ],
+   "n_selected": 8,
+   "unresolved": [],
+   "facts": [],
+   "all_facts_in_top8": null,
+   "r2_codex_correct": true,
+   "r2_codex_reason": "refused as expected",
+   "search_exit": 0
+  }
+ ]
+}

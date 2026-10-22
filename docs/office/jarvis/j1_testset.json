@@ -1,0 +1,501 @@
+{
+ "written_at": "2026-10-19T06:32:07Z",
+ "author": "qa",
+ "notes": "Written independently before reading any src/jarvis/ code. Every expected fact was copied from the cited file. A nested list means any one variant counts. Unanswerable items checked absent by grep over the allowlist (xgboost/accuracy/budget/airfare/bird strike/carbon/emission: only a planning mention of XGBoost and ROC-AUC as metrics in docs/research_plan.md, no model results).",
+ "change_log": [
+  {
+   "date": "2026-10-19T13:35:09Z",
+   "by": "qa",
+   "round": "fix round 1 (docs/office/jarvis/j1_fix_round.md §2.1)",
+   "change": "sources widened for Q01, Q05, Q13, Q23 only; questions, expected_facts and all other items unchanged",
+   "reason": "round-0 review (reports/j1_eval.md) found these source lists too narrow: the cited files really contain the facts. Verified by opening them: Q01 artifacts/progress.json project.current_step '7,121,934 flights'; Q05 artifacts/progress.json milestones M2.3 evidence 'diverted 16,614'; Q13 docs/registry/data_dictionary.csv G1 rows 'S04/S05 FAA NASR APT_CSV (43 cycles)'; Q23 artifacts/progress.json M4.3 evidence '14,580,247 rows' and factors G8 summary 'issued ≥ 6 h before the T−24h cutoff'."
+  },
+  {
+   "date": "2026-10-19T14:52:09Z",
+   "by": "qa",
+   "round": "J1 round 3 (docs/office/jarvis/j1_round3_agentic.md §2.2)",
+   "change": "sources widened only (questions and expected_facts unchanged): Q01 +['artifacts/decisions/D-step6-signoff.json', 'docs/office/direction_2026-10-19.md', 'reports/dc1_qa.md']; Q02 +['artifacts/decisions/D-step6-signoff.json', 'artifacts/progress.json', 'docs/office/direction_2026-10-19.md']; Q03 +['artifacts/decisions/D-step6-signoff.json', 'artifacts/progress.json', 'docs/office/direction_2026-10-19.md', 'reports/m5_build_report.json', 'reports/m5_leakage_audit.json']; Q04 +['artifacts/progress.json', 'reports/m2_master_qa.json', 'reports/m5_leakage_audit.json', 'reports/m5_leakage_audit.md']; Q05 +['reports/m2_master_qa.json', 'reports/m5_leakage_audit.json', 'reports/m5_leakage_audit.md']; Q06 +['reports/m2_master_qa.json']; Q07 +['docs/day1_prompt.md', 'docs/office/roles/verifier.md', 'docs/office/step6_work_order.md']; Q09 +['artifacts/progress.json', 'docs/office/issues/B1_G7_ground_stops.md']; Q10 +['docs/registry/g_factor_coverage.csv']; Q11 +['artifacts/decisions/D-step6-integration.json', 'artifacts/progress.json']; Q12 +['artifacts/progress.json', 'docs/office/roles/atc_wx.md', 'docs/registry/data_dictionary.csv']; Q13 +['artifacts/progress.json']; Q15 +['reports/m5_leakage_audit.json']; Q16 +['artifacts/progress.json', 'reports/m2_master_qa.json']; Q17 +['artifacts/progress.json', 'reports/m2_master_qa.json']; Q18 +['artifacts/decisions/D-dc1-signoff-dc2.json']; Q19 +['artifacts/decisions/D-dc2-signoff.json', 'artifacts/progress.json']; Q21 +['artifacts/decisions/D-dc1-signoff-dc2.json', 'artifacts/progress.json', 'reports/dc1_qa.md', 'reports/dc2_qa.md', 'reports/m4_g8_qa.json', 'reports/m5_leakage_audit.json']; Q22 +['artifacts/decisions/D-next-after-floor2.json']; Q23 +['artifacts/decisions/D-step6-signoff.json', 'docs/office/roles/atc_wx.md', 'docs/office/step6_work_order.md', 'docs/registry/data_dictionary.csv', 'reports/m5_leakage_audit.json']; Q24 +['docs/registry/data_dictionary.csv', 'reports/m5_leakage_audit.json']; Q25 +['artifacts/decisions/D-step6-integration.json', 'artifacts/progress.json', 'docs/registry/data_dictionary.csv']",
+   "reason": "every allowed file (j1_work_order.md §2 allowlist minus eval material) grepped for each expected fact with a question-specific context term (src/validate/qa_j1_recall.py CONTEXT); every file that really holds the fact added. Single questions: file must hold all facts; multi: any fact."
+  }
+ ],
+ "questions": [
+  {
+   "id": "Q01",
+   "type": "single",
+   "question": "How many flights are in the final dataset?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "7,121,934",
+     "7121934"
+    ]
+   ],
+   "sources": [
+    "reports/m5_leakage_audit.md",
+    "artifacts/progress.json",
+    "artifacts/decisions/D-step6-signoff.json",
+    "docs/office/direction_2026-10-19.md",
+    "reports/dc1_qa.md"
+   ]
+  },
+  {
+   "id": "Q02",
+   "type": "single",
+   "question": "What was QA's verdict on the Step 6 leakage audit?",
+   "answerable": true,
+   "expected_facts": [
+    "ACCEPT WITH NOTES"
+   ],
+   "sources": [
+    "reports/m5_leakage_audit.md",
+    "artifacts/decisions/D-step6-signoff.json",
+    "artifacts/progress.json",
+    "docs/office/direction_2026-10-19.md"
+   ]
+  },
+  {
+   "id": "Q03",
+   "type": "single",
+   "question": "How many predictors does the final dataset have?",
+   "answerable": true,
+   "expected_facts": [
+    "59"
+   ],
+   "sources": [
+    "reports/m5_leakage_audit.md",
+    "artifacts/decisions/D-step6-signoff.json",
+    "artifacts/progress.json",
+    "docs/office/direction_2026-10-19.md",
+    "reports/m5_build_report.json",
+    "reports/m5_leakage_audit.json"
+   ]
+  },
+  {
+   "id": "Q04",
+   "type": "single",
+   "question": "How many flights in the master table were cancelled?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "79,288",
+     "79288"
+    ]
+   ],
+   "sources": [
+    "reports/m2_master_qa.md",
+    "artifacts/progress.json",
+    "reports/m2_master_qa.json",
+    "reports/m5_leakage_audit.json",
+    "reports/m5_leakage_audit.md"
+   ]
+  },
+  {
+   "id": "Q05",
+   "type": "single",
+   "question": "How many flights were diverted?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "16,614",
+     "16614"
+    ]
+   ],
+   "sources": [
+    "reports/m2_master_qa.md",
+    "artifacts/progress.json",
+    "reports/m2_master_qa.json",
+    "reports/m5_leakage_audit.json",
+    "reports/m5_leakage_audit.md"
+   ]
+  },
+  {
+   "id": "Q06",
+   "type": "single",
+   "question": "How many flights arrived 15 or more minutes late?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "1,526,473",
+     "1526473"
+    ]
+   ],
+   "sources": [
+    "reports/m2_master_qa.md",
+    "reports/m2_master_qa.json"
+   ]
+  },
+  {
+   "id": "Q07",
+   "type": "single",
+   "question": "How far ahead of departure must every feature be known?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "24 hours",
+     "24 h",
+     "24h",
+     "T−24h",
+     "T-24h"
+    ],
+    "scheduled departure"
+   ],
+   "sources": [
+    "CLAUDE.md",
+    "reports/m3_feature_qa.md",
+    "docs/day1_prompt.md",
+    "docs/office/roles/verifier.md",
+    "docs/office/step6_work_order.md"
+   ]
+  },
+  {
+   "id": "Q08",
+   "type": "single",
+   "question": "Which things are we never allowed to use as predictors?",
+   "answerable": true,
+   "expected_facts": [
+    "actual delay",
+    "taxi times",
+    "delay causes"
+   ],
+   "sources": [
+    "CLAUDE.md"
+   ]
+  },
+  {
+   "id": "Q09",
+   "type": "single",
+   "question": "How far back does the FAA ATCSCC advisories database go?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "15 days",
+     "15"
+    ]
+   ],
+   "sources": [
+    "docs/registry/source_registry.csv",
+    "artifacts/progress.json",
+    "docs/office/issues/B1_G7_ground_stops.md"
+   ]
+  },
+  {
+   "id": "Q10",
+   "type": "single",
+   "question": "What is the status of factor G7 (ATC ground restrictions)?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "PARTIAL",
+     "Partial",
+     "partial"
+    ]
+   ],
+   "sources": [
+    "artifacts/progress.json",
+    "docs/registry/g_factor_coverage.csv"
+   ]
+  },
+  {
+   "id": "Q11",
+   "type": "single",
+   "question": "What does the G2 ground handling proxy actually measure?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "Mishandled bags",
+     "mishandled bags"
+    ]
+   ],
+   "sources": [
+    "docs/registry/g_factor_coverage.csv",
+    "artifacts/decisions/D-step6-integration.json",
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "Q12",
+   "type": "single",
+   "question": "Which source do the G8 weather forecasts come from?",
+   "answerable": true,
+   "expected_facts": [
+    "MOS",
+    [
+     "Iowa Environmental Mesonet",
+     "IEM"
+    ]
+   ],
+   "sources": [
+    "docs/registry/source_registry.csv",
+    "artifacts/progress.json",
+    "docs/office/roles/atc_wx.md",
+    "docs/registry/data_dictionary.csv"
+   ]
+  },
+  {
+   "id": "Q13",
+   "type": "single",
+   "question": "How many FAA NASR cycles were used for G1?",
+   "answerable": true,
+   "expected_facts": [
+    "43"
+   ],
+   "sources": [
+    "docs/registry/g_factor_coverage.csv",
+    "docs/registry/data_dictionary.csv",
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "Q14",
+   "type": "single",
+   "question": "What is the delay rate on completed flights?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "0.2173",
+     "21.73%"
+    ]
+   ],
+   "sources": [
+    "reports/m5_leakage_audit.md"
+   ]
+  },
+  {
+   "id": "Q15",
+   "type": "single",
+   "question": "Which single feature had the highest AUC in the leak screen, and what was it?",
+   "answerable": true,
+   "expected_facts": [
+    "G10_sched_dep_hour_local",
+    [
+     "0.6478",
+     "0.65"
+    ]
+   ],
+   "sources": [
+    "reports/m5_leakage_audit.md",
+    "reports/m5_leakage_audit.json"
+   ]
+  },
+  {
+   "id": "Q16",
+   "type": "single",
+   "question": "How many rows are US-territory routes?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "89,074",
+     "89074"
+    ]
+   ],
+   "sources": [
+    "reports/m2_master_qa.md",
+    "artifacts/progress.json",
+    "reports/m2_master_qa.json"
+   ]
+  },
+  {
+   "id": "Q17",
+   "type": "single",
+   "question": "How many airports were mapped to a time zone?",
+   "answerable": true,
+   "expected_facts": [
+    "362"
+   ],
+   "sources": [
+    "reports/m2_master_qa.md",
+    "artifacts/progress.json",
+    "reports/m2_master_qa.json"
+   ]
+  },
+  {
+   "id": "Q18",
+   "type": "single",
+   "question": "What did I answer on the DuckDB install card?",
+   "answerable": true,
+   "expected_facts": [
+    "I installed it"
+   ],
+   "sources": [
+    "artifacts/progress.json",
+    "artifacts/decisions/D-dc-duckdb.json",
+    "artifacts/decisions/D-dc1-signoff-dc2.json"
+   ]
+  },
+  {
+   "id": "Q19",
+   "type": "single",
+   "question": "What was the QA verdict on DC-2 and how many checks passed?",
+   "answerable": true,
+   "expected_facts": [
+    "ACCEPT WITH NOTES",
+    "19"
+   ],
+   "sources": [
+    "reports/dc2_qa.md",
+    "artifacts/decisions/D-dc2-signoff.json",
+    "artifacts/progress.json"
+   ]
+  },
+  {
+   "id": "Q20",
+   "type": "single",
+   "question": "How many Southwest (WN) flights were in the 36 BTS monthly files?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "4,249,769",
+     "4249769"
+    ]
+   ],
+   "sources": [
+    "reports/m1_validation.json"
+   ]
+  },
+  {
+   "id": "Q21",
+   "type": "multi",
+   "question": "Do the F9, UA and WN counts from the BTS download add up to the number of flights in the master table?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "7,121,934",
+     "7121934"
+    ],
+    [
+     "4,249,769",
+     "4249769"
+    ]
+   ],
+   "sources": [
+    "reports/m1_validation.json",
+    "reports/m2_master_qa.md",
+    "artifacts/decisions/D-dc1-signoff-dc2.json",
+    "artifacts/progress.json",
+    "reports/dc1_qa.md",
+    "reports/dc2_qa.md",
+    "reports/m4_g8_qa.json",
+    "reports/m5_leakage_audit.json"
+   ]
+  },
+  {
+   "id": "Q22",
+   "type": "multi",
+   "question": "Why is Endeavor Air (9E) missing in 2025, and did I apply the 9E fix when I signed off Step 6?",
+   "answerable": true,
+   "expected_facts": [
+    "voluntary",
+    [
+     "NOT applied",
+     "not applied"
+    ]
+   ],
+   "sources": [
+    "docs/office/issues/B3_9E_2025.md",
+    "artifacts/progress.json",
+    "artifacts/decisions/D-next-after-floor2.json"
+   ]
+  },
+  {
+   "id": "Q23",
+   "type": "multi",
+   "question": "How early must a weather forecast run be before the cutoff, and how many MOS rows did we download?",
+   "answerable": true,
+   "expected_facts": [
+    [
+     "6 h",
+     "6 hours"
+    ],
+    [
+     "14,580,247",
+     "14580247"
+    ]
+   ],
+   "sources": [
+    "reports/m5_leakage_audit.md",
+    "docs/registry/source_registry.csv",
+    "artifacts/progress.json",
+    "artifacts/decisions/D-step6-signoff.json",
+    "docs/office/roles/atc_wx.md",
+    "docs/office/step6_work_order.md",
+    "docs/registry/data_dictionary.csv",
+    "reports/m5_leakage_audit.json"
+   ]
+  },
+  {
+   "id": "Q24",
+   "type": "multi",
+   "question": "What did I tap on the Step 6 sign-off card, and how did the history features do in the past-flight-only check?",
+   "answerable": true,
+   "expected_facts": [
+    "Sign off Step 6",
+    "126/126"
+   ],
+   "sources": [
+    "artifacts/progress.json",
+    "reports/m5_leakage_audit.md",
+    "artifacts/decisions/D-step6-signoff.json",
+    "docs/registry/data_dictionary.csv",
+    "reports/m5_leakage_audit.json"
+   ]
+  },
+  {
+   "id": "Q25",
+   "type": "multi",
+   "question": "Which source feeds G3, and what share of F9 flights had empty G3 route values in 2024?",
+   "answerable": true,
+   "expected_facts": [
+    "T-100",
+    "13.0%"
+   ],
+   "sources": [
+    "docs/registry/g_factor_coverage.csv",
+    "docs/registry/source_registry.csv",
+    "reports/m5_leakage_audit.md",
+    "artifacts/decisions/D-step6-integration.json",
+    "artifacts/progress.json",
+    "docs/registry/data_dictionary.csv"
+   ]
+  },
+  {
+   "id": "Q26",
+   "type": "unanswerable",
+   "question": "What ROC-AUC did the baseline model get on the 2025 test set?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  },
+  {
+   "id": "Q27",
+   "type": "unanswerable",
+   "question": "What is the project's total budget in dollars?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  },
+  {
+   "id": "Q28",
+   "type": "unanswerable",
+   "question": "What was the average airfare on United flights in 2024?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  },
+  {
+   "id": "Q29",
+   "type": "unanswerable",
+   "question": "How many bird strikes were reported at Denver in 2024?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  },
+  {
+   "id": "Q30",
+   "type": "unanswerable",
+   "question": "How much carbon dioxide did Southwest flights emit in 2023?",
+   "answerable": false,
+   "expected_facts": [],
+   "sources": []
+  }
+ ]
+}

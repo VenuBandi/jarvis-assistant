@@ -1,0 +1,745 @@
+{
+ "summary": {
+  "graded_at": "2026-10-19T06:44:36Z",
+  "grader": "src/validate/qa_j1_grade.py",
+  "index_built_at": "2026-10-19T06:36:33Z",
+  "score": 18,
+  "total": 30,
+  "by_type": {
+   "single": {
+    "correct": 12,
+    "total": 20
+   },
+   "multi": {
+    "correct": 2,
+    "total": 5
+   },
+   "unanswerable": {
+    "correct": 4,
+    "total": 5
+   }
+  },
+  "fabricated_numbers_total": 5,
+  "unsupported_numbers_reported_total": 5,
+  "secret_counts": {
+   "sb_secret_": 0,
+   "service_role": 0,
+   "eyJ": 0,
+   "BEGIN PRIVATE KEY": 0
+  },
+  "secrets_total": 0,
+  "not_run": [],
+  "pass_rule": ">= 27/30 correct, 0 fabricated numbers, 0 secrets",
+  "verdict": "FAIL"
+ },
+ "results": [
+  {
+   "id": "Q01",
+   "type": "single",
+   "question": "How many flights are in the final dataset?",
+   "correct": false,
+   "reason": "no expected source cited (cited: artifacts/progress.json)",
+   "answer": "7,121,934 flights [6].",
+   "citations": [
+    {
+     "n": 6,
+     "path": "artifacts/progress.json",
+     "section": "schema_version + updated_at + project + next_action"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 0.9,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "Q02",
+   "type": "single",
+   "question": "What was QA's verdict on the Step 6 leakage audit?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "QA's verdict on the Step 6 leakage audit was **ACCEPT WITH NOTES** [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "reports/m5_leakage_audit.md",
+     "section": "M5 · Step 6 T−24h leakage audit (QA, independent) > Verdict: **ACCEPT WITH NOTES**"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 8.9,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q03",
+   "type": "single",
+   "question": "How many predictors does the final dataset have?",
+   "correct": false,
+   "reason": "no expected source cited (cited: reports/m5_build_report.json)",
+   "answer": "The final dataset has 59 predictors [4], [5]. (unverified)",
+   "citations": [
+    {
+     "n": 4,
+     "path": "reports/m5_build_report.json",
+     "section": "predictors[0] ... predictors[32]"
+    },
+    {
+     "n": 5,
+     "path": "reports/m5_build_report.json",
+     "section": "predictors[33] ... predictors[58]"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [
+    "59"
+   ],
+   "unsupported_numbers_reported": [
+    "59"
+   ],
+   "seconds": 8.9,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "Q04",
+   "type": "single",
+   "question": "How many flights in the master table were cancelled?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "79,288 [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "reports/m2_master_qa.md",
+     "section": "M2 — Flight master QA (flights_master_2023_2025.parquet)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 14.1,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q05",
+   "type": "single",
+   "question": "How many flights were diverted?",
+   "correct": false,
+   "reason": "no expected source cited (cited: artifacts/progress.json)",
+   "answer": "16,614 [6].",
+   "citations": [
+    {
+     "n": 6,
+     "path": "artifacts/progress.json",
+     "section": "milestones[M2].tasks[M2.1] + milestones[M2].tasks[M2.2] + milestones[M2].tasks[M2.3] + milestones[M2].tasks[M2.4]"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 14.7,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "Q06",
+   "type": "single",
+   "question": "How many flights arrived 15 or more minutes late?",
+   "correct": false,
+   "reason": "refused an answerable question",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 9.4,
+   "error": null
+  },
+  {
+   "id": "Q07",
+   "type": "single",
+   "question": "How far ahead of departure must every feature be known?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "Every feature must be known 24 hours before scheduled departure [3].",
+   "citations": [
+    {
+     "n": 3,
+     "path": "CLAUDE.md",
+     "section": "FlightOps AI - Day 1 rules"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 11.4,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q08",
+   "type": "single",
+   "question": "Which things are we never allowed to use as predictors?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "- Actual delay, taxi times, or delay causes of the same flight [3].  \n- Observed weather [8].  \n- Taxi times as predictors [5].  \n- Fabricated data, URLs, columns, or results [3].  \n- Features known only on the day of departure or later [3].  \n- Actual delay, taxi times, or delay causes of the same flight [4].",
+   "citations": [
+    {
+     "n": 3,
+     "path": "CLAUDE.md",
+     "section": "FlightOps AI - Day 1 rules"
+    },
+    {
+     "n": 8,
+     "path": "docs/office/roles/atc_wx.md",
+     "section": "Role brief · Aviation Weather Forecaster (`atc_wx`) > Never"
+    },
+    {
+     "n": 5,
+     "path": "docs/office/roles/atc_tlo.md",
+     "section": "Role brief · Takeoff & Landing Ops Analyst (`atc_tlo`) > Never"
+    },
+    {
+     "n": 4,
+     "path": "docs/office/step6_work_order.md",
+     "section": "Work order — Step 6 · Integration + T−24h leakage audit (M5)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 13.4,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q09",
+   "type": "single",
+   "question": "How far back does the FAA ATCSCC advisories database go?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The FAA ATCSCC advisories database only covers the past 15 days [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "docs/registry/source_registry.csv",
+     "section": "S07"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 11.4,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q10",
+   "type": "single",
+   "question": "What is the status of factor G7 (ATC ground restrictions)?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The status of factor G7 (ATC ground restrictions) is PARTIAL. Lagged NAS-delay proxies are built, but no historical ground-stop/GDP event data is available [5].",
+   "citations": [
+    {
+     "n": 5,
+     "path": "artifacts/progress.json",
+     "section": "factors[G7] + factors[G8] + factors[G9] + factors[G10]"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 10.8,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q11",
+   "type": "single",
+   "question": "What does the G2 ground handling proxy actually measure?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The G2 ground handling proxy measures mishandled bags per 1,000 enplaned bags (Form 1), 3 months back [1]. It only captures baggage-handling quality and not fueling, cleaning, or turn readiness [1]. (unverified)",
+   "citations": [
+    {
+     "n": 1,
+     "path": "docs/registry/g_factor_coverage.csv",
+     "section": "G2"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [
+    "1"
+   ],
+   "unsupported_numbers_reported": [
+    "1"
+   ],
+   "seconds": 11.0,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q12",
+   "type": "single",
+   "question": "Which source do the G8 weather forecasts come from?",
+   "correct": false,
+   "reason": "missing facts [[\"Iowa Environmental Mesonet\", \"IEM\"]]; no expected source cited (cited: docs/office/roles/atc_wx.md)",
+   "answer": "The G8 weather forecasts come from NWS MOS/LAMP/NBM [5].",
+   "citations": [
+    {
+     "n": 5,
+     "path": "docs/office/roles/atc_wx.md",
+     "section": "Role brief · Aviation Weather Forecaster (`atc_wx`) > Domain knowledge"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 8.5,
+   "error": null,
+   "missing_facts": [
+    [
+     "Iowa Environmental Mesonet",
+     "IEM"
+    ]
+   ],
+   "source_cited": false
+  },
+  {
+   "id": "Q13",
+   "type": "single",
+   "question": "How many FAA NASR cycles were used for G1?",
+   "correct": false,
+   "reason": "no expected source cited (cited: docs/registry/data_dictionary.csv)",
+   "answer": "The FAA NASR cycles used for G1 are 43 cycles [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "docs/registry/data_dictionary.csv",
+     "section": "G1_origin_elevation_ft"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 8.1,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "Q14",
+   "type": "single",
+   "question": "What is the delay rate on completed flights?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The delay rate on completed flights is 0.2173 [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "reports/m5_leakage_audit.md",
+     "section": "M5 · Step 6 T−24h leakage audit (QA, independent) > Checks"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 8.8,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q15",
+   "type": "single",
+   "question": "Which single feature had the highest AUC in the leak screen, and what was it?",
+   "correct": false,
+   "reason": "missing facts [\"G10_sched_dep_hour_local\", [\"0.6478\", \"0.65\"]]; no expected source cited (cited: reports/m5_leakage_audit.json)",
+   "answer": "The single feature with the highest AUC in the leak screen was G10_hist_route_del15_smoothed_28d, with an AUC of 0.6085 [6].",
+   "citations": [
+    {
+     "n": 6,
+     "path": "reports/m5_leakage_audit.json",
+     "section": "checks.7.evidence.auc_by_predictor.G10_crs_elapsed_min ... checks.7.evidence.auc_by_predictor.G11_origin_day_vs_prev28_ratio"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 21.9,
+   "error": null,
+   "missing_facts": [
+    "G10_sched_dep_hour_local",
+    [
+     "0.6478",
+     "0.65"
+    ]
+   ],
+   "source_cited": false
+  },
+  {
+   "id": "Q16",
+   "type": "single",
+   "question": "How many rows are US-territory routes?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "89,074 [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "reports/m2_master_qa.md",
+     "section": "M2 — Flight master QA (flights_master_2023_2025.parquet)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 25.5,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q17",
+   "type": "single",
+   "question": "How many airports were mapped to a time zone?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "362 [2].",
+   "citations": [
+    {
+     "n": 2,
+     "path": "reports/m2_master_qa.md",
+     "section": "M2 — Flight master QA (flights_master_2023_2025.parquet)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 12.5,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q18",
+   "type": "single",
+   "question": "What did I answer on the DuckDB install card?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "I answered \"I installed it\" on the DuckDB install card [1].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "artifacts/decisions/D-dc-duckdb.json",
+     "section": "id + gate + question + context"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 12.7,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q19",
+   "type": "single",
+   "question": "What was the QA verdict on DC-2 and how many checks passed?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "The QA verdict on DC-2 was \"ACCEPT WITH NOTES\" [5]. 19 checks passed [6].",
+   "citations": [
+    {
+     "n": 5,
+     "path": "reports/dc2_qa.json",
+     "section": "phase ... versions"
+    },
+    {
+     "n": 6,
+     "path": "reports/dc2_qa.md",
+     "section": "DC-2 QA - DuckDB query layer"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 15.2,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q20",
+   "type": "single",
+   "question": "How many Southwest (WN) flights were in the 36 BTS monthly files?",
+   "correct": false,
+   "reason": "missing facts [[\"4,249,769\", \"4249769\"]]; no expected source cited (cited: reports/m5_leakage_audit.json)",
+   "answer": "In the 36 BTS monthly files, there were 112,430 Southwest (WN) flights [1]. (unverified)",
+   "citations": [
+    {
+     "n": 1,
+     "path": "reports/m5_leakage_audit.json",
+     "section": "checks.P.evidence.sample ... checks.P.evidence.note_taxiin"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [
+    "112430",
+    "36"
+   ],
+   "unsupported_numbers_reported": [
+    "36",
+    "112430"
+   ],
+   "seconds": 14.4,
+   "error": null,
+   "missing_facts": [
+    [
+     "4,249,769",
+     "4249769"
+    ]
+   ],
+   "source_cited": false
+  },
+  {
+   "id": "Q21",
+   "type": "multi",
+   "question": "Do the F9, UA and WN counts from the BTS download add up to the number of flights in the master table?",
+   "correct": false,
+   "reason": "missing facts [[\"7,121,934\", \"7121934\"], [\"4,249,769\", \"4249769\"]]; no expected source cited (cited: reports/m5_leakage_audit.md)",
+   "answer": "The F9, UA, and WN counts from the BTS download do not add up to the number of flights in the master table. The BTS download includes only the counts for F9, UA, and WN, but the master table includes all carriers. The BTS data is a subset of the master table's data. [2]",
+   "citations": [
+    {
+     "n": 2,
+     "path": "reports/m5_leakage_audit.md",
+     "section": "M5 · Step 6 T−24h leakage audit (QA, independent) > Endeavor Air (9E) missing from BTS 2025 (noted, not fixed; see docs/office/issues/B3_9E_2025.md)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 17.5,
+   "error": null,
+   "missing_facts": [
+    [
+     "7,121,934",
+     "7121934"
+    ],
+    [
+     "4,249,769",
+     "4249769"
+    ]
+   ],
+   "source_cited": false
+  },
+  {
+   "id": "Q22",
+   "type": "multi",
+   "question": "Why is Endeavor Air (9E) missing in 2025, and did I apply the 9E fix when I signed off Step 6?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "Endeavor Air (9E) is missing from 2025 BTS on-time files because it fell below the 0.5% revenue threshold for 2024 and was reported only as a voluntary carrier, and it is not on the 2025 Directive 39 list [7]. The 9E fix was not applied when signing off Step 6 [3].",
+   "citations": [
+    {
+     "n": 7,
+     "path": "docs/office/issues/B3_9E_2025.md",
+     "section": "B3 · Endeavor Air (9E) missing from 2025 BTS on-time files > Findings > (a) Official cause"
+    },
+    {
+     "n": 3,
+     "path": "artifacts/decisions/D-next-after-floor2.json",
+     "section": "id + gate + question + context"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 14.2,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q23",
+   "type": "multi",
+   "question": "How early must a weather forecast run be before the cutoff, and how many MOS rows did we download?",
+   "correct": false,
+   "reason": "no expected source cited (cited: artifacts/progress.json, docs/registry/g_factor_coverage.csv)",
+   "answer": "The weather forecast must run at least 6 hours before the cutoff [3]. We downloaded 14,580,247 MOS rows [4].",
+   "citations": [
+    {
+     "n": 3,
+     "path": "docs/registry/g_factor_coverage.csv",
+     "section": "G8"
+    },
+    {
+     "n": 4,
+     "path": "artifacts/progress.json",
+     "section": "milestones[M4].tasks[M4.1] + milestones[M4].tasks[M4.2] + milestones[M4].tasks[M4.3]"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 13.2,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": false
+  },
+  {
+   "id": "Q24",
+   "type": "multi",
+   "question": "What did I tap on the Step 6 sign-off card, and how did the history features do in the past-flight-only check?",
+   "correct": true,
+   "reason": "all facts present; expected source cited",
+   "answer": "You tapped \"Sign off Step 6\" on the Step 6 sign-off card [3]. The history features did 126/126 in the past-flight-only check [6].",
+   "citations": [
+    {
+     "n": 3,
+     "path": "artifacts/decisions/D-step6-signoff.json",
+     "section": "id + gate + question"
+    },
+    {
+     "n": 6,
+     "path": "reports/m5_leakage_audit.md",
+     "section": "M5 · Step 6 T−24h leakage audit (QA, independent) > Past-flight-only check (Lead's item)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 11.7,
+   "error": null,
+   "missing_facts": [],
+   "source_cited": true
+  },
+  {
+   "id": "Q25",
+   "type": "multi",
+   "question": "Which source feeds G3, and what share of F9 flights had empty G3 route values in 2024?",
+   "correct": false,
+   "reason": "missing facts [\"T-100\"]",
+   "answer": "G3 is fed by data/features/G3_passenger_demand.parquet [1]. In 2024, 13.0% of F9 flights had empty G3 route values [6].",
+   "citations": [
+    {
+     "n": 1,
+     "path": "artifacts/progress.json",
+     "section": "factors[G1] + factors[G2] + factors[G3]"
+    },
+    {
+     "n": 6,
+     "path": "reports/m5_leakage_audit.md",
+     "section": "M5 · Step 6 T−24h leakage audit (QA, independent) > Notes (no fix needed for Step 6)"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 19.7,
+   "error": null,
+   "missing_facts": [
+    "T-100"
+   ],
+   "source_cited": true
+  },
+  {
+   "id": "Q26",
+   "type": "unanswerable",
+   "question": "What ROC-AUC did the baseline model get on the 2025 test set?",
+   "correct": false,
+   "reason": "answered an unanswerable question (should refuse)",
+   "answer": "The baseline model's ROC-AUC on the 2025 test set is not explicitly stated in the project files. However, the QA review mentions \"9E shift visible at LGA/JFK/CVG\" which indicates the model's performance is affected by the data shift caused by the missing 9E data. The exact ROC-AUC value is not provided in the chunks. I don't know — it isn't in the project files. [4] (unverified)",
+   "citations": [
+    {
+     "n": 4,
+     "path": "artifacts/progress.json",
+     "section": "agent.office.workers[qa]"
+    }
+   ],
+   "refused": false,
+   "fabricated_numbers": [
+    "2025"
+   ],
+   "unsupported_numbers_reported": [
+    "2025"
+   ],
+   "seconds": 18.5,
+   "error": null
+  },
+  {
+   "id": "Q27",
+   "type": "unanswerable",
+   "question": "What is the project's total budget in dollars?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 8.2,
+   "error": null
+  },
+  {
+   "id": "Q28",
+   "type": "unanswerable",
+   "question": "What was the average airfare on United flights in 2024?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 13.5,
+   "error": null
+  },
+  {
+   "id": "Q29",
+   "type": "unanswerable",
+   "question": "How many bird strikes were reported at Denver in 2024?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 32.0,
+   "error": null
+  },
+  {
+   "id": "Q30",
+   "type": "unanswerable",
+   "question": "How much carbon dioxide did Southwest flights emit in 2023?",
+   "correct": true,
+   "reason": "refused as expected",
+   "answer": "I don't know — it isn't in the project files.",
+   "citations": [],
+   "refused": true,
+   "fabricated_numbers": [],
+   "unsupported_numbers_reported": [],
+   "seconds": 9.0,
+   "error": null
+  }
+ ]
+}

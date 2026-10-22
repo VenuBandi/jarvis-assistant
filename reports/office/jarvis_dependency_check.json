@@ -1,0 +1,30 @@
+{
+ "runtime_dependencies": [],
+ "s2_pending_features": [],
+ "mention_only_files": [
+  "src/common/ai/__init__.py",
+  "src/common/ai/ai_brains.py",
+  "src/common/ai/ai_text.py",
+  "src/common/ai/omniroute_search.py",
+  "src/office/galaxy_build.py",
+  "src/office/project_briefing.py",
+  "src/office/role_runner.py",
+  "src/office/s3_copy_jarvis.py",
+  "src/office/s3_jarvis_manifest.py",
+  "src/ops/request_card.py",
+  "src/validate/qa_j2_check.py",
+  "src/validate/qa_ops_desk_probe.py",
+  "src/validate/qa_role_runner.py",
+  "src/validate/secret_scan_docs.py",
+  "tracker/ops_runner.py",
+  "tracker/or_messages_probe.py",
+  "tests/test_role_runner.py",
+  "config/ai/brains.json",
+  "config/ai/providers.yaml"
+ ],
+ "counts": {
+  "FAIL": 0,
+  "S2": 0,
+  "INFO": 19
+ }
+}
