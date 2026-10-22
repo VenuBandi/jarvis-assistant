@@ -39,6 +39,10 @@ monitor live. Crash test (kill -9): back in 1 s with a new pid. **Still to check
   loopback-only; FlightOps' own LaunchAgent (`com.flightops.doorbell`) untouched.
 
 ### J1b: Menu-bar app + hotkey + Stop
+**Status 2026-10-22: built** (`mac/JarvisBar/`, `scripts/build_jarvis_bar.sh`). Both hotkeys registered with **no
+permission**; Director's tries: right Option recognised (`option=right`), Stop worked. 3-s hold not completed yet (held
+2.45–2.6 s; chime added at 3 s). **Still to check:** full hold with chime, no stray character in TextEdit, 20-try
+timing; Jarvis Bar not yet started at login.
 - **What:** a small native Mac app ("Jarvis Bar", Swift) in the menu bar. Icon shows idle / listening / thinking /
   speaking. Click: a small panel with the conversation, a text box, **Stop** and **Mute**. It talks only to
   127.0.0.1:8770 with Jarvis's token. Starts at login.
@@ -55,6 +59,11 @@ monitor live. Crash test (kill -9): back in 1 s with a new pid. **Still to check
   running task every time; the panel works in light and dark mode.
 
 ### J1c: Local ears and voice
+**Status 2026-10-22: works end to end** (whisper-cpp 1.9.5, model `ggml-large-v3-turbo-q5_0.bin`, sha256 checked).
+Director's first try: 4.7 s of speech → text in 1.4 s → reply spoken. **Open:** (1) voice: Director dislikes the
+default; wants a male, British, Jarvis-*style* voice (no clone of a real actor). Candidates: Apple Jamie (Premium),
+Daniel (Enhanced), Oliver; Kokoro-82M (Apache-2.0) `bm_george`, `bm_fable`. Director researching tonight. (2) speed:
+reply came 18.7 s after speech end (local brain 17.2 s), target < 3 s. (3) 20-phrase accuracy test not run yet.
 - **What:** push-to-talk. After the hotkey, Jarvis Bar records from the mic until you stop talking, turns it into text
   with **whisper.cpp** (Homebrew `whisper-cpp`, MIT licence; runs on the M4's GPU), and sends the text to Jarvis.
   The reply is spoken with a built-in macOS voice (Director 2026-10-22: explore the voice options together at this step). Audio stays in memory and is deleted
