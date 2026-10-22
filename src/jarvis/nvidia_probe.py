@@ -1,5 +1,5 @@
 """NVIDIA build.nvidia.com (direct, not via OmniRoute): key status, model list, tiny ping. The key is read from
-~/.config/flightops/keys/nvidia (mode 600) at call time and never printed; errors are redacted.
+~/.config/jarvis/keys/nvidia (mode 600) at call time and never printed; errors are redacted.
 Pings send only a fixed one-line prompt (no project text, no data rows).
 
   python3 -I src/jarvis/nvidia_probe.py status
@@ -20,7 +20,7 @@ DIRECT = {"nvidia": "https://integrate.api.nvidia.com/v1", "mistral": "https://a
           "groq": "https://api.groq.com/openai/v1"}
 NAME = sys.argv.pop(1) if len(sys.argv) > 1 and sys.argv[1] in DIRECT else "nvidia"  # e.g. ... nvidia_probe.py mistral models
 BASE = DIRECT[NAME]
-KEY_FILE = f"~/.config/flightops/keys/{NAME}"
+KEY_FILE = f"~/.config/jarvis/keys/{NAME}"
 PROMPT = "Reply with exactly: OK"
 
 

@@ -9,7 +9,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-key = Path("~/.config/flightops/omniroute_key").expanduser().read_text().strip()
+key = Path("~/.config/jarvis/omniroute_key").expanduser().read_text().strip()
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 try:
     with opener.open(urllib.request.Request("http://127.0.0.1:20128/v1/models",

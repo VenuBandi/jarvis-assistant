@@ -11,7 +11,7 @@ from pathlib import Path
 
 if len(sys.argv) < 2:
     sys.exit(__doc__)
-key = Path("~/.config/flightops/omniroute_key").expanduser().read_text().strip()
+key = Path("~/.config/jarvis/omniroute_key").expanduser().read_text().strip()
 opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 for model in sys.argv[1:]:
     if model.startswith(("auto/", "aihorde/", "oc/")) or "free" in model:

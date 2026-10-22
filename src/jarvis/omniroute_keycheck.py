@@ -2,7 +2,7 @@
 
   python3 -I src/jarvis/omniroute_keycheck.py [filter]
 
-1. key file ~/.config/flightops/omniroute_key: exists, mode 600, exactly one non-empty line, no spaces / log text
+1. key file ~/.config/jarvis/omniroute_key: exists, mode 600, exactly one non-empty line, no spaces / log text
 2. GET http://127.0.0.1:20128/v1/models with the key → model ids (optionally filtered by a substring)
 """
 import json
@@ -13,7 +13,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-KEY = Path("~/.config/flightops/omniroute_key").expanduser()
+KEY = Path("~/.config/jarvis/omniroute_key").expanduser()
 BASE = "http://127.0.0.1:20128"
 flt = sys.argv[1].lower() if len(sys.argv) > 1 else ""
 

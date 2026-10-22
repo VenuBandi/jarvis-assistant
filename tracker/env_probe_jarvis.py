@@ -23,4 +23,4 @@ for mod in ["fastapi", "uvicorn", "starlette", "pydantic", "httpx", "requests", 
 for cli in ["node", "npm", "ollama", "omniroute", "say", "afplay", "ffmpeg", "sox", "whisper", "tailscale", "brew", "git"]:
     print(f"  cli  {cli}: {'yes' if shutil.which(cli) else 'no'}")
 print("ANTHROPIC_API_KEY set:", bool(os.environ.get("ANTHROPIC_API_KEY")))
-print("OmniRoute key file present:", os.path.exists(os.path.expanduser("~/.config/flightops/omniroute_key")))
+print("OmniRoute key file present:", os.path.exists(os.path.expanduser("~/.config/jarvis/omniroute_key")))

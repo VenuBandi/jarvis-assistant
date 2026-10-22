@@ -1,5 +1,5 @@
 """Web search through the local OmniRoute gateway (/v1/search), e.g. the Tavily connection set up in the dashboard.
-OmniRoute key read from ~/.config/flightops/omniroute_key at call time, never printed. Sends only the query text.
+OmniRoute key read from ~/.config/jarvis/omniroute_key at call time, never printed. Sends only the query text.
 
   python3 -I src/jarvis/omniroute_search.py "<query>" [provider] [max_results]     provider default: tavily-search
 """
@@ -13,7 +13,7 @@ URL = "http://127.0.0.1:20128/v1/search"
 
 
 def search(query, provider="tavily-search", max_results=5):
-    key = Path("~/.config/flightops/omniroute_key").expanduser().read_text().strip()
+    key = Path("~/.config/jarvis/omniroute_key").expanduser().read_text().strip()
     body = json.dumps({"query": query, "provider": provider, "max_results": int(max_results)}).encode()
     req = urllib.request.Request(URL, data=body, headers={"Authorization": "Bearer " + key,
                                                           "Content-Type": "application/json"})

@@ -1,5 +1,5 @@
 """Tavily web search (REST API, no CLI / skills install). Key read at call time from
-~/.config/flightops/keys/tavily (mode 600), never printed; errors redacted. Sends only the query text given.
+~/.config/jarvis/keys/tavily (mode 600), never printed; errors redacted. Sends only the query text given.
 
   python3 -I src/jarvis/tavily_search.py status
   python3 -I src/jarvis/tavily_search.py search "<query>" [max_results] [domain,domain...]
@@ -14,7 +14,7 @@ from src.jarvis_app.models.adapters import _client  # noqa: E402
 from src.jarvis_app.security.secrets import get_secret, redact, secret_status  # noqa: E402
 
 URL = "https://api.tavily.com/search"
-KEY_FILE = "~/.config/flightops/keys/tavily"
+KEY_FILE = "~/.config/jarvis/keys/tavily"
 
 
 def search(query, max_results=5, domains=None):

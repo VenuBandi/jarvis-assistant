@@ -273,7 +273,7 @@ class ClaudeBrain(CliBrain):
         return ["-p", "--output-format", "text", prompt]
 
 
-OMNIROUTE_KEY_FILE = "~/.config/flightops/omniroute_key"
+OMNIROUTE_KEY_FILE = "~/.config/jarvis/omniroute_key"
 LOCAL_HOSTS = {"127.0.0.1", "localhost"}
 
 
@@ -284,7 +284,7 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 
 class OmniRouteBrain(Brain):
     """Local OmniRoute gateway (OpenAI-compatible /v1/chat/completions). bm25 mode only (plain chat, no files).
-    Key read at call time from ~/.config/flightops/omniroute_key (must exist, be non-empty, mode 600); it is never
+    Key read at call time from ~/.config/jarvis/omniroute_key (must exist, be non-empty, mode 600); it is never
     printed, logged or returned. Only http://127.0.0.1 / localhost base URLs; no proxies, no redirects."""
     id = "omniroute"
     mode = "combined"

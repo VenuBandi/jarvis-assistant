@@ -14,15 +14,15 @@ providers:
   omniroute:
     type: openai_compat
     base_url: http://127.0.0.1:20128/v1
-    secret_file: ~/.config/flightops/omniroute_key
+    secret_file: ~/.config/jarvis/omniroute_key
   nvidia:   # NVIDIA build.nvidia.com free dev access, direct (not via OmniRoute). Director 2026-10-21.
     type: openai_compat
     base_url: https://integrate.api.nvidia.com/v1
-    secret_file: ~/.config/flightops/keys/nvidia
+    secret_file: ~/.config/jarvis/keys/nvidia
   mistral:  # Mistral La Plateforme free "Experiment" tier, direct (not via OmniRoute). Director 2026-10-21.
     type: openai_compat
     base_url: https://api.mistral.ai/v1
-    secret_file: ~/.config/flightops/keys/mistral
+    secret_file: ~/.config/jarvis/keys/mistral
   ollama:
     type: ollama
     base_url: http://127.0.0.1:11434

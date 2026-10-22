@@ -31,7 +31,7 @@ owns recognition and may use its own remote speech service; this feature does no
 ## Models
 Configured in `src/jarvis_app/config/providers.yaml` (providers, models, capabilities, spoken aliases).
 - **local-qwen**: Ollama qwen3-8b-32k. Default, free, private. Live-tested: tool calls work.
-- **gemini-flash**: Gemini 3 Flash through your local OmniRoute (key file ~/.config/flightops/omniroute_key). Live-tested: tool calls work.
+- **gemini-flash**: Gemini 3 Flash through your local OmniRoute (key file ~/.config/jarvis/omniroute_key). Live-tested: tool calls work.
 - **claude-sonnet / opus / haiku / fable**: Anthropic Messages API. Needs your key (below). Model IDs are
   **unverified** until a key is set and "Check" passes. "Fable 5" is an alias for claude-fable.
 Switch from the dashboard's Brain menu, or say/type "switch your brain to Gemini". Jarvis pings the model

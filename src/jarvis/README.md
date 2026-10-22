@@ -27,7 +27,7 @@ the 8 retrieved chunks, and every guard below applies to every brain.
   `POST <base_url>/v1/chat/completions` (stdlib urllib, no proxies, redirects refused), same one-call prompt and
   guards, bm25 mode only. Config `brains.omniroute` = `{"enabled": false, "base_url": "http://127.0.0.1:20128",
   "model": null, "timeout": 120}`; only http://127.0.0.1 / localhost allowed. Key read at call time from
-  `~/.config/flightops/omniroute_key` (must exist, be non-empty, mode 600); never printed/logged/returned (scrubbed
+  `~/.config/jarvis/omniroute_key` (must exist, be non-empty, mode 600); never printed/logged/returned (scrubbed
   from errors and replies, dropped after the call). In `order` after codex/opencode, before local; disabled until the
   Director finishes S1–S2 and sets a model. `brains.py --probe omniroute` lists what is missing without calling
   anything. Tests: `tests/test_jarvis_omniroute.py` (fake 127.0.0.1 server).
