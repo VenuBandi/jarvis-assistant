@@ -75,6 +75,7 @@ final class AppModel: ObservableObject {
     private var timer: Timer?
     private var lastState = ""
     private var speechEndedAt = 0.0
+    private var spokeThisTurn = false
 
     init(client: JarvisClient?, tokenError: String?, log: EventLog, transcriber: Transcriber) {
         self.client = client
@@ -157,21 +158,51 @@ final class AppModel: ObservableObject {
         lastError = nil
         rows.append(Row(id: (rows.last?.id ?? -1) + 1, role: "user", text: text))
         let started = uptime()
+        spokeThisTurn = false
         Task {
             do {
-                let r = try await client.chat(text, voice: spoken)
+                let r = spoken ? try await askStreaming(text) : try await client.chat(text)
                 log.write("reply", ["chat_ms": String(Int((uptime() - started) * 1000)), "spoken": String(spoken)])
                 if let e = r.error, !e.isEmpty { lastError = e }
-                if spoken, !muted, let reply = r.reply, !reply.isEmpty {
-                    speaking = true
-                    speaker.say(reply)
-                    log.write("speaking", ["after_speech_end_ms": String(Int((uptime() - speechEndedAt) * 1000))])
-                }
+                // nothing streamed (e.g. "I need your confirmation…", or an older Jarvis): speak the whole reply
+                if spoken, !spokeThisTurn, let reply = r.reply, !reply.isEmpty { speakSentence(reply) }
             } catch { lastError = "\(error)" }
             busy = false
             await refreshConversation()
             await poll()
         }
+    }
+
+    /// Spoken request: speak each sentence as soon as Jarvis has written it.
+    private func askStreaming(_ text: String) async throws -> ChatReply {
+        guard let client else { throw JarvisError.http(0) }
+        let stream: AsyncThrowingStream<StreamItem, Error>
+        do {
+            stream = try await client.chatStream(text, voice: true)
+        } catch JarvisError.http(404) {
+            return try await client.chat(text, voice: true)   // Jarvis without /api/chat/stream
+        }
+        var splitter = SentenceSplitter()
+        var done: StreamItem?
+        for try await item in stream {
+            if item.type == "text", let d = item.delta {
+                for s in splitter.feed(d) { speakSentence(s) }
+            } else if item.type == "done" {
+                done = item
+            }
+        }
+        if let rest = splitter.flush() { speakSentence(rest) }
+        return ChatReply(reply: done?.reply, error: done?.error)
+    }
+
+    private func speakSentence(_ s: String) {
+        guard !muted else { return }
+        if !spokeThisTurn {
+            spokeThisTurn = true
+            log.write("speaking", ["after_speech_end_ms": String(Int((uptime() - speechEndedAt) * 1000))])
+        }
+        speaking = true
+        speaker.say(s)
     }
 
     // MARK: voice

@@ -83,16 +83,16 @@ class Agent:
     def stop(self):
         self.stop_event.set()
 
-    def handle(self, conv_id, text, voice=False):
+    def handle(self, conv_id, text, voice=False, on_text=None):
         self.stop_event.clear()
         for p in self.db.open_pending():  # a new message supersedes an unanswered confirmation in this chat
             if p["conv_id"] == conv_id and self.db.decide_pending(p["id"], "superseded"):
                 self._tool_result(conv_id, ToolCall(p["call_id"] or p["id"], p["tool"], p["args"]), "superseded",
                                   "not run: the user moved on without confirming", "")
         self.db.add_message(conv_id, "user", text)
-        return self._run(conv_id, voice)
+        return self._run(conv_id, voice, on_text)
 
-    def _run(self, conv_id, voice=False):
+    def _run(self, conv_id, voice=False, on_text=None):
         res = TurnResult()
         key, m = self.models.current()
         res.model = f"{m['provider']}:{m['model']}"
@@ -106,8 +106,11 @@ class Agent:
                 try:
                     with self._span("model", label="Chat inference", provider=m["provider"], model=m["model"]):
                         self._emit("model.requested", provider=m["provider"], model=m["model"], requested_model=m["model"])
-                        out = self.models.adapter(m["provider"]).chat(m["model"], self._system(voice), self._history(conv_id),
-                                                                      self.tools.schemas() if use_tools else None)
+                        adapter = self.models.adapter(m["provider"])
+                        args = (m["model"], self._system(voice), self._history(conv_id),
+                                self.tools.schemas() if use_tools else None)
+                        # on_text: the answer streams out as it is written (spoken replies start sooner)
+                        out = adapter.chat_stream(*args, on_text) if on_text else adapter.chat(*args)
                         reported = out.model if out.model_reported and out.model else "unknown"
                         self._emit("model.served", provider=m["provider"], model=reported, served_model=reported,
                                    reason="provider_reported_model" if reported != "unknown" else "provider_omitted_model",

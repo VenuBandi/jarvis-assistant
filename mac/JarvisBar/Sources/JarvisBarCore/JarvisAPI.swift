@@ -49,6 +49,15 @@ public struct Message: Decodable, Equatable {
 public struct ChatReply: Decodable {
     public let reply: String?
     public let error: String?
+    public init(reply: String?, error: String?) { self.reply = reply; self.error = error }
+}
+
+/// One line of /api/chat/stream: {"type": "text", "delta": ...} while the answer is written, then "done".
+public struct StreamItem: Decodable {
+    public let type: String
+    public let delta: String?
+    public let reply: String?
+    public let error: String?
 }
 
 public enum JarvisError: Error, CustomStringConvertible {
@@ -66,12 +75,11 @@ public final class JarvisClient {
     private let token: String
     private let session: URLSession
 
-    public init(base: URL, token: String) {
+    public init(base: URL, token: String, configuration: URLSessionConfiguration = .ephemeral) {
         self.base = base
         self.token = token
-        let cfg = URLSessionConfiguration.ephemeral
-        cfg.timeoutIntervalForRequest = 300  // a chat turn can take minutes with a slow brain
-        session = URLSession(configuration: cfg)
+        configuration.timeoutIntervalForRequest = 300  // a chat turn can take minutes with a slow brain
+        session = URLSession(configuration: configuration)
     }
 
     /// Reads the per-install API token; refuses a file that is not mode 600.
@@ -91,7 +99,7 @@ public final class JarvisClient {
         return c.url!
     }
 
-    private func call(_ path: String, query: [URLQueryItem] = [], body: [String: Any]? = nil) async throws -> Data {
+    private func request(_ path: String, query: [URLQueryItem] = [], body: [String: Any]? = nil) throws -> URLRequest {
         var req = URLRequest(url: url(path, query: query))
         req.setValue(token, forHTTPHeaderField: "X-Jarvis-Token")
         if let body {
@@ -99,7 +107,11 @@ public final class JarvisClient {
             req.setValue("application/json", forHTTPHeaderField: "Content-Type")
             req.httpBody = try JSONSerialization.data(withJSONObject: body)
         }
-        let (data, resp) = try await session.data(for: req)
+        return req
+    }
+
+    private func call(_ path: String, query: [URLQueryItem] = [], body: [String: Any]? = nil) async throws -> Data {
+        let (data, resp) = try await session.data(for: try request(path, query: query, body: body))
         let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
         guard (200..<300).contains(code) else { throw JarvisError.http(code) }
         return data
@@ -118,6 +130,29 @@ public final class JarvisClient {
     public func chat(_ text: String, conv: String = "default", voice: Bool = false) async throws -> ChatReply {
         try JSONDecoder().decode(ChatReply.self, from: try await call("api/chat",
                                                                       body: ["conv": conv, "text": text, "voice": voice]))
+    }
+
+    /// Streamed chat turn: text pieces as Jarvis writes them, then one "done" item. Throws JarvisError.http(404)
+    /// on a Jarvis without the stream endpoint (caller falls back to chat).
+    public func chatStream(_ text: String, conv: String = "default", voice: Bool = false) async throws
+        -> AsyncThrowingStream<StreamItem, Error> {
+        let req = try request("api/chat/stream", body: ["conv": conv, "text": text, "voice": voice])
+        let (bytes, resp) = try await session.bytes(for: req)
+        let code = (resp as? HTTPURLResponse)?.statusCode ?? 0
+        guard (200..<300).contains(code) else { throw JarvisError.http(code) }
+        return AsyncThrowingStream { cont in
+            let task = Task {
+                do {
+                    for try await line in bytes.lines {
+                        guard let item = try? JSONDecoder().decode(StreamItem.self, from: Data(line.utf8)) else { continue }
+                        cont.yield(item)
+                        if item.type == "done" { break }
+                    }
+                    cont.finish()
+                } catch { cont.finish(throwing: error) }
+            }
+            cont.onTermination = { _ in task.cancel() }
+        }
     }
 
     public func confirm(_ id: String, approve: Bool) async throws -> ChatReply {

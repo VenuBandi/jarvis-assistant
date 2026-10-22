@@ -30,6 +30,22 @@ def _post(url, headers, body):
         raise ProviderError("reply was not JSON") from None
 
 
+def _post_lines(url, headers, body):
+    """POST with a streamed reply of one JSON object per line (Ollama's stream format); yields the objects."""
+    try:
+        with _client() as c, c.stream("POST", url, headers=headers, json=body) as r:
+            if r.status_code >= 400:
+                raise ProviderError(redact(f"HTTP {r.status_code}: {r.read().decode(errors='replace')[:300]}"))
+            for line in r.iter_lines():
+                if line.strip():
+                    try:
+                        yield json.loads(line)
+                    except ValueError:
+                        raise ProviderError("stream line was not JSON") from None
+    except httpx.HTTPError as e:
+        raise ProviderError(redact(f"{type(e).__name__}: {e}")) from None
+
+
 class AnthropicProvider(Provider):
     def __init__(self, base_url, key_fn):
         self.base, self.key_fn = base_url.rstrip("/"), key_fn
@@ -109,7 +125,7 @@ class OllamaProvider(Provider):
     def __init__(self, base_url):
         self.base = base_url.rstrip("/")
 
-    def chat(self, model, system, messages, tools):
+    def _body(self, model, system, messages, tools, stream):
         out = [{"role": "system", "content": system}]
         for m in messages:
             if m["role"] == "tool":
@@ -119,12 +135,30 @@ class OllamaProvider(Provider):
                     {"function": {"name": t.name, "arguments": t.args}} for t in m["tool_calls"]]})
             else:
                 out.append({"role": m["role"], "content": m["content"]})
-        body = {"model": model, "messages": out, "stream": False, "think": False,
+        body = {"model": model, "messages": out, "stream": stream, "think": False,
                 "options": {"num_ctx": 16384, "temperature": 0.2}}
         if tools:
             body["tools"] = [{"type": "function", "function": t} for t in tools]
-        j = _post(f"{self.base}/api/chat", {"content-type": "application/json"}, body)
-        msg = j.get("message") or {}
+        return body
+
+    def chat(self, model, system, messages, tools):
+        j = _post(f"{self.base}/api/chat", {"content-type": "application/json"},
+                  self._body(model, system, messages, tools, False))
+        return self._result(j.get("message") or {}, j, model)
+
+    def chat_stream(self, model, system, messages, tools, on_text):
+        text, calls, last = [], [], {}
+        for j in _post_lines(f"{self.base}/api/chat", {"content-type": "application/json"},
+                             self._body(model, system, messages, tools, True)):
+            msg = j.get("message") or {}
+            if msg.get("content"):
+                text.append(msg["content"])
+                on_text(msg["content"])
+            calls.extend(msg.get("tool_calls") or [])
+            last = j
+        return self._result({"content": "".join(text), "tool_calls": calls}, last, model)
+
+    def _result(self, msg, j, model):
         res = ChatResult(text=msg.get("content") or "", model=j.get("model", model), model_reported=bool(j.get("model")), stop=j.get("done_reason", ""))
         for t in msg.get("tool_calls") or []:
             f = t.get("function") or {}

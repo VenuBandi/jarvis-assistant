@@ -71,3 +71,42 @@ public func cleanTranscript(_ raw: String) -> String {
     return t.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
         .trimmingCharacters(in: .whitespacesAndNewlines)
 }
+
+/// Cuts a streamed answer into sentences so each one can be spoken as soon as it is complete.
+/// A sentence ends at . ! ? or a line break followed by whitespace (so "3.5" or "v1.2" are not cut); pieces
+/// shorter than `minLength` wait for the next sentence, so speech does not stutter on fragments like "Yes.".
+public struct SentenceSplitter {
+    public var minLength = 12
+    private var buffer = ""
+
+    public init() {}
+
+    public mutating func feed(_ piece: String) -> [String] {
+        buffer += piece
+        var out: [String] = []
+        var start = buffer.startIndex
+        var i = buffer.startIndex
+        while i < buffer.endIndex {
+            let c = buffer[i]
+            let next = buffer.index(after: i)
+            let ends = c == "\n" || ("!?.".contains(c) && next < buffer.endIndex && buffer[next].isWhitespace)
+            if ends {
+                let s = buffer[start..<next].trimmingCharacters(in: .whitespacesAndNewlines)
+                if s.count >= minLength {
+                    out.append(s)
+                    start = next
+                }
+            }
+            i = next
+        }
+        buffer = String(buffer[start...])
+        return out
+    }
+
+    /// Whatever is left when the answer is complete.
+    public mutating func flush() -> String? {
+        let s = buffer.trimmingCharacters(in: .whitespacesAndNewlines)
+        buffer = ""
+        return s.isEmpty ? nil : s
+    }
+}

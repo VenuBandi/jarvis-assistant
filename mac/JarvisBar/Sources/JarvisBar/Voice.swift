@@ -119,6 +119,7 @@ struct Transcriber {
 
 final class Speaker: NSObject, AVSpeechSynthesizerDelegate, @unchecked Sendable {  // used from the main thread only
     private let synth = AVSpeechSynthesizer()
+    private var queued = 0  // sentences waiting or being spoken; onFinish fires when the last one is done
     var onFinish: (() -> Void)?
     var voiceID: String?
 
@@ -131,14 +132,27 @@ final class Speaker: NSObject, AVSpeechSynthesizerDelegate, @unchecked Sendable 
 
     func say(_ text: String) {
         let t = spokenText(text)
-        guard !t.isEmpty else { onFinish?(); return }
+        guard !t.isEmpty else { if queued == 0 { onFinish?() }; return }
         let u = AVSpeechUtterance(string: t)
         if let voiceID, let v = AVSpeechSynthesisVoice(identifier: voiceID) { u.voice = v }
+        queued += 1
         synth.speak(u)
     }
 
-    func stop() { synth.stopSpeaking(at: .immediate) }
+    func stop() {
+        queued = 0
+        synth.stopSpeaking(at: .immediate)
+        onFinish?()
+    }
 
-    func speechSynthesizer(_ s: AVSpeechSynthesizer, didFinish u: AVSpeechUtterance) { onFinish?() }
-    func speechSynthesizer(_ s: AVSpeechSynthesizer, didCancel u: AVSpeechUtterance) { onFinish?() }
+    private func spoke() {
+        DispatchQueue.main.async {
+            guard self.queued > 0 else { return }
+            self.queued -= 1
+            if self.queued == 0 { self.onFinish?() }
+        }
+    }
+
+    func speechSynthesizer(_ s: AVSpeechSynthesizer, didFinish u: AVSpeechUtterance) { spoke() }
+    func speechSynthesizer(_ s: AVSpeechSynthesizer, didCancel u: AVSpeechUtterance) { spoke() }
 }

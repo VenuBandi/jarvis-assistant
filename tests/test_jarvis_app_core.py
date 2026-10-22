@@ -66,6 +66,9 @@ class Base(unittest.TestCase):
         self.assertEqual(r.status_code, 200, r.text)
         return r.json()
 
+    def chat_history(self, conv="default"):
+        return self.c.get("/api/conversation", params={"conv": conv}, headers=self.h).json()
+
 
 class TestSecurity(Base):
     def test_api_requires_token(self):
@@ -179,6 +182,36 @@ class TestModels(Base):
         self.assertNotIn("read aloud", seen[0])
         self.assertIn("at most 2 short sentences", seen[1])
         self.assertTrue(seen[1].startswith(seen[0][:200]))  # same safety rules, plus the voice note
+
+    def test_chat_stream_sends_text_then_done(self):
+        r = self.c.post("/api/chat/stream", json={"text": "hello there", "voice": True}, headers=self.h)
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(r.headers["content-type"].startswith("application/x-ndjson"))
+        items = [json.loads(x) for x in r.text.splitlines() if x.strip()]
+        self.assertEqual(items[-1]["type"], "done")
+        self.assertEqual(items[-1]["reply"], "Echo: hello there")
+        self.assertEqual("".join(i["delta"] for i in items if i["type"] == "text"), "Echo: hello there")
+        self.assertEqual(self.chat_history()[-1]["content"], "Echo: hello there")   # stored like /api/chat
+
+    def test_chat_stream_keeps_the_guards(self):
+        body = {"text": "hi"}
+        self.assertEqual(self.c.post("/api/chat/stream", json=body).status_code, 401)
+        self.assertEqual(self.c.post("/api/chat/stream", json=body,
+                                     headers={**self.h, "host": "evil.example.com"}).status_code, 403)
+
+    def test_chat_stream_confirmation_still_required(self):
+        r = self.c.post("/api/chat/stream", json={"text": 'tool:remember {"text": "likes tea"}'}, headers=self.h)
+        done = [json.loads(x) for x in r.text.splitlines() if x.strip()][-1]
+        self.assertTrue(done["pending"])                      # a write still waits for "yes"
+        self.assertEqual(self.agent.db.memories(), [])
+
+    def test_chat_stream_error_still_ends_with_done(self):
+        self.c.post("/api/model", json={"name": "other"}, headers=self.h)
+        self.agent.handle = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom sk-ant-abcdefghijklmnop1234"))
+        r = self.c.post("/api/chat/stream", json={"text": "hi"}, headers=self.h)
+        done = [json.loads(x) for x in r.text.splitlines() if x.strip()][-1]
+        self.assertEqual(done["type"], "done")
+        self.assertNotIn("sk-ant-abcdefghijklmnop1234", done["error"])
 
     def test_voice_controls_and_script_are_served(self):
         html = self.c.get("/").text

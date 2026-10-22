@@ -162,3 +162,96 @@ final class VoiceLogicTests: XCTestCase {
         XCTAssertEqual(cleanTranscript(" (music) hello [noise] there"), "hello there")
     }
 }
+
+final class SentenceSplitterTests: XCTestCase {
+    func testSentencesAsTheyArrive() {
+        var s = SentenceSplitter()
+        XCTAssertEqual(s.feed("The project is on "), [])
+        XCTAssertEqual(s.feed("step 6. One decision"), ["The project is on step 6."])
+        XCTAssertEqual(s.feed(" is waiting for you."), [])        // no space after the last dot yet
+        XCTAssertEqual(s.flush(), "One decision is waiting for you.")
+        XCTAssertNil(s.flush())
+    }
+
+    func testNumbersAndVersionsAreNotCut() {
+        var s = SentenceSplitter()
+        XCTAssertEqual(s.feed("Lag goes to 3.5 hours in v1.2 of the model. Next"), ["Lag goes to 3.5 hours in v1.2 of the model."])
+    }
+
+    func testShortPiecesWaitForMore() {
+        var s = SentenceSplitter()
+        XCTAssertEqual(s.feed("Yes. "), [])
+        XCTAssertEqual(s.feed("It is done now. "), ["Yes. It is done now."])
+    }
+
+    func testLineBreaksAndQuestions() {
+        var s = SentenceSplitter()
+        XCTAssertEqual(s.feed("Shall I read the decision? "), ["Shall I read the decision?"])
+        XCTAssertEqual(s.feed("First item here\nSecond"), ["First item here"])
+        XCTAssertEqual(s.flush(), "Second")
+    }
+}
+
+/// Fake network for JarvisClient: answers every request with `FakeJarvis.reply` and records the request.
+final class FakeJarvis: URLProtocol {
+    static var status = 200
+    static var reply = Data()
+    static var lastRequest: URLRequest?
+    static var lastBody: [String: Any]?
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func startLoading() {
+        FakeJarvis.lastRequest = request
+        if let s = request.httpBodyStream {
+            s.open(); var d = Data(); var buf = [UInt8](repeating: 0, count: 4096)
+            while s.hasBytesAvailable { let n = s.read(&buf, maxLength: buf.count); if n <= 0 { break }; d.append(buf, count: n) }
+            s.close()
+            FakeJarvis.lastBody = try? JSONSerialization.jsonObject(with: d) as? [String: Any]
+        }
+        let resp = HTTPURLResponse(url: request.url!, statusCode: FakeJarvis.status, httpVersion: nil, headerFields: nil)!
+        client?.urlProtocol(self, didReceive: resp, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: FakeJarvis.reply)
+        client?.urlProtocolDidFinishLoading(self)
+    }
+    override func stopLoading() {}
+}
+
+final class StreamClientTests: XCTestCase {
+    func client() -> JarvisClient {
+        let cfg = URLSessionConfiguration.ephemeral
+        cfg.protocolClasses = [FakeJarvis.self]
+        return JarvisClient(base: URL(string: "http://127.0.0.1:8770/")!, token: "fake-token", configuration: cfg)
+    }
+
+    func testStreamItemsInOrder() async throws {
+        FakeJarvis.status = 200
+        FakeJarvis.reply = Data("""
+        {"type": "text", "delta": "Step 6 is signed off. "}
+        {"type": "text", "delta": "One decision waits."}
+        {"type": "done", "reply": "Step 6 is signed off. One decision waits.", "model": "m", "steps": [], "pending": null, "error": ""}
+
+        """.utf8)
+        var deltas: [String] = []
+        var done: StreamItem?
+        for try await item in try await client().chatStream("status?", voice: true) {
+            if item.type == "text" { deltas.append(item.delta ?? "") } else { done = item }
+        }
+        XCTAssertEqual(deltas, ["Step 6 is signed off. ", "One decision waits."])
+        XCTAssertEqual(done?.reply, "Step 6 is signed off. One decision waits.")
+        XCTAssertEqual(FakeJarvis.lastRequest?.url?.path, "/api/chat/stream")
+        XCTAssertEqual(FakeJarvis.lastRequest?.value(forHTTPHeaderField: "X-Jarvis-Token"), "fake-token")
+        XCTAssertEqual(FakeJarvis.lastBody?["voice"] as? Bool, true)
+    }
+
+    func testOldJarvisWithoutStreamGives404() async {
+        FakeJarvis.status = 404
+        FakeJarvis.reply = Data(#"{"detail":"Not Found"}"#.utf8)
+        do {
+            _ = try await client().chatStream("hi")
+            XCTFail("expected 404")
+        } catch JarvisError.http(let code) {
+            XCTAssertEqual(code, 404)
+        } catch { XCTFail("\(error)") }
+    }
+}

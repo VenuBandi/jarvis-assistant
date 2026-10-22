@@ -1,6 +1,9 @@
 """Jarvis FastAPI app (Phase 1). create_app() wires settings → SQLite → models → tools → agent → routes.
 Every /api route needs the X-Jarvis-Token header and a loopback Host header (security/guard.py)."""
+import json
 import logging
+import queue
+import threading
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -14,6 +17,7 @@ from .config.settings import load_settings
 from .database.db import DB
 from .models.manager import ModelManager
 from .security.guard import host_ok, load_or_create_token, token_ok
+from .security.secrets import redact
 from .tools.builtin import register_builtin
 from .tools.registry import ToolRegistry
 from .workflow.events import EventBus
@@ -144,6 +148,35 @@ def create_app(settings=None):
             run.finish(status="waiting" if result.pending else "error" if result.error else
                        "stopped" if result.reply == "Stopped." else "completed")
             return _turn(result)
+
+    @app.post("/api/chat/stream", dependencies=[Depends(guard)])
+    def chat_stream(body: ChatIn):
+        """Same turn as /api/chat, streamed as NDJSON: {"type": "text", "delta": ...} while the answer is written,
+        then one {"type": "done", ...same fields as /api/chat}. Lets Jarvis Bar speak the first sentence early."""
+        q = queue.Queue()
+
+        def work():
+            try:
+                with events.run(action="Chat", source="jarvis") as run:
+                    result = agent.handle(body.conv, body.text, voice=body.voice,
+                                          on_text=lambda d: q.put({"type": "text", "delta": d}))
+                    run.finish(status="waiting" if result.pending else "error" if result.error else
+                               "stopped" if result.reply == "Stopped." else "completed")
+                q.put({"type": "done", **_turn(result)})
+            except Exception as e:  # noqa: BLE001 - the stream must always end with "done"
+                q.put({"type": "done", "reply": "", "model": "", "steps": [], "pending": None,
+                       "error": redact(f"{type(e).__name__}: {e}")})
+
+        threading.Thread(target=work, name="jarvis-chat-stream", daemon=True).start()
+
+        def lines():
+            while True:
+                item = q.get()
+                yield json.dumps(item, ensure_ascii=False) + "\n"
+                if item["type"] == "done":
+                    return
+
+        return StreamingResponse(lines(), media_type="application/x-ndjson", headers={"Cache-Control": "no-store"})
 
     @app.post("/api/confirm", dependencies=[Depends(guard)])
     def confirm(body: ConfirmIn):

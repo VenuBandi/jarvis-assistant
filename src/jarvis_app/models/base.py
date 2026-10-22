@@ -31,6 +31,14 @@ class Provider:
     def chat(self, model: str, system: str, messages: list, tools: list | None) -> ChatResult:
         raise NotImplementedError
 
+    def chat_stream(self, model: str, system: str, messages: list, tools: list | None, on_text) -> ChatResult:
+        """Like chat, calling on_text(piece) as the answer text is written. Providers without streaming give the
+        whole text in one piece at the end."""
+        r = self.chat(model, system, messages, tools)
+        if r.text and not r.tool_calls:
+            on_text(r.text)
+        return r
+
     def ping(self, model: str) -> str:
         """Tiny live call proving the model answers. Returns the served model id."""
         r = self.chat(model, "Reply with the single word PONG.", [{"role": "user", "content": "ping"}], None)
