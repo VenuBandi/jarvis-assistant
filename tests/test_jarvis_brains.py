@@ -179,7 +179,8 @@ class Adapters(unittest.TestCase):
             self.assertIn(om["model"], approved)
             for m in approved:
                 self.assertFalse(m.startswith(("auto/", "oc/", "aihorde/")) or "free" in m, m)
-                self.assertTrue(m.startswith(("ollama-local/", "antigravity/")), m)
+                # gemini/ = OmniRoute's direct Gemini connection (approved, also in FlightOps config/ai/brains.json)
+                self.assertTrue(m.startswith(("ollama-local/", "antigravity/", "gemini/")), m)
             self.assertRegex(om["base_url"], r"^http://(127\.0\.0\.1|localhost)(:\d+)?$")
         else:
             self.assertIsNone(om["model"])
