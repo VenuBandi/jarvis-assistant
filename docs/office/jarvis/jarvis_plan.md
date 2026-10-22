@@ -1,5 +1,8 @@
 # FlightOps Jarvis: plan (draft for the Director's approval)
 
+> **Note (S3, 2026-10-22):** J2 briefing and J5 Galaxy moved to FlightOps (`~/flightops-ai/src/office/`); they are no
+> longer Jarvis features. Current design: `j0_design_v2.md`.
+
 Written: 2026-10-19 by the Lead (Claude), phone session. Status: **PLAN ONLY, nothing built.**
 Idea source: Director, from a YouTube video by Zubair (AI Workshop, skool.com/aiworkshop). Its description
 lists: voice, a 3D "second brain" from notes with sources, web research by voice, morning briefings (Gmail +

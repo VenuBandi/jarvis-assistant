@@ -1,7 +1,8 @@
 # Jarvis J1 — project brain (answers with sources)
 
-Jarvis answers questions about FlightOps AI using only allowlisted project files, and names the file and section
-for every claim. It runs fully local (Ollama `qwen3-8b-32k` at 127.0.0.1:11434). Standard library only.
+Jarvis answers questions about FlightOps AI using only allowlisted FlightOps files (read-only, from the folder in
+`FLIGHTOPS_ROOT`, default `~/flightops-ai`), and names the file and section for every claim. The index is stored
+in this repo (`data/jarvis/`). It runs fully local (Ollama `qwen3-8b-32k` at 127.0.0.1:11434). Standard library only.
 
 ## Usage (from the project root)
 - Rebuild the index: `python3 -I src/jarvis/build_index.py`
@@ -142,104 +143,9 @@ with no value still prints the BM25 score listing).
 - The number guard checks digits only; numbers written as words are not checked.
 - The model may still pick or paraphrase wrongly; quotes and citations let you check every sentence.
 
-# Jarvis J2 — morning briefing (no language model)
+# Moved to FlightOps: project briefing (ex-J2) and FlightOps Galaxy (ex-J5)
 
-Work order: `docs/office/jarvis/j2_work_order.md`. Plain deterministic code (standard library only); every line is
-built from one field in one file and carries its source.
-
-## Usage (from the project root)
-- `python3 -I src/jarvis/briefing.py` — text briefing for the last 12 hours
-- Options: `--since <ISO, UTC if no offset>` or `--hours N` (default 12); `--json`; `--out` (also writes
-  `artifacts/briefing/latest.json` + `latest.md`); `--root <dir>` (default: project root from the script's location;
-  used by tests/QA on fake project folders). Exit 2 on a bad `--since` or missing `--root` folder.
-- Tests: `tests/test_jarvis_briefing.py` (temp folders: empty project, empty fields, paused, open/answered card,
-  failed/finished/missing job logs, CLI writes only the two briefing files).
-
-`--json`: `{"generated_at","since","sections":[{"title","lines":[{"text","source"}]}]}`.
-Source formats: `<path>#<json key path>` (e.g. `artifacts/progress.json#agent.log[133]`), `<path>#L<n>` (line in a
-text file), `<path>#mtime` (file modification time). Times are shown in UTC and America/New_York.
-
-## Sections and fields read (read-only)
-1. Mac / session — `control.json` `paused`, last `history[]` entry, count of `history` entries since `--since`;
-   `progress.json` `agent.state`, `updated_at`.
-2. Jobs — `progress.json` `jobs.<id>.title/log`; last non-empty line of each log: `traceback|error|failed|failure|
-   exception` → failed, starts with `done|finished|complete(d)` → finished, otherwise "status not recorded"
-   ("running" is never claimed: no process check). Log mtime vs `--since`. `agent.datacenter.last_job_runs[]` started
-   since `--since`. Log paths outside the root are treated as not found.
-3. Waiting for you — `progress.json` `decision` (id, gate, question, choices, created_at); a card whose id has an
-   answer in `artifacts/answers.jsonl` is reported as answered (same rule as `tracker/agent.py`). Inbox:
-   `agent.office.inbox[]` with `status` "open" (missing status is shown as "status not recorded").
-4. What happened — `agent.log[]` entries with `t` ≥ `--since`, newest first, max 8 (kind + text).
-5. Blocked items and warnings — top-level `blockers[]`, `warnings[]` (a missing field is said explicitly).
-6. Next step — `agent.current_action`, `checkpoint.next_steps[0]` (with `checkpoint.written_at`).
-7. Data health — `checkpoint.verified`, quoted, not re-measured.
-
-Long texts are shortened to 280 characters (400 for the verified line) with "…"; the shown text is always a prefix of
-the field (whitespace collapsed). Never writes progress.json, control.json or tracker/.
-
-# Jarvis J5 — FlightOps Galaxy (3D project map)
-
-Work order: `docs/office/jarvis/j5_work_order.md`. Standard library only; the layout is computed once in Python
-(fixed seed), so the phone only draws.
-
-## Usage (from the project root)
-- `python3 -I src/jarvis/galaxy_build.py` — summary (counts by type, links, skipped references, size)
-- `--json` prints the graph; `--root <dir>` builds from another folder (tests/QA);
-  `--out` writes `artifacts/galaxy/galaxy.json`, then runs `python3 tracker/agent_update.py galaxy artifacts/galaxy/galaxy.json`
-  (only if that script exists under `--root`), so the app gets it as `agent.galaxy`. Exit 2 if secret-like text
-  (`sb_secret_`, `service_role`, `eyJ`, `BEGIN PRIVATE KEY`) would be written.
-- Tests: `tests/test_jarvis_galaxy.py` (temp folders: node/link extraction, skipped counts, determinism,
-  no `.parquet` file opened, `--out` + agent_update call, secret guard).
-
-Output (`artifacts/galaxy/galaxy.json`, format `"compact-1"`):
-`{"built_at","format":"compact-1","counts":{<type>: n, "links", "skipped_refs"},"skipped_by_kind":{<kind>: n},"nodes":[...],"links":[[i,j,kind,src],...]}`.
-`i`, `j` are 0-based indexes into `nodes`; node order is fixed by the builder (records first, then files in sorted
-order), so match nodes by `id`, not by index, across builds.
-
-### compact-1 → full form (what `expand()` in `galaxy_build.py` does)
-The full form of a node is `{"id","type","label","path","src","x","y","z","deg"}`. In the file a node always has
-`id`, `type`, `x`, `y`, `z` (coordinates rounded to 1 decimal); the other fields are left out only when they equal
-their default:
-
-| field | file types: `data`, `script`, `doc`, `decision` | record types: `step`, `factor`, `feature`, `source`, `agent` |
-|---|---|---|
-| `path` | missing → `id` (the file's relative path) | missing → `""` (records have no file node of their own) |
-| `label` | missing → file name of `id` (text after the last `/`) | always present |
-| `src` | missing → `id + "#file"` | always present (`<file>#<where>`) |
-| `deg` | never stored → number of links in which the node is `i` or `j` | same |
-
-A field that is present is used as is (e.g. a decision's `src` is `<path>#id` and its `label` is the card id, so both
-are stored).
-
-Links: `src` is either a full `"<file>#<where>"`, or starts with `"#"`, meaning it is in the same file as the link's
-first node `i`. Then the full src = `file_of(nodes[i]) + src`, where `file_of(node)` = the node's full `path` if not
-empty, else the part of its full `src` before the first `#`. Example: `[28,265,"output","#agent.office.workers[0].outputs[1].path"]`
-with node 28 an agent (src `artifacts/progress.json#agent.office.workers[0]`) → `artifacts/progress.json#agent.office.workers[0].outputs[1].path`.
-
-`<where>` forms: `<json key path>` (e.g. `milestones[0].tasks[2].evidence[0]`), `<first column value>.<column>` for
-CSV rows (e.g. `G3_lag_route_seats.g_category`), `L<n>` for a line in a text file, `file` for the file itself,
-`id` for a decision's `id` field. `path` is set for file nodes only; record nodes keep their file in `src`.
-
-## Nodes (type ← file)
-step ← progress.json `milestones[]` + `agent.plan[]` · factor ← `factors[]` · agent ← `agent.office.workers[]` ·
-feature ← `docs/registry/data_dictionary.csv` `feature_id` · source ← `docs/registry/source_registry.csv` `source_id` ·
-data ← `data/features/*.parquet`, `data/processed/*.parquet` (file names only, never opened) · script ← `src/**/*.py`
-(not `test_*.py`) · doc ← `docs/**/*.md`, `reports/*.md` · decision ← `artifacts/decisions/*.json`.
-
-## Links (kind ← where the file says so; `src` names the field / row / line)
-factor: feature → factor (`g_category`) · raw_source: feature → source (`raw_source` naming `S<nn>`) ·
-source: factor → source (coverage `primary_sources`, registry `factors`) · evidence: step → task `evidence[]`,
-factor → `factors[].evidence[]`, decision → `evidence[].path` · plan: plan item → milestone named "(M<n>)" in its title ·
-output: agent → `outputs[].path` · uses: script → data file whose name appears in the script text (`#L<line>`) ·
-names: doc → file it names (relative path, or a backticked bare file name that only one node has; `#L<line>`).
-A reference that does not resolve to a node (missing file, or a file that is not in the map such as `reports/*.json`,
-`tracker/…`, raw data) is skipped and counted per kind in `skipped_by_kind`. Two of these kinds go beyond the work
-order's list: factor → evidence and plan → milestone (both read from progress.json fields).
-
-## App (staged page `tracker/index_stage_galaxy.html`)
-"Galaxy" card on Home and Data → full-screen canvas overlay (own 3D projection, no libraries): drag rotate,
-wheel/pinch zoom, tap select; live force sim from the given x,y,z with Repel / Link length sliders (runs only while
-open and visible); panel with search, inspector, Trace path (BFS shortest path), top hubs, type filter with counts;
-Jarvis dial with `agent.state` and "brain: none (J1 not connected)". Each briefing line has "show in galaxy": flies to
-the node whose `path` equals the source file; for files with no node of their own (e.g. progress.json) it highlights
-the record nodes whose `src` is in that file.
+Both describe FlightOps files and progress only, so since separation step S2 (2026-10-22) they belong to FlightOps:
+`~/flightops-ai/src/office/project_briefing.py` and `~/flightops-ai/src/office/galaxy_build.py` (with their tests
+in FlightOps). Jarvis no longer builds or documents them. History: `docs/office/jarvis/j2_work_order.md`,
+`j5_work_order.md`, `jarvis_separation_plan.md` §3b.

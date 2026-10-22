@@ -1,5 +1,8 @@
 # Work order J5 — FlightOps Galaxy (3D project map)
 
+> **Moved to FlightOps (S2, 2026-10-22):** FlightOps Galaxy is now built by `~/flightops-ai/src/office/galaxy_build.py`.
+> Kept here as Jarvis history only.
+
 Approved: Director in chat, 2026-10-19 ("start J5 galaxy now"). Design: jarvis_plan.md §J5 detail (from the
 Director's screenshot of "AI WORKSHOP OS"). Team: Engineer (Claude subagent) builds; QA (separate subagent) checks
 the graph data against the files; Lead render-checks and promotes the page.

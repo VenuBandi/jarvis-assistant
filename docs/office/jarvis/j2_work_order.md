@@ -1,5 +1,8 @@
 # Work order J2 — Jarvis morning briefing
 
+> **Moved to FlightOps (S2, 2026-10-22):** the briefing is now FlightOps' "Project briefing", built by
+> `~/flightops-ai/src/office/project_briefing.py`. Kept here as Jarvis history only.
+
 Approved: Director in chat, 2026-10-19 ("lets go to next step"; J2 is on the agreed infra checklist).
 Plan: docs/office/jarvis/jarvis_plan.md §4 (J2). J1 fix round deferred by the Director; J2 does not use J1.
 Team: Engineer (Claude subagent) builds; QA (separate Claude subagent) checks every line against the files.
