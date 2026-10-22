@@ -12,6 +12,7 @@ final class Recorder {
     private var detector = SpeechEndDetector()
     private var done = false
     var onEnd: ((SpeechEndDetector.Result, [Float]) -> Void)?
+    var onLevel: ((Float) -> Void)?  // loudness of each ~0.1 s chunk, for the circle's bars
 
     static func requestPermission(_ then: @escaping (Bool) -> Void) {
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
@@ -52,7 +53,9 @@ final class Recorder {
         lock.lock()
         if done { lock.unlock(); return }
         samples.append(contentsOf: chunk)
-        let r = detector.feed(rms: rms(chunk), seconds: Double(chunk.count) / 16000)
+        let level = rms(chunk)
+        let r = detector.feed(rms: level, seconds: Double(chunk.count) / 16000)
+        DispatchQueue.main.async { self.onLevel?(level) }
         if r != .keepListening { done = true }
         let captured = done ? samples : []
         lock.unlock()

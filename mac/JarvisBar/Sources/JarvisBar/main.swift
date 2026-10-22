@@ -1,4 +1,5 @@
-// Jarvis Bar (J1b + J1c): menu-bar icon + panel for the local Jarvis server, global hotkeys, voice.
+// Jarvis Bar (J1b + J1c): menu-bar icon + panel for the local Jarvis server, global hotkeys, voice, and the Jarvis
+// circle in the middle of the screen while a voice turn runs (Orb.swift). Voice never opens the panel or a browser.
 //   hold Right-Option+H for 3 s  → chime, then Jarvis listens; it stops when you pause, transcribes on the Mac
 //                                  (whisper.cpp, see Voice.swift), asks Jarvis and speaks the reply
 //   Right-Option+V               → Stop (ends listening, speech and the current Jarvis task)
@@ -66,6 +67,10 @@ final class AppModel: ObservableObject {
     }
     @Published var lastError: String?
     @Published var focusToken = 0
+    @Published var micLevel: Float = 0
+    @Published var voiceTurn = false      // a spoken request is running: the circle stays on screen
+    @Published var orbMessage: String?    // short notice shown in the circle, e.g. "DIDN'T CATCH THAT"
+    var holdStartedAt = 0.0
 
     let client: JarvisClient?
     let log: EventLog
@@ -86,7 +91,14 @@ final class AppModel: ObservableObject {
             Task { @MainActor in self?.recorded(result, samples) }
         }
         speaker.onFinish = { [weak self] in
-            Task { @MainActor in self?.speaking = false }
+            Task { @MainActor in
+                guard let self else { return }
+                self.speaking = false
+                if !self.busy { self.voiceTurn = false }
+            }
+        }
+        recorder.onLevel = { [weak self] level in
+            Task { @MainActor in self?.micLevel = level }
         }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             Task { @MainActor in await self?.poll() }
@@ -117,6 +129,38 @@ final class AppModel: ObservableObject {
         case "thinking": return "Thinking…"
         case "executing": return "Working…"
         default: return "Jarvis is not running"
+        }
+    }
+
+    var agentBusy: Bool { busy || agentState == "thinking" || agentState == "executing" }
+    var orbVisible: Bool { arming || voiceTurn || orbMessage != nil }
+
+    func holdProgress(now: Double) -> Double { min(1, max(0, (now - holdStartedAt) / HOLD_SECONDS)) }
+
+    var orbTitle: String {
+        if let orbMessage { return orbMessage }
+        if arming { return "HOLD" }
+        if listening { return "LISTENING" }
+        if transcribing { return "UNDERSTANDING" }
+        if speaking { return "SPEAKING" }
+        if agentBusy { return "THINKING" }
+        return "STANDBY"
+    }
+
+    var orbSubtitle: String {
+        if orbMessage != nil { return "" }
+        if arming { return "KEEP HOLDING" }
+        if listening { return "PAUSE TO FINISH" }
+        if speaking || agentBusy || transcribing { return "⌥V TO STOP" }
+        return ""
+    }
+
+    /// A short notice in the circle, then the circle fades out.
+    func flash(_ message: String) {
+        voiceTurn = false
+        orbMessage = message
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            if self?.orbMessage == message { self?.orbMessage = nil }
         }
     }
 
@@ -166,8 +210,12 @@ final class AppModel: ObservableObject {
                 if let e = r.error, !e.isEmpty { lastError = e }
                 // nothing streamed (e.g. "I need your confirmation…", or an older Jarvis): speak the whole reply
                 if spoken, !spokeThisTurn, let reply = r.reply, !reply.isEmpty { speakSentence(reply) }
-            } catch { lastError = "\(error)" }
+            } catch {
+                lastError = "\(error)"
+                if spoken { flash("SOMETHING WENT WRONG") }
+            }
             busy = false
+            if spoken && !speaking { voiceTurn = false }
             await refreshConversation()
             await poll()
         }
@@ -212,13 +260,16 @@ final class AppModel: ObservableObject {
         speaker.stop()
         guard transcriber.available else {
             lastError = "Speech-to-text not installed (whisper-cli or model missing)"
+            flash("SPEECH NOT INSTALLED")
             return
         }
+        voiceTurn = true
         Recorder.requestPermission { [weak self] ok in
             guard let self else { return }
             guard ok else {
                 self.lastError = "Microphone not allowed: System Settings → Privacy & Security → Microphone → Jarvis Bar"
                 self.log.write("mic_denied")
+                self.flash("MICROPHONE OFF")
                 return
             }
             do {
@@ -228,6 +279,7 @@ final class AppModel: ObservableObject {
                 self.log.write("listening_start")
             } catch {
                 self.lastError = "Microphone error: \(error.localizedDescription)"
+                self.flash("MICROPHONE ERROR")
             }
         }
     }
@@ -238,8 +290,10 @@ final class AppModel: ObservableObject {
         listening = false
         speechEndedAt = uptime()
         log.write("speech_end", ["result": "\(result)", "audio_ms": String(samples.count / 16)])
+        micLevel = 0
         guard result == .speechEnded || result == .tooLong, !samples.isEmpty else {
             lastError = "I didn't hear anything."
+            flash("DIDN'T HEAR YOU")
             return
         }
         transcribing = true
@@ -250,7 +304,10 @@ final class AppModel: ObservableObject {
             await MainActor.run {
                 self.transcribing = false
                 self.log.write("transcribed", ["stt_ms": String(Int((uptime() - start) * 1000)), "chars": String(text.count)])
-                if text.isEmpty { self.lastError = "Sorry, I didn't catch that." } else { self.ask(text, spoken: true) }
+                if text.isEmpty {
+                    self.lastError = "Sorry, I didn't catch that."
+                    self.flash("DIDN'T CATCH THAT")
+                } else { self.ask(text, spoken: true) }
             }
         }
     }
@@ -269,6 +326,9 @@ final class AppModel: ObservableObject {
         if listening { recorder.cancel(); listening = false }
         speaker.stop()
         speaking = false
+        voiceTurn = false
+        orbMessage = nil
+        micLevel = 0
         guard let client else { return }
         Task {
             do { try await client.stop() } catch { lastError = "\(error)" }
@@ -338,7 +398,8 @@ struct PanelView: View {
                     .disabled(model.busy || model.client == nil)
                 Button("Send") { model.send() }
                     .disabled(model.busy || model.input.trimmingCharacters(in: .whitespaces).isEmpty)
-                Button { model.startListening() } label: { Image(systemName: "mic.fill") }
+                Button { NSApp.sendAction(#selector(AppDelegate.closePanel), to: nil, from: nil); model.startListening() }
+                    label: { Image(systemName: "mic.fill") }
                     .help("Talk to Jarvis")
                     .disabled(model.busy || model.listening || model.transcribing)
             }
@@ -404,6 +465,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var hotkeys: HotKeys!
     var hold = HoldDetector(hold: HOLD_SECONDS)
     var subs = Set<AnyCancellable>()
+    var orb: OrbWindow!
 
     func applicationDidFinishLaunching(_ note: Notification) {
         let rootPath = Bundle.main.object(forInfoDictionaryKey: "JarvisRoot") as? String
@@ -422,8 +484,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.button?.target = self
         popover.behavior = .transient
         popover.contentViewController = NSHostingController(rootView: PanelView(model: model))
+        orb = OrbWindow(model: model)
         model.objectWillChange.sink { [weak self] in
-            DispatchQueue.main.async { self?.updateIcon() }
+            DispatchQueue.main.async { self?.updateIcon(); self?.updateOrb() }
         }.store(in: &subs)
         updateIcon()
 
@@ -444,6 +507,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item.button?.image = img
         item.button?.toolTip = "Jarvis: \(model.statusText)"
     }
+
+    func updateOrb() {
+        if model.orbVisible {
+            orb.show()
+        } else if orb.shown {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+                guard let self, !self.model.orbVisible else { return }
+                self.orb.hide()
+            }
+        }
+    }
+
+    @objc func closePanel() { popover.performClose(nil) }
 
     @objc func togglePanel() {
         if popover.isShown { popover.performClose(nil) } else { showPanel() }
@@ -482,6 +558,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let (right, side) = rightOptionDown()
         guard right else { log.write("listen_ignored", ["option": side]); return }
         guard hold.press(at: now) else { return }  // key repeat while held
+        model.holdStartedAt = now
         model.arming = true
         log.write("listen_pressed", ["option": side])
         DispatchQueue.main.asyncAfter(deadline: .now() + HOLD_SECONDS) { [weak self] in
@@ -496,11 +573,37 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         model.arming = false
         guard right else { log.write("listen_cancelled", ["reason": "option_released", "option": side]); return }
         NSSound(named: "Tink")?.play()
-        showPanel()
+        model.voiceTurn = true
         let shownMs = Int((uptime() - fired) * 1000)
-        log.write("hold_fired", ["panel_ms": String(shownMs)])
+        log.write("hold_fired", ["orb_ms": String(shownMs), "orb": orb.shown ? "shown" : "hidden"])
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in self?.model.startListening() }
     }
+}
+
+/// Development aid: `JarvisBar --render-orb <dir>` draws the circle in each state to PNG files and exits.
+@MainActor func renderOrbPictures(to dir: URL) {
+    let states: [(String, (AppModel) -> Void)] = [
+        ("hold", { $0.arming = true; $0.holdStartedAt = uptime() - 1.4 }),
+        ("listening", { $0.voiceTurn = true; $0.listening = true; $0.micLevel = 0.06 }),
+        ("thinking", { $0.voiceTurn = true; $0.busy = true }),
+        ("speaking", { $0.voiceTurn = true; $0.speaking = true }),
+        ("message", { $0.orbMessage = "DIDN'T HEAR YOU" }),
+    ]
+    for (name, setup) in states {
+        let m = AppModel(client: nil, tokenError: nil, log: EventLog(root: dir), transcriber: Transcriber(model: dir))
+        setup(m)
+        let r = ImageRenderer(content: OrbView(model: m).background(Color(white: 0.85)))
+        r.scale = 1
+        if let img = r.nsImage, let tiff = img.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff),
+           let png = rep.representation(using: .png, properties: [:]) {
+            try? png.write(to: dir.appendingPathComponent("orb_\(name).png"))
+        }
+    }
+}
+
+if let i = CommandLine.arguments.firstIndex(of: "--render-orb"), i + 1 < CommandLine.arguments.count {
+    MainActor.assumeIsolated { renderOrbPictures(to: URL(fileURLWithPath: CommandLine.arguments[i + 1])) }
+    exit(0)
 }
 
 MainActor.assumeIsolated {
