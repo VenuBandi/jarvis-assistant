@@ -39,20 +39,18 @@ one needs the Director's approval before it starts and is checked before the nex
 - **What:** a small native Mac app ("Jarvis Bar", Swift) in the menu bar. Icon shows idle / listening / thinking /
   speaking. Click: a small panel with the conversation, a text box, **Stop** and **Mute**. It talks only to
   127.0.0.1:8770 with Jarvis's token. Starts at login.
-- **Hotkey (decision D1):**
-  - **Option A:** hold Option+H (either Option key) for 3 s. Uses macOS's standard hotkey service: **no new permission**,
-    and the H never reaches the app you are typing in.
-  - **Option B, exactly as asked:** hold **Right**-Option+H for 3 s. Telling the right Option key from the left needs a
-    system-wide key monitor, which needs the **Input Monitoring** permission.
-  - Both expected to work. Which one behaves best on macOS 26 is **unverified** until it is built and tested.
-- **Stop (decision D2):** a second hotkey that stops the current task and speech at once (proposed: Right-Option+.).
+- **Hotkey (Director decided 2026-10-22):** hold **Right-Option+H for 3 s**. Telling the right Option key from the
+  left needs a system-wide key monitor, so Jarvis Bar asks for the **Input Monitoring** permission (listed before it
+  is requested). The H must never reach the app you are typing in. Behaviour on macOS 26 is **unverified** until built
+  and tested.
+- **Stop (decision D1):** a second hotkey that stops the current task and speech at once (proposed: Right-Option+.).
 - **Done when:** 20 tries hotkey → "listening" in under 1 s; no stray character typed into the front app; Stop ends a
   running task every time; the panel works in light and dark mode.
 
 ### J1c: Local ears and voice
 - **What:** push-to-talk. After the hotkey, Jarvis Bar records from the mic until you stop talking, turns it into text
   with **whisper.cpp** (Homebrew `whisper-cpp`, MIT licence; runs on the M4's GPU), and sends the text to Jarvis.
-  The reply is spoken with a built-in macOS voice (decision D3: which voice). Audio stays in memory and is deleted
+  The reply is spoken with a built-in macOS voice (decision D2: which voice). Audio stays in memory and is deleted
   after transcription; only the text goes into the conversation and audit log.
 - **Needs:** install `whisper-cpp` + one speech model (download; size depends on the model chosen, measured at install
   time); **Microphone** permission for Jarvis Bar.
@@ -70,7 +68,7 @@ one needs the Director's approval before it starts and is checked before the nex
   | start an approved job | R2 | only through FlightOps' own path; exact path agreed with the FlightOps session first |
 - **"Decision needed" announcements:** Jarvis watches FlightOps' open decision (read-only). When a new one opens it
   shows a notification and says: "FlightOps needs a decision: <question>. Options: … What shall we do?" Quiet hours
-  setting (decision D4).
+  setting (decision D3).
 - **Needs:** check with the FlightOps session how it wants Jarvis's answers labelled (its server records a "device" for
   each answer).
 - **Done when:** 20 spoken FlightOps commands (written before the build) ≥ 18 / 20 correct; red-team test: **0** R2 actions
@@ -117,16 +115,17 @@ one needs the Director's approval before it starts and is checked before the nex
 | FlightOps reasoning, hard non-personal tasks | Claude (**needs API credits**); until then NVIDIA Nemotron, then local |
 
 ## 6. Decisions for the Director
+Already decided (2026-10-22): hotkey **hold Right-Option+H for 3 s**; wake word **"Hey Jarvis", Director's voice only**.
+
 | # | Question | Proposal |
 |---|---|---|
-| D1 | Hotkey: A (Option+H, no new permission) or B (Right-Option+H only, needs Input Monitoring)? | Your choice; B is exactly what you asked |
-| D2 | Stop hotkey | Right-Option+. |
-| D3 | Jarvis's voice | pick one of the built-in macOS voices at J1c |
-| D4 | Quiet hours for "decision needed" announcements | e.g. 22:00–07:00: notification only, no speech |
-| D5 | Order | J1a → J1b → J1c → J1d → J1e → J1f → J1g (wake word after push-to-talk works) |
+| D1 | Stop hotkey | Right-Option+. |
+| D2 | Jarvis's voice | pick one of the built-in macOS voices at J1c |
+| D3 | Quiet hours for "decision needed" announcements | e.g. 22:00–07:00: notification only, no speech |
+| D4 | Order | J1a → J1b → J1c → J1d → J1e → J1f → J1g (wake word after push-to-talk works) |
 
 ## 7. Not decided / unverified
-- Hotkey behaviour on macOS 26 (both options), whisper.cpp speed on this M4, speaker-check accuracy: measured in the
+- Right-Option+H hold on macOS 26, whisper.cpp speed on this M4, speaker-check accuracy: measured in the
   step that builds them.
 - How FlightOps labels answers from Jarvis, and the exact path for starting a job: to agree with the FlightOps session.
 - Claude needs API credits for the "hard tasks" brain.
