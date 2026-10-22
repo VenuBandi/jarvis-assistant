@@ -86,5 +86,63 @@ class LaunchAgent(unittest.TestCase):
         self.assertEqual(len(list((self.tmp / "data/jarvis_app").glob("com.jarvis.assistant.plist.removed_*"))), 1)
 
 
+
+class BarAgent(unittest.TestCase):
+    """Jarvis Bar's LaunchAgent: same rules, faked launchctl / pgrep, temporary LaunchAgents folder."""
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.plist = self.tmp / "LaunchAgents" / f"{la.BAR_LABEL}.plist"
+        self.bin = self.tmp / "JarvisBar"
+        self.bin.write_text("")
+        self.calls = []
+        p = [mock.patch.object(la, "BAR_PLIST", self.plist), mock.patch.object(la, "BAR_BIN", self.bin),
+             mock.patch.object(la, "JA", self.tmp),
+             mock.patch.object(la, "bar_pids", return_value=[]),
+             mock.patch.object(la, "launchd_pid", return_value=(None, False)),
+             mock.patch.object(la, "wait_bar", return_value=True),
+             mock.patch.object(la.subprocess, "run", side_effect=self.fake_run)]
+        for x in p:
+            x.start()
+            self.addCleanup(x.stop)
+
+    def fake_run(self, args, **kw):
+        self.calls.append(args)
+        return mock.Mock(returncode=0, stdout="", stderr="")
+
+    def test_bar_agent(self):
+        a = la.bar_agent(ROOT)
+        self.assertEqual(a["Label"], "com.jarvis.bar")
+        self.assertEqual(a["ProgramArguments"], [str(ROOT / "mac/JarvisBar/build/JarvisBar.app/Contents/MacOS/JarvisBar")])
+        self.assertEqual(a["KeepAlive"], {"SuccessfulExit": False})  # Quit Jarvis Bar stays quit
+        self.assertEqual(a["LimitLoadToSessionType"], "Aqua")
+        self.assertNotIn("EnvironmentVariables", a)
+
+    def test_refuses_while_hand_started_bar_runs(self):
+        with mock.patch.object(la, "bar_pids", return_value=["31098"]), self.assertRaises(SystemExit) as e:
+            la.bar_install()
+        self.assertIn("Jarvis Bar is running (pid 31098)", str(e.exception))
+        self.assertFalse(self.plist.exists())
+
+    def test_refuses_when_not_built(self):
+        self.bin.unlink()
+        with self.assertRaises(SystemExit):
+            la.bar_install()
+        self.assertFalse(self.plist.exists())
+
+    def test_install_and_remove(self):
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(la.bar_install(), 0)
+            self.assertEqual(plistlib.loads(self.plist.read_bytes()), la.bar_agent())
+            self.assertIn(["launchctl", "bootstrap", la.DOMAIN, str(self.plist)], self.calls)
+            la.bar_remove()
+        self.assertFalse(self.plist.exists())
+        self.assertEqual(len(list((self.tmp / "data/jarvis_bar").glob("com.jarvis.bar.plist.removed_*"))), 1)
+
+    def test_server_plist_untouched_by_bar_commands(self):
+        with mock.patch.object(la, "PLIST", self.tmp / "server.plist"), redirect_stdout(io.StringIO()):
+            la.bar_install()
+        self.assertFalse((self.tmp / "server.plist").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
