@@ -91,3 +91,74 @@ final class APITests: XCTestCase {
         XCTAssertThrowsError(try JarvisClient.loadToken(root: root))
     }
 }
+
+final class VoiceLogicTests: XCTestCase {
+    func feed(_ d: inout SpeechEndDetector, _ level: Float, _ seconds: Double) -> SpeechEndDetector.Result {
+        var r = SpeechEndDetector.Result.keepListening
+        for _ in 0..<Int(seconds * 10) { r = d.feed(rms: level, seconds: 0.1); if r != .keepListening { break } }
+        return r
+    }
+
+    func testEndsAfterSilenceFollowingSpeech() {
+        var d = SpeechEndDetector()
+        XCTAssertEqual(feed(&d, 0.002, 0.3), .keepListening)   // room noise
+        XCTAssertEqual(feed(&d, 0.2, 1.5), .keepListening)     // speaking
+        XCTAssertEqual(feed(&d, 0.003, 0.5), .keepListening)   // short pause between words
+        XCTAssertEqual(feed(&d, 0.2, 0.5), .keepListening)
+        XCTAssertEqual(feed(&d, 0.003, 1.2), .speechEnded)
+    }
+
+    func testNoSpeech() {
+        var d = SpeechEndDetector()
+        XCTAssertEqual(feed(&d, 0.002, 7), .noSpeech)
+    }
+
+    func testNoisyRoomRaisesThreshold() {
+        var d = SpeechEndDetector()
+        _ = feed(&d, 0.05, 0.3)                                // loud room
+        XCTAssertEqual(d.threshold, 0.15, accuracy: 0.001)
+        XCTAssertEqual(feed(&d, 0.06, 7), .noSpeech)           // room noise is not speech
+        XCTAssertFalse(d.heardSpeech)
+    }
+
+    func testSpeakingRightAfterTheChime() {
+        var d = SpeechEndDetector()
+        XCTAssertEqual(feed(&d, 0.2, 0.4), .keepListening)     // talks at once: no quiet room sample yet
+        XCTAssertEqual(feed(&d, 0.004, 0.2), .keepListening)   // gap between words
+        XCTAssertEqual(feed(&d, 0.2, 1.0), .keepListening)
+        XCTAssertTrue(d.heardSpeech)
+        XCTAssertEqual(feed(&d, 0.004, 1.2), .speechEnded)
+    }
+
+    func testMaxLength() {
+        var d = SpeechEndDetector()
+        var r = SpeechEndDetector.Result.keepListening
+        for i in 0..<320 where r == .keepListening { r = d.feed(rms: i % 5 == 0 ? 0.004 : 0.2, seconds: 0.1) }
+        XCTAssertEqual(r, .tooLong)                            // talks non-stop for 30 s
+    }
+
+    func testWav() {
+        let w = wavData([0, 1, -1], sampleRate: 16000)
+        XCTAssertEqual(w.count, 44 + 6)
+        XCTAssertEqual(String(data: w.prefix(4), encoding: .ascii), "RIFF")
+        XCTAssertEqual(String(data: w.subdata(in: 8..<12), encoding: .ascii), "WAVE")
+        XCTAssertEqual(w.subdata(in: 44..<50), Data([0, 0, 0xFF, 0x7F, 0x01, 0x80]))
+    }
+
+    func testRms() {
+        XCTAssertEqual(rms([0.5, -0.5]), 0.5, accuracy: 0.0001)
+        XCTAssertEqual(rms([]), 0)
+    }
+
+    func testSpokenText() {
+        XCTAssertEqual(spokenText("The **agent** is `working`. See [the report](https://x.y/z) or https://a.b/c"),
+                       "The agent is working. See the report or link")
+        XCTAssertEqual(spokenText("# Status\n- step 6"), "Status - step 6")
+    }
+
+    func testCleanTranscript() {
+        XCTAssertEqual(cleanTranscript(" Jarvis, what is the status?\n"), "Jarvis, what is the status?")
+        XCTAssertEqual(cleanTranscript("[BLANK_AUDIO]"), "")
+        XCTAssertEqual(cleanTranscript(" (music) hello [noise] there"), "hello there")
+    }
+}

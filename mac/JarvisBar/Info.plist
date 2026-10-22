@@ -25,6 +25,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Jarvis listens only after you hold Right-Option+H or press Talk. Speech is turned into text on this Mac and the audio is deleted.</string>
 	<key>JarvisRoot</key>
 	<string>__JARVIS_ROOT__</string>
 </dict>

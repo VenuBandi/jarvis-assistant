@@ -1,10 +1,12 @@
-// Jarvis Bar (J1b): menu-bar icon + panel for the local Jarvis server, and the global hotkeys.
-//   hold Right-Option+H for 3 s  → listening (panel opens, ready for input; voice arrives in J1c)
-//   Right-Option+V               → Stop (ends the current Jarvis task)
+// Jarvis Bar (J1b + J1c): menu-bar icon + panel for the local Jarvis server, global hotkeys, voice.
+//   hold Right-Option+H for 3 s  → chime, then Jarvis listens; it stops when you pause, transcribes on the Mac
+//                                  (whisper.cpp, see Voice.swift), asks Jarvis and speaks the reply
+//   Right-Option+V               → Stop (ends listening, speech and the current Jarvis task)
 // Hotkeys use macOS's standard hotkey service (RegisterEventHotKey): no Input Monitoring or Accessibility
 // permission, and the key never reaches the app in front. That service cannot tell left from right Option, so the
 // side is read from the modifier state and a left-Option press is ignored (it is still swallowed).
-// Event log: <JarvisRoot>/data/jarvis_bar/events.log, hotkey timings only (never typed text, messages or the token).
+// Event log: <JarvisRoot>/data/jarvis_bar/events.log, hotkey and voice timings only (never audio, recognised or
+// typed text, messages or the token).
 import AppKit
 import Carbon.HIToolbox
 import Combine
@@ -13,6 +15,7 @@ import SwiftUI
 
 let HOLD_SECONDS = 3.0
 let JARVIS_URL = URL(string: "http://127.0.0.1:8770/")!
+let WHISPER_MODEL = "data/models/whisper/ggml-large-v3-turbo-q5_0.bin"
 
 func uptime() -> Double { ProcessInfo.processInfo.systemUptime }
 
@@ -56,16 +59,34 @@ final class AppModel: ObservableObject {
     @Published var busy = false
     @Published var arming = false
     @Published var listening = false
+    @Published var transcribing = false
+    @Published var speaking = false
+    @Published var muted = UserDefaults.standard.bool(forKey: "muted") {
+        didSet { UserDefaults.standard.set(muted, forKey: "muted"); if muted { speaker.stop() } }
+    }
     @Published var lastError: String?
     @Published var focusToken = 0
 
     let client: JarvisClient?
+    let log: EventLog
+    let transcriber: Transcriber
+    private let recorder = Recorder()
+    private let speaker = Speaker()
     private var timer: Timer?
     private var lastState = ""
+    private var speechEndedAt = 0.0
 
-    init(client: JarvisClient?, tokenError: String?) {
+    init(client: JarvisClient?, tokenError: String?, log: EventLog, transcriber: Transcriber) {
         self.client = client
+        self.log = log
+        self.transcriber = transcriber
         lastError = tokenError
+        recorder.onEnd = { [weak self] result, samples in
+            Task { @MainActor in self?.recorded(result, samples) }
+        }
+        speaker.onFinish = { [weak self] in
+            Task { @MainActor in self?.speaking = false }
+        }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             Task { @MainActor in await self?.poll() }
         }
@@ -75,6 +96,8 @@ final class AppModel: ObservableObject {
     var icon: String {
         if arming { return "ear" }
         if listening { return "ear.fill" }
+        if transcribing { return "text.bubble" }
+        if speaking { return "speaker.wave.2.fill" }
         switch agentState {
         case "thinking": return "ellipsis.circle.fill"
         case "executing": return "gearshape.fill"
@@ -85,7 +108,9 @@ final class AppModel: ObservableObject {
 
     var statusText: String {
         if arming { return "Keep holding…" }
-        if listening { return "Listening" }
+        if listening { return "Listening… (pause to finish)" }
+        if transcribing { return "Understanding…" }
+        if speaking { return "Speaking" }
         switch agentState {
         case "idle": return "Ready"
         case "thinking": return "Thinking…"
@@ -121,20 +146,81 @@ final class AppModel: ObservableObject {
 
     func send() {
         let text = input.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let client, !text.isEmpty, !busy else { return }
         input = ""
-        listening = false
+        ask(text, spoken: false)
+    }
+
+    /// Sends a request to Jarvis; a spoken request gets a spoken reply (unless muted).
+    func ask(_ text: String, spoken: Bool) {
+        guard let client, !text.isEmpty, !busy else { return }
         busy = true
         lastError = nil
         rows.append(Row(id: (rows.last?.id ?? -1) + 1, role: "user", text: text))
+        let started = uptime()
         Task {
             do {
                 let r = try await client.chat(text)
+                log.write("reply", ["chat_ms": String(Int((uptime() - started) * 1000)), "spoken": String(spoken)])
                 if let e = r.error, !e.isEmpty { lastError = e }
+                if spoken, !muted, let reply = r.reply, !reply.isEmpty {
+                    speaking = true
+                    speaker.say(reply)
+                    log.write("speaking", ["after_speech_end_ms": String(Int((uptime() - speechEndedAt) * 1000))])
+                }
             } catch { lastError = "\(error)" }
             busy = false
             await refreshConversation()
             await poll()
+        }
+    }
+
+    // MARK: voice
+
+    func startListening() {
+        guard !listening, !transcribing, !busy else { return }
+        speaker.stop()
+        guard transcriber.available else {
+            lastError = "Speech-to-text not installed (whisper-cli or model missing)"
+            return
+        }
+        Recorder.requestPermission { [weak self] ok in
+            guard let self else { return }
+            guard ok else {
+                self.lastError = "Microphone not allowed: System Settings → Privacy & Security → Microphone → Jarvis Bar"
+                self.log.write("mic_denied")
+                return
+            }
+            do {
+                try self.recorder.start()
+                self.listening = true
+                self.lastError = nil
+                self.log.write("listening_start")
+            } catch {
+                self.lastError = "Microphone error: \(error.localizedDescription)"
+            }
+        }
+    }
+
+    func finishListening() { recorder.stopNow() }
+
+    private func recorded(_ result: SpeechEndDetector.Result, _ samples: [Float]) {
+        listening = false
+        speechEndedAt = uptime()
+        log.write("speech_end", ["result": "\(result)", "audio_ms": String(samples.count / 16)])
+        guard result == .speechEnded || result == .tooLong, !samples.isEmpty else {
+            lastError = "I didn't hear anything."
+            return
+        }
+        transcribing = true
+        let t = transcriber
+        Task.detached {
+            let start = uptime()
+            let text = (try? t.transcribe(samples)) ?? ""
+            await MainActor.run {
+                self.transcribing = false
+                self.log.write("transcribed", ["stt_ms": String(Int((uptime() - start) * 1000)), "chars": String(text.count)])
+                if text.isEmpty { self.lastError = "Sorry, I didn't catch that." } else { self.ask(text, spoken: true) }
+            }
         }
     }
 
@@ -148,8 +234,10 @@ final class AppModel: ObservableObject {
     }
 
     func stop() {
-        listening = false
         arming = false
+        if listening { recorder.cancel(); listening = false }
+        speaker.stop()
+        speaking = false
         guard let client else { return }
         Task {
             do { try await client.stop() } catch { lastError = "\(error)" }
@@ -173,7 +261,11 @@ struct PanelView: View {
                 Text(model.modelLabel).font(.caption).foregroundStyle(.secondary)
             }
             if model.listening {
-                Text("Type your request (voice comes in step J1c).").font(.caption).foregroundStyle(.secondary)
+                HStack {
+                    Text("Speak now. I stop listening when you pause.").font(.caption).foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Done") { model.finishListening() }
+                }
             }
             ScrollViewReader { proxy in
                 ScrollView {
@@ -215,9 +307,13 @@ struct PanelView: View {
                     .disabled(model.busy || model.client == nil)
                 Button("Send") { model.send() }
                     .disabled(model.busy || model.input.trimmingCharacters(in: .whitespaces).isEmpty)
+                Button { model.startListening() } label: { Image(systemName: "mic.fill") }
+                    .help("Talk to Jarvis")
+                    .disabled(model.busy || model.listening || model.transcribing)
             }
             HStack {
                 Button("Stop") { model.stop() }
+                Toggle("Mute", isOn: $model.muted).toggleStyle(.checkbox)
                 Button("Open full Jarvis") { NSWorkspace.shared.open(JARVIS_URL) }
                 Spacer()
                 Button("Quit Jarvis Bar") { NSApp.terminate(nil) }
@@ -287,7 +383,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         var tokenError: String?
         do { client = JarvisClient(base: JARVIS_URL, token: try JarvisClient.loadToken(root: root)) }
         catch { tokenError = "\(error)" }
-        model = AppModel(client: client, tokenError: tokenError)
+        model = AppModel(client: client, tokenError: tokenError, log: log,
+                         transcriber: Transcriber(model: root.appendingPathComponent(WHISPER_MODEL)))
 
         item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         item.button?.action = #selector(togglePanel)
@@ -305,7 +402,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let okListen = hotkeys.register(id: HotKeys.listenID, keyCode: kVK_ANSI_H)
         let okStop = hotkeys.register(id: HotKeys.stopID, keyCode: kVK_ANSI_V)
         log.write("start", ["listen_hotkey": okListen ? "ok" : "refused", "stop_hotkey": okStop ? "ok" : "refused",
-                            "token": client == nil ? "missing" : "ok"])
+                            "token": client == nil ? "missing" : "ok",
+                            "speech_to_text": model.transcriber.available ? "ok" : "missing"])
         if !okListen || !okStop { model.lastError = "A hotkey could not be registered (see events.log)" }
     }
 
@@ -366,10 +464,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let (right, side) = rightOptionDown()
         model.arming = false
         guard right else { log.write("listen_cancelled", ["reason": "option_released", "option": side]); return }
-        model.listening = true
+        NSSound(named: "Tink")?.play()
         showPanel()
         let shownMs = Int((uptime() - fired) * 1000)
-        log.write("listening", ["panel_ms": String(shownMs)])
+        log.write("hold_fired", ["panel_ms": String(shownMs)])
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in self?.model.startListening() }
     }
 }
 
