@@ -28,6 +28,9 @@ one needs the Director's approval before it starts and is checked before the nex
 
 ## 3. Steps
 ### J1a: Always on
+**Status 2026-10-22: installed** (`scripts/launch_agent.py`, `6edd2f5`). Checked: Jarvis started by launchd from
+`~/jarvis-assistant`, 127.0.0.1:8770 only; pages 200, API 401 without token; Keychain + key files found; workflow
+monitor live. Crash test (kill -9): back in 1 s with a new pid. **Still to check:** logout/login (Director).
 - **What:** a LaunchAgent (`~/Library/LaunchAgents/com.jarvis.assistant.plist`) starts `src/jarvis_app/run.py` from
   `~/jarvis-assistant` at login and restarts it if it crashes. Log in `data/jarvis_app/jarvis.log`. A short script
   installs, checks and removes it (dry run first).
