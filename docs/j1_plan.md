@@ -43,14 +43,15 @@ one needs the Director's approval before it starts and is checked before the nex
   left needs a system-wide key monitor, so Jarvis Bar asks for the **Input Monitoring** permission (listed before it
   is requested). The H must never reach the app you are typing in. Behaviour on macOS 26 is **unverified** until built
   and tested.
-- **Stop (decision D1):** a second hotkey that stops the current task and speech at once (proposed: Right-Option+.).
+- **Stop (Director decided 2026-10-22):** **Right-Option+V** stops the current task and speech at once (same key
+  monitor; the V must not reach the front app either).
 - **Done when:** 20 tries hotkey → "listening" in under 1 s; no stray character typed into the front app; Stop ends a
   running task every time; the panel works in light and dark mode.
 
 ### J1c: Local ears and voice
 - **What:** push-to-talk. After the hotkey, Jarvis Bar records from the mic until you stop talking, turns it into text
   with **whisper.cpp** (Homebrew `whisper-cpp`, MIT licence; runs on the M4's GPU), and sends the text to Jarvis.
-  The reply is spoken with a built-in macOS voice (decision D2: which voice). Audio stays in memory and is deleted
+  The reply is spoken with a built-in macOS voice (Director 2026-10-22: explore the voice options together at this step). Audio stays in memory and is deleted
   after transcription; only the text goes into the conversation and audit log.
 - **Needs:** install `whisper-cpp` + one speech model (download; size depends on the model chosen, measured at install
   time); **Microphone** permission for Jarvis Bar.
@@ -67,8 +68,8 @@ one needs the Director's approval before it starts and is checked before the nex
   | answer a decision card | R2: Jarvis repeats the choice, waits for "yes" | FlightOps server `POST /api/answer` |
   | start an approved job | R2 | only through FlightOps' own path; exact path agreed with the FlightOps session first |
 - **"Decision needed" announcements:** Jarvis watches FlightOps' open decision (read-only). When a new one opens it
-  shows a notification and says: "FlightOps needs a decision: <question>. Options: … What shall we do?" Quiet hours
-  setting (decision D3).
+  shows a notification and says: "FlightOps needs a decision: <question>. Options: … What shall we do?" No quiet hours for now
+  (Director 2026-10-22); **when J1d is built, remind the Director** that quiet hours can be set.
 - **Needs:** check with the FlightOps session how it wants Jarvis's answers labelled (its server records a "device" for
   each answer).
 - **Done when:** 20 spoken FlightOps commands (written before the build) ≥ 18 / 20 correct; red-team test: **0** R2 actions
@@ -115,14 +116,13 @@ one needs the Director's approval before it starts and is checked before the nex
 | FlightOps reasoning, hard non-personal tasks | Claude (**needs API credits**); until then NVIDIA Nemotron, then local |
 
 ## 6. Decisions for the Director
-Already decided (2026-10-22): hotkey **hold Right-Option+H for 3 s**; wake word **"Hey Jarvis", Director's voice only**.
+Already decided (2026-10-22): hotkey **hold Right-Option+H for 3 s**; Stop **Right-Option+V**; wake word **"Hey Jarvis",
+Director's voice only**; no quiet hours for now (remind after J1d).
 
 | # | Question | Proposal |
 |---|---|---|
-| D1 | Stop hotkey | Right-Option+. |
-| D2 | Jarvis's voice | pick one of the built-in macOS voices at J1c |
-| D3 | Quiet hours for "decision needed" announcements | e.g. 22:00–07:00: notification only, no speech |
-| D4 | Order | J1a → J1b → J1c → J1d → J1e → J1f → J1g (wake word after push-to-talk works) |
+| D1 | Jarvis's voice | explore the options together at J1c |
+| D2 | Order | J1a → J1b → J1c → J1d → J1e → J1f → J1g (wake word after push-to-talk works) |
 
 ## 7. Not decided / unverified
 - Right-Option+H hold on macOS 26, whisper.cpp speed on this M4, speaker-check accuracy: measured in the
