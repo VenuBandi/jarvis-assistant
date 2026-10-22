@@ -10,7 +10,7 @@ Columns:
   configured and switching works by key, label and every spoken alias, the choice survives a restart, and a failed
   ping keeps the current model.
 - **Key**: whether Jarvis's own key is in place. Checked by file existence and mode only; nothing was read.
-- **Live**: a real ping from `~/jarvis-assistant`. Not run yet; it needs the keys and the Director's OK.
+- **Live**: a real ping from `~/jarvis-assistant`. Local brains done 2026-10-22 (Director OK); the rest need the keys.
 
 Same brains as before the move: `brains.json` is byte-identical to FlightOps' copy, and `providers.yaml` differs only
 in key paths (`~/.config/flightops/` became `~/.config/jarvis/`).
@@ -30,7 +30,7 @@ in key paths (`~/.config/flightops/` became `~/.config/jarvis/`).
 | 10 | `nv-glimmer` Muse Glimmer 30B | glimmer | nvidia | ✅ | ❌ same | ☐ |
 | 11 | `mi-codestral` Codestral | codestral | mistral | ✅ | ❌ `~/.config/jarvis/keys/mistral` missing | ☐ |
 | 12 | `mi-ministral` Ministral 8B | ministral | mistral | ✅ | ❌ same | ☐ |
-| 13 | `local-qwen` Qwen3 8B | local, qwen, local model | ollama (127.0.0.1:11434) | ✅ | not needed | ☐ (last live check in the copied DB: OK, 0.4 s, 2026-10-21T18:49Z) |
+| 13 | `local-qwen` Qwen3 8B | local, qwen, local model | ollama (127.0.0.1:11434) | ✅ | not needed | ✅ 2026-10-22 live switch ("qwen"): answered as qwen3-8b-32k in 3.2 s |
 
 Also checked offline: every provider's adapter builds; a round trip through all 13 and back to `local-qwen` persists.
 For each provider, an unreachable model is refused and the current model is kept.
@@ -38,10 +38,10 @@ For each provider, an unreachable model is refused and the current model is kept
 ## Project Q&A brains (`ask.py --brain`, auto order codex → opencode → omniroute → local)
 | # | Brain | Offline select | Needs | Live |
 |---|---|---|---|---|
-| 1 | `codex` | ✅ | `codex` CLI (found at /opt/homebrew/bin/codex) | ☐ |
-| 2 | `opencode` | ✅ | `opencode` CLI (found at /opt/homebrew/bin/opencode) | ☐ |
+| 1 | `codex` | ✅ | `codex` CLI (found at /opt/homebrew/bin/codex) | ✅ 2026-10-22 probe: `{"ok": true}` in 68.4 s; codex reported model `gemma4:12b` |
+| 2 | `opencode` | ✅ | `opencode` CLI (found at /opt/homebrew/bin/opencode) | ✅ 2026-10-22 probe: 1st try timeout 120 s, retry `{"ok": true}` in 2.5 s (model not reported) |
 | 3 | `omniroute` | ✅ | ❌ `~/.config/jarvis/omniroute_key` missing; gateway on 127.0.0.1 | ☐ |
-| 4 | `local` (qwen3-8b-32k) | ✅ | Ollama (found at /usr/local/bin/ollama) | ☐ |
+| 4 | `local` (qwen3-8b-32k) | ✅ | Ollama (found at /usr/local/bin/ollama) | ✅ 2026-10-22 probe: `{"ok": true}` in 4.4 s |
 | – | `claude` | disabled in `brains.json` (unchanged) | – | – |
 | – | `council` | codex + opencode; falls back to the next brain in the order | – | – |
 
