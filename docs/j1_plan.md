@@ -7,7 +7,14 @@ to the 2026-10-19 project-Q&A track and are history.
 **Plan only: nothing installed, no new macOS permission, no restart.** J1 is split into small steps (J1a to J1g). Each
 one needs the Director's approval before it starts and is checked before the next one begins.
 
-## 1. Where we start (checked 2026-10-22)
+## 0. Where we left off (end of 2026-10-22)
+- Running: Jarvis server (`com.jarvis.assistant`) and Jarvis Bar (`com.jarvis.bar`), both start at login.
+- Done today: J1a; J1b (menu bar, hotkeys without permission, Jarvis circle); J1c voice (whisper.cpp) with short,
+  streamed spoken answers; fix: live data is always fetched again.
+- Waiting for the Director: voice choice (male, British, Jarvis-style); try the circle (hold Right-Option+H to the
+  tink); logout/login check; optional Anthropic API credits.
+- Next when we resume: set the chosen voice → J1d (FlightOps by voice; remind about quiet hours after) → J1e → J1f.
+
 | | Today |
 |---|---|
 | Jarvis | runs from `~/jarvis-assistant` on 127.0.0.1:8770 (after S4), started by hand: **does not survive a restart or logout** |
