@@ -85,7 +85,7 @@ def main(argv=None):
             c = by_id[cid]
             print(f"{'*' if cid in picked else ' '} {s:7.3f}  {c['path']} § {c['section'][:90]}")
         return 0
-    stale = jc.stale_files(manifest, jc.ROOT)
+    stale = jc.stale_files(manifest, jc.FLIGHTOPS_ROOT)
     if stale:
         print(f"WARNING: index is stale - {len(stale)} file(s) changed since {manifest.get('built_at')}: "
               f"{', '.join(stale[:5])}{' ...' if len(stale) > 5 else ''}. Rebuild: python3 -I src/jarvis/build_index.py",
@@ -93,7 +93,7 @@ def main(argv=None):
     if args.search == "agentic":
         import corpus_build as cb
         try:
-            cstale = cb.stale_sources(cb.load_manifest(), jc.ROOT)
+            cstale = cb.stale_sources(cb.load_manifest(), jc.FLIGHTOPS_ROOT)
         except (OSError, ValueError):
             cstale = ["(corpus missing - run: python3 -I src/jarvis/corpus_build.py)"]
         if cstale:

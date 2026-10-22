@@ -1,7 +1,7 @@
 """Phase 1 tools. Real data only: each returns what it actually read or did.
 - get_time (read): current local date/time and timezone of this Mac.
 - list_models / switch_model (read / settings): the model manager (switch validates with a live ping first).
-- flightops_status (read): FlightOps project state from artifacts/progress.json (read-only).
+- flightops_status (read): FlightOps project state from <FLIGHTOPS_ROOT>/artifacts/progress.json (read-only).
 - search_project_docs (read): BM25 search over the existing Jarvis J1 index (data/jarvis/index.json), no LLM.
 - web_search (read, permission web_search): Tavily via OmniRoute /v1/search; only the query leaves the Mac.
 - remember (write → confirmation): store a user-approved fact in long-term memory.
@@ -52,7 +52,7 @@ def _switch(a, ctx):
 
 
 def _flightops(_, ctx):
-    p = json.loads((PROJECT_ROOT / "artifacts/progress.json").read_text())
+    p = json.loads((ctx.settings.flightops_root / "artifacts/progress.json").read_text())
     a, d = p.get("agent") or {}, p.get("decision") or {}
     plan = a.get("plan") or []
     return UNTRUSTED + json.dumps({

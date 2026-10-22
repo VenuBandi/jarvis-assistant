@@ -7,6 +7,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 APP_DIR = Path(__file__).resolve().parents[1]
+FLIGHTOPS_ROOT = Path.home() / "flightops-ai"  # read-only; override with FLIGHTOPS_ROOT
 
 
 @dataclass
@@ -22,6 +23,7 @@ class Settings:
     allowed_dirs: list = field(default_factory=list)
     workflow_omniroute_logs: Path | None = field(default_factory=lambda: Path.home() / ".omniroute" / "call_logs")
     workflow_project_root: Path | None = None
+    flightops_root: Path = FLIGHTOPS_ROOT
 
     @property
     def db_path(self) -> Path:
@@ -46,6 +48,8 @@ def load_settings(env=None) -> Settings:
         s.data_dir = Path(env["JARVIS_DATA_DIR"]).expanduser()
     if env.get("JARVIS_PROVIDERS_FILE"):
         s.providers_file = Path(env["JARVIS_PROVIDERS_FILE"]).expanduser()
+    if env.get("FLIGHTOPS_ROOT"):
+        s.flightops_root = Path(env["FLIGHTOPS_ROOT"]).expanduser()
     s.log_level = env.get("JARVIS_LOG_LEVEL", s.log_level).upper()
     s.allow_remote = env.get("JARVIS_ALLOW_REMOTE") == "1"
     s.memory_enabled = env.get("JARVIS_MEMORY", "on") != "off"
@@ -55,7 +59,7 @@ def load_settings(env=None) -> Settings:
     elif env.get("JARVIS_WORKFLOW_OMNIROUTE_LOG_DIR"):
         s.workflow_omniroute_logs = Path(env["JARVIS_WORKFLOW_OMNIROUTE_LOG_DIR"]).expanduser()
     if env.get("JARVIS_WORKFLOW_ASSIGNMENTS") != "off":
-        s.workflow_project_root = Path(env.get("JARVIS_WORKFLOW_PROJECT_ROOT", str(PROJECT_ROOT))).expanduser()
+        s.workflow_project_root = Path(env.get("JARVIS_WORKFLOW_PROJECT_ROOT", str(s.flightops_root))).expanduser()
     if not _is_loopback(s.host) and not s.allow_remote:
         raise ValueError(f"JARVIS_HOST={s.host} is not loopback; set JARVIS_ALLOW_REMOTE=1 to allow it on purpose")
     return s

@@ -1,4 +1,4 @@
-"""Build the Jarvis J1 index from the allowlisted project files.
+"""Build the Jarvis J1 index from the allowlisted FlightOps files (FLIGHTOPS_ROOT, default ~/flightops-ai).
 
 Run from the project root:  python3 -I src/jarvis/build_index.py
 Writes data/jarvis/index.json and data/jarvis/index_manifest.json.
@@ -12,7 +12,7 @@ import jarvis_core as jc  # noqa: E402
 
 
 def main():
-    index, manifest = jc.build_index(jc.ROOT)
+    index, manifest = jc.build_index(jc.FLIGHTOPS_ROOT)
     jc.INDEX_DIR.mkdir(parents=True, exist_ok=True)
     jc.INDEX_FILE.write_text(json.dumps(index, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     jc.MANIFEST_FILE.write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")

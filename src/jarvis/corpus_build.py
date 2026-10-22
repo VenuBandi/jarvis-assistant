@@ -40,10 +40,10 @@ def snapshot_text(rel, raw):
     return raw, []
 
 
-def build_corpus(root=jc.ROOT, corpus_dir=None):
+def build_corpus(root=jc.FLIGHTOPS_ROOT, corpus_dir=None):
     """Write the corpus and its manifest. Returns the manifest dict."""
     root = Path(root)
-    corpus_dir = Path(corpus_dir) if corpus_dir else root / "data" / "jarvis" / "corpus"
+    corpus_dir = Path(corpus_dir) if corpus_dir else CORPUS_DIR
     corpus_dir.mkdir(parents=True, exist_ok=True)
     files, skipped_large, errors, total_bytes, total_secret = {}, [], [], 0, 0
     pruned_all = []
@@ -85,7 +85,7 @@ def build_corpus(root=jc.ROOT, corpus_dir=None):
     return manifest
 
 
-def stale_sources(manifest, root=jc.ROOT):
+def stale_sources(manifest, root=jc.FLIGHTOPS_ROOT):
     """Allowlisted source files whose sha differs from the corpus manifest, plus new/removed allowlist files."""
     root = Path(root)
     files = manifest.get("files", {})

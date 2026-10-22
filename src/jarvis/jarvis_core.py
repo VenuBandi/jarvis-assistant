@@ -8,12 +8,14 @@ import hashlib
 import io
 import json
 import math
+import os
 import re
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+FLIGHTOPS_ROOT = Path(os.environ.get("FLIGHTOPS_ROOT") or Path.home() / "flightops-ai").expanduser()  # indexed, read-only
 INDEX_DIR = ROOT / "data" / "jarvis"
 INDEX_FILE = INDEX_DIR / "index.json"
 MANIFEST_FILE = INDEX_DIR / "index_manifest.json"
@@ -64,7 +66,7 @@ def is_excluded(rel):
             or any(fnmatch.fnmatch(rel, g) for g in EXCLUDE_GLOBS))
 
 
-def allowed_files(root=ROOT):
+def allowed_files(root=FLIGHTOPS_ROOT):
     """Return sorted relative paths (posix) of files in the J1 allowlist."""
     root = Path(root)
     out = set()
@@ -452,7 +454,7 @@ def _factor_titles(root):
     return out, airlines
 
 
-def build_index(root=ROOT):
+def build_index(root=FLIGHTOPS_ROOT):
     """Return (index_dict, manifest_dict) for the allowlisted files under root."""
     root = Path(root)
     chunks, files_meta, skipped_large, skipped_secret, errors, texts = [], {}, [], 0, [], []
@@ -553,7 +555,7 @@ def bm25_search(index, query, k=TOP_K, pool_k=POOL_K):
     return diversify(scored, by_id, k)
 
 
-def stale_files(manifest, root=ROOT):
+def stale_files(manifest, root=FLIGHTOPS_ROOT):
     """Files whose sha256 differs from the manifest (or that disappeared)."""
     out = []
     for rel, meta in manifest.get("files", {}).items():
