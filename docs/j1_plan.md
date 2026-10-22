@@ -42,7 +42,8 @@ monitor live. Crash test (kill -9): back in 1 s with a new pid. **Still to check
 **Status 2026-10-22: built** (`mac/JarvisBar/`, `scripts/build_jarvis_bar.sh`). Both hotkeys registered with **no
 permission**; Director's tries: right Option recognised (`option=right`), Stop worked. 3-s hold not completed yet (held
 2.45–2.6 s; chime added at 3 s). **Still to check:** full hold with chime, no stray character in TextEdit, 20-try
-timing; Jarvis Bar not yet started at login.
+timing. **Update 2026-10-22:** Jarvis Bar starts at login (`com.jarvis.bar`, crash → back in 1 s). Director asked for
+a HUD circle in the middle of the screen instead of a panel/tab: built (`Orb.swift`); the hotkey shows only the circle.
 - **What:** a small native Mac app ("Jarvis Bar", Swift) in the menu bar. Icon shows idle / listening / thinking /
   speaking. Click: a small panel with the conversation, a text box, **Stop** and **Mute**. It talks only to
   127.0.0.1:8770 with Jarvis's token. Starts at login.
@@ -64,6 +65,11 @@ Director's first try: 4.7 s of speech → text in 1.4 s → reply spoken. **Open
 default; wants a male, British, Jarvis-*style* voice (no clone of a real actor). Candidates: Apple Jamie (Premium),
 Daniel (Enhanced), Oliver; Kokoro-82M (Apache-2.0) `bm_george`, `bm_fable`. Director researching tonight. (2) speed:
 reply came 18.7 s after speech end (local brain 17.2 s), target < 3 s. (3) 20-phrase accuracy test not run yet.
+**Speed work 2026-10-22** (measured, throwaway DB): the cost was answer length (260 tokens at ~18 tokens/s).
+Spoken requests now get ≤ 2 sentences (live: 18.3 s → 6–9 s) and the answer is streamed, Jarvis Bar speaking each
+sentence when complete (first sentence 5.8 s FlightOps status, 3.5 s time; **live after a Jarvis restart**, pending
+Director's OK). Not done: trimming the status tool output (~0.5 s, not worth the lost detail); NVIDIA models have no
+tool support in Jarvis, so they cannot read FlightOps; Claude Haiku needs API credits.
 - **What:** push-to-talk. After the hotkey, Jarvis Bar records from the mic until you stop talking, turns it into text
   with **whisper.cpp** (Homebrew `whisper-cpp`, MIT licence; runs on the M4's GPU), and sends the text to Jarvis.
   The reply is spoken with a built-in macOS voice (Director 2026-10-22: explore the voice options together at this step). Audio stays in memory and is deleted
