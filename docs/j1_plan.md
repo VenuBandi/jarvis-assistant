@@ -39,12 +39,15 @@ one needs the Director's approval before it starts and is checked before the nex
 - **What:** a small native Mac app ("Jarvis Bar", Swift) in the menu bar. Icon shows idle / listening / thinking /
   speaking. Click: a small panel with the conversation, a text box, **Stop** and **Mute**. It talks only to
   127.0.0.1:8770 with Jarvis's token. Starts at login.
-- **Hotkey (Director decided 2026-10-22):** hold **Right-Option+H for 3 s**. Telling the right Option key from the
-  left needs a system-wide key monitor, so Jarvis Bar asks for the **Input Monitoring** permission (listed before it
-  is requested). The H must never reach the app you are typing in. Behaviour on macOS 26 is **unverified** until built
-  and tested.
+- **Hotkey (Director decided 2026-10-22):** hold **Right-Option+H for 3 s**. The H must never reach the app you are
+  typing in. Permissions, in order of preference (which one works on macOS 26 is **unverified** until built):
+  1. **No permission:** macOS's standard hotkey service for Option+H (it swallows the key), plus a check of which
+     Option key is down; ignore it if it was the left one.
+  2. If 1 does not work: a system-wide key monitor. Seeing keys needs **Input Monitoring**; stopping a key from
+     reaching the front app most likely also needs **Accessibility** (to confirm when built).
+  The Director turns a permission on in System Settings → Privacy & Security, only after being told which one and why.
 - **Stop (Director decided 2026-10-22):** **Right-Option+V** stops the current task and speech at once (same key
-  monitor; the V must not reach the front app either).
+  mechanism as the hotkey; the V must not reach the front app either).
 - **Done when:** 20 tries hotkey → "listening" in under 1 s; no stray character typed into the front app; Stop ends a
   running task every time; the panel works in light and dark mode.
 
