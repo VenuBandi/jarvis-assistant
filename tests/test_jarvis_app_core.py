@@ -213,6 +213,11 @@ class TestModels(Base):
         self.assertEqual(done["type"], "done")
         self.assertNotIn("sk-ant-abcdefghijklmnop1234", done["error"])
 
+    def test_live_data_is_fetched_again_every_time(self):
+        from jarvis_app.agent.orchestrator import SYSTEM
+        self.assertIn("must be fetched again with the tool for every question", SYSTEM)
+        self.assertIn("never answer it from earlier messages", SYSTEM)
+
     def test_voice_controls_and_script_are_served(self):
         html = self.c.get("/").text
         for control in ("micBtn", "muteBtn", "stopSpeakingBtn", "voiceStatus"):
