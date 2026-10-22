@@ -85,8 +85,14 @@ public final class JarvisClient {
         return t
     }
 
-    private func call(_ path: String, body: [String: Any]? = nil) async throws -> Data {
-        var req = URLRequest(url: base.appendingPathComponent(path))
+    func url(_ path: String, query: [URLQueryItem] = []) -> URL {
+        var c = URLComponents(url: base.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
+        if !query.isEmpty { c.queryItems = query }
+        return c.url!
+    }
+
+    private func call(_ path: String, query: [URLQueryItem] = [], body: [String: Any]? = nil) async throws -> Data {
+        var req = URLRequest(url: url(path, query: query))
         req.setValue(token, forHTTPHeaderField: "X-Jarvis-Token")
         if let body {
             req.httpMethod = "POST"
@@ -104,9 +110,8 @@ public final class JarvisClient {
     }
 
     public func conversation(_ conv: String = "default") async throws -> [Message] {
-        var c = URLComponents(string: "api/conversation")!
-        c.queryItems = [URLQueryItem(name: "conv", value: conv)]
-        return try JSONDecoder().decode([Message].self, from: try await call(c.string!))
+        let q = [URLQueryItem(name: "conv", value: conv)]
+        return try JSONDecoder().decode([Message].self, from: try await call("api/conversation", query: q))
     }
 
     public func chat(_ text: String, conv: String = "default") async throws -> ChatReply {

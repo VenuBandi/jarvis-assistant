@@ -79,6 +79,13 @@ final class APITests: XCTestCase {
         XCTAssertEqual(try JarvisClient.loadToken(root: root), "fake-token")
     }
 
+    func testURLKeepsQuery() {
+        let c = JarvisClient(base: URL(string: "http://127.0.0.1:8770/")!, token: "x")
+        XCTAssertEqual(c.url("api/conversation", query: [URLQueryItem(name: "conv", value: "default")]).absoluteString,
+                       "http://127.0.0.1:8770/api/conversation?conv=default")
+        XCTAssertEqual(c.url("api/state").absoluteString, "http://127.0.0.1:8770/api/state")
+    }
+
     func testMissingToken() {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         XCTAssertThrowsError(try JarvisClient.loadToken(root: root))
