@@ -114,8 +114,10 @@ public final class JarvisClient {
         return try JSONDecoder().decode([Message].self, from: try await call("api/conversation", query: q))
     }
 
-    public func chat(_ text: String, conv: String = "default") async throws -> ChatReply {
-        try JSONDecoder().decode(ChatReply.self, from: try await call("api/chat", body: ["conv": conv, "text": text]))
+    /// `voice`: the request was spoken, so Jarvis keeps the reply short for reading aloud.
+    public func chat(_ text: String, conv: String = "default", voice: Bool = false) async throws -> ChatReply {
+        try JSONDecoder().decode(ChatReply.self, from: try await call("api/chat",
+                                                                      body: ["conv": conv, "text": text, "voice": voice]))
     }
 
     public func confirm(_ id: String, approve: Bool) async throws -> ChatReply {

@@ -32,6 +32,7 @@ PLANNED = [  # honest integration status: nothing is claimed connected before it
 class ChatIn(BaseModel):
     text: str = Field(..., min_length=1, max_length=4000)
     conv: str = Field("default", pattern=r"^[A-Za-z0-9_-]{1,40}$")
+    voice: bool = False  # spoken request: short reply for reading aloud
 
 
 class ConfirmIn(BaseModel):
@@ -139,7 +140,7 @@ def create_app(settings=None):
     @app.post("/api/chat", dependencies=[Depends(guard)])
     def chat(body: ChatIn):
         with events.run(action="Chat", source="jarvis") as run:
-            result = agent.handle(body.conv, body.text)
+            result = agent.handle(body.conv, body.text, voice=body.voice)
             run.finish(status="waiting" if result.pending else "error" if result.error else
                        "stopped" if result.reply == "Stopped." else "completed")
             return _turn(result)

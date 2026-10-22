@@ -159,7 +159,7 @@ final class AppModel: ObservableObject {
         let started = uptime()
         Task {
             do {
-                let r = try await client.chat(text)
+                let r = try await client.chat(text, voice: spoken)
                 log.write("reply", ["chat_ms": String(Int((uptime() - started) * 1000)), "spoken": String(spoken)])
                 if let e = r.error, !e.isEmpty { lastError = e }
                 if spoken, !muted, let reply = r.reply, !reply.isEmpty {

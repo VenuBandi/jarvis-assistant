@@ -169,6 +169,17 @@ class TestModels(Base):
         self.assertEqual(result["model"], "mock:mock-2")
         self.assertEqual(result["reply"], "Echo: recognized speech")
 
+    def test_spoken_request_asks_for_a_short_reply(self):
+        seen = []
+        mock = self.agent.models.adapter("mock")
+        real = mock.chat
+        mock.chat = lambda model, system, messages, tools: (seen.append(system), real(model, system, messages, tools))[1]
+        self.c.post("/api/chat", json={"text": "typed"}, headers=self.h)
+        self.c.post("/api/chat", json={"text": "spoken", "voice": True}, headers=self.h)
+        self.assertNotIn("read aloud", seen[0])
+        self.assertIn("at most 2 short sentences", seen[1])
+        self.assertTrue(seen[1].startswith(seen[0][:200]))  # same safety rules, plus the voice note
+
     def test_voice_controls_and_script_are_served(self):
         html = self.c.get("/").text
         for control in ("micBtn", "muteBtn", "stopSpeakingBtn", "voiceStatus"):
