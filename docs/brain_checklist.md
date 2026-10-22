@@ -18,17 +18,17 @@ in key paths (`~/.config/flightops/` became `~/.config/jarvis/`).
 ## App models (13; default `local-qwen`)
 | # | Model | Spoken names | Provider | Offline switch | Key | Live |
 |---|---|---|---|---|---|---|
-| 1 | `claude-sonnet` Claude Sonnet 5.5 | sonnet, claude sonnet | anthropic | ✅ | Keychain "jarvis/anthropic_api_key" (not checked) | ☐ |
-| 2 | `claude-opus` Claude Opus 5.5 | opus, claude opus | anthropic | ✅ | same | ☐ |
-| 3 | `claude-haiku` Claude Haiku 5.5 | haiku, claude haiku | anthropic | ✅ | same | ☐ |
-| 4 | `claude-fable` Claude Fable 5.1 | fable, fable 5, claude fable | anthropic | ✅ | same | ☐ |
-| 5 | `gemini-flash` Gemini 3 Flash | gemini, gemini flash | omniroute (127.0.0.1:20128) | ✅ | ❌ `~/.config/jarvis/omniroute_key` missing | ☐ |
-| 6 | `nv-nemotron-ultra` Nemotron 3 Ultra 550B | nemotron, nemotron ultra | nvidia | ✅ | ❌ `~/.config/jarvis/keys/nvidia` missing | ☐ |
-| 7 | `nv-nemotron-lightning` Nemotron 3.5 Lightning 30B | nemotron lightning | nvidia | ✅ | ❌ same | ☐ |
-| 8 | `nv-glm` GLM 5.3 | glm | nvidia | ✅ | ❌ same | ☐ |
-| 9 | `nv-gpt-oss` gpt-oss 20B | gpt oss | nvidia | ✅ | ❌ same | ☐ |
-| 10 | `nv-glimmer` Muse Glimmer 30B | glimmer | nvidia | ✅ | ❌ same | ☐ |
-| 11 | `mi-codestral` Codestral | codestral | mistral | ✅ | ❌ `~/.config/jarvis/keys/mistral` missing | ☐ |
+| 1 | `claude-sonnet` Claude Sonnet 5.5 | sonnet, claude sonnet | anthropic | ✅ | Keychain "jarvis/anthropic_api_key" added 2026-10-22 (Director checked: found) | ❌ 2026-10-22 ping: key accepted, but HTTP 400 "credit balance is too low" (no API credits) |
+| 2 | `claude-opus` Claude Opus 5.5 | opus, claude opus | anthropic | ✅ | same | ❌ 2026-10-22 ping: key accepted, but HTTP 400 "credit balance is too low" (no API credits) |
+| 3 | `claude-haiku` Claude Haiku 5.5 | haiku, claude haiku | anthropic | ✅ | same | ❌ 2026-10-22 ping: key accepted, but HTTP 400 "credit balance is too low" (no API credits) |
+| 4 | `claude-fable` Claude Fable 5.1 | fable, fable 5, claude fable | anthropic | ✅ | same | ❌ 2026-10-22 ping: key accepted, but HTTP 400 "credit balance is too low" (no API credits) |
+| 5 | `gemini-flash` Gemini 3 Flash | gemini, gemini flash | omniroute (127.0.0.1:20128) | ✅ | ✅ `~/.config/jarvis/omniroute_key` (mode 600) | ☐ |
+| 6 | `nv-nemotron-ultra` Nemotron 3 Ultra 550B | nemotron, nemotron ultra | nvidia | ✅ | ✅ `~/.config/jarvis/keys/nvidia` (mode 600) | ✅ 2026-10-22 ping: 1.3 s |
+| 7 | `nv-nemotron-lightning` Nemotron 3.5 Lightning 30B | nemotron lightning | nvidia | ✅ | ✅ same | ✅ 2026-10-22 ping: 1.7 s |
+| 8 | `nv-glm` GLM 5.3 | glm | nvidia | ✅ | ✅ same | ✅ 2026-10-22 ping: 41.9 s |
+| 9 | `nv-gpt-oss` gpt-oss 20B | gpt oss | nvidia | ✅ | ✅ same | ✅ 2026-10-22 ping: 1.0 s |
+| 10 | `nv-glimmer` Muse Glimmer 30B | glimmer | nvidia | ✅ | ✅ same | ✅ 2026-10-22 ping: 18.5 s |
+| 11 | `mi-codestral` Codestral | codestral | mistral | ✅ | ❌ `~/.config/jarvis/keys/mistral` missing (optional, Director 2026-10-22) | ☐ |
 | 12 | `mi-ministral` Ministral 8B | ministral | mistral | ✅ | ❌ same | ☐ |
 | 13 | `local-qwen` Qwen3 8B | local, qwen, local model | ollama (127.0.0.1:11434) | ✅ | not needed | ✅ 2026-10-22 live switch ("qwen"): answered as qwen3-8b-32k in 3.2 s |
 
