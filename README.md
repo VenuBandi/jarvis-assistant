@@ -5,6 +5,8 @@
 A personal AI assistant for macOS that listens, routes to the right model, and acts —<br>
 with every action classified by risk tier and enforced in code.
 
+[![GitHub stars](https://img.shields.io/github/stars/VenuBandi/jarvis-assistant?style=for-the-badge&color=yellow)](https://github.com/VenuBandi/jarvis-assistant/stargazers)
+
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://python.org)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen)]()
 [![Privacy](https://img.shields.io/badge/Privacy-Local%20Brain%20First-purple)]()
@@ -65,7 +67,7 @@ Jarvis Bar starts automatically at login via LaunchAgent. Keys live in macOS Key
 | Layer | Tools |
 |:--|:--|
 | Core | Python 3.10+, FastAPI, SQLite |
-| Brains | Ollama (Qwen3/Gemma4) · Claude API · Gemini via OmniRoute · NVIDIA Nemotron · Mistral |
+| Brains | Ollama (Qwen3/Gemma4) · Claude API · Gemini · NVIDIA Nemotron · Mistral |
 | Speech | whisper.cpp (STT) · macOS AVSpeechSynthesizer (TTS) |
 | Mac Skills | Apple Shortcuts CLI · AppleScript/JXA via osascript |
 | Menu Bar | JarvisBar (Python) · LaunchAgent |
@@ -75,3 +77,11 @@ Jarvis Bar starts automatically at login via LaunchAgent. Keys live in macOS Key
 ## License
 
 MIT
+
+---
+
+<div align="center">
+
+If this project was useful or interesting, a ⭐ helps others find it.
+
+</div>
